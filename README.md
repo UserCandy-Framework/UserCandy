@@ -4,8 +4,9 @@
 
 # UC Version 1.0.0
 
-[![Software License](http://img.shields.io/badge/License-BSD--3-brightgreen.svg)](LICENSE)
-
+<a href="https://discord.gg/HjJCwm5">
+    <img src="https://img.shields.io/discord/615493580366282753?logo=discord"
+        alt="chat on Discord"></a>
 [![Join the chat at https://gitter.im/UserCandyFramework/community](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/UserCandyFramework/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ---
