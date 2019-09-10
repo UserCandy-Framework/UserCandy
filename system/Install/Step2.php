@@ -38,10 +38,6 @@ if(isset($_POST['submit'])){
 		$site_url = rtrim($_REQUEST['SITE_URL'], '/') . '/';
 		update_config(SITE_URL, $site_url);
 	}
-	/** Update Site Prefix in Config **/
-	if(!empty($_REQUEST['PREFIX'])){
-		update_config(PREFIX, $_REQUEST['PREFIX']);
-	}
 	/** Update DB Host in Config **/
 	if(!empty($_REQUEST['DB_HOST'])){
 		update_config(DB_HOST, $_REQUEST['DB_HOST']);
@@ -58,7 +54,10 @@ if(isset($_POST['submit'])){
 	if(!empty($_REQUEST['DB_PASS'])){
 		update_config(DB_PASS, $_REQUEST['DB_PASS']);
 	}
-
+	/** Update Site Prefix in Config **/
+	if(!empty($_REQUEST['PREFIX'])){
+		update_config(PREFIX, $_REQUEST['PREFIX']);
+	}
 
 	/** Config File Has been Updated. Refresh Page with success message **/
 	installSuccess('You Have Successfully Updated The Config File! Please Double Check The Data!', $set_site_url.'?install_step=2&update_config_file_refresh=true');
