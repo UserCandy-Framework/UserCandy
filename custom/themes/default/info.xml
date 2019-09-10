@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DOCUMENT>
+  <!-- Title of the Theme -->
+  <TITLE>Default Bootstrap Theme</TITLE>
+  <!-- Small Description of the Theme - What does it do? -->
+  <DESCRIPTION>Default Bootstrap theme loaded from Bootstrap server.</DESCRIPTION>
+  <!-- Name of Theme - This is how it is stored in the DB - No spaces or special characters -->
+  <NAME>default</NAME>
+  <!-- Let UserCany Dispenser know that this is a Theme -->
+  <TYPE>theme</TYPE>
+  <!-- Folder name where the Theme is located - Normally same as Name -->
+  <FOLDER_LOCATION>default</FOLDER_LOCATION>
+  <!-- Let everyone know who created this Theme -->
+  <AUTHOR>Bootstrap</AUTHOR>
+  <!-- Current Release Version of this Theme - Used to let others know when to update -->
+  <VERSION>4.2.1</VERSION>
+  <!-- Current Release Date of this Theme -->
+  <RELEASE_DATE>9/2/2019</RELEASE_DATE>
+  <!-- Theme Image URL to display with the Theme in the Dispenser -->
+  <IMAGE>https://www.usercandy.com/UserCandyLogo.png</IMAGE>
+</DOCUMENT>
