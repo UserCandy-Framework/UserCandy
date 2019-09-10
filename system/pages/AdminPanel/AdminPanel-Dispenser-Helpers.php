@@ -206,7 +206,7 @@ height: 250px; /* only if you want fixed height */
                     echo "{$xmldata->TITLE}";
                   echo "</div>";
                   echo "<div class='row no-gutters'>";
-                    echo "<div class='col-auto'>";
+                    echo "<div class='col-auto border-right'>";
                       echo "<img src='{$xmldata->IMAGE}' class='img-responsive fit-image' alt=''>";
                     echo "</div>";
                     echo "<div class='col'>";
@@ -297,7 +297,7 @@ height: 250px; /* only if you want fixed height */
                       echo "{$dd_data['title']}";
                     echo "</div>";
                     echo "<div class='row no-gutters'>";
-                      echo "<div class='col-auto'>";
+                      echo "<div class='col-auto border-right'>";
                         echo "<img src='{$dd_data['image']}' class='img-responsive fit-image' alt=''>";
                       echo "</div>";
                       echo "<div class='col'>";
