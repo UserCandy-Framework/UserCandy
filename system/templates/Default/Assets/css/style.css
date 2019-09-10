@@ -1,0 +1,156 @@
+/* Your styles here */
+footer a {
+    color: black;
+}
+body {
+  padding-top: 80px;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+footer {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}
+.navbar-login
+{
+  width: 305px;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+.navbar-login-text
+{
+  color: #000000;
+}
+.navbar-login-session
+{
+  padding: 10px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+.icon-size
+{
+  font-size: 87px;
+}
+.forum{
+	white-space: pre-line;
+	display: block;
+	unicode-bidi: embed;
+}
+pre.code {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:11px;
+	width:100%;
+	overflow:auto;
+}
+.footer {
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+.hidden {
+  display:none;
+  visibility:hidden;
+}
+legend {
+  opacity: 0.6;
+  font-size: 12px;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.comment-box {
+    margin-top: 10px !important;
+}
+.comment-box img {
+    width: 50px;
+    height: 50px;
+}
+.comment-box .media-left {
+    padding-right: 4px;
+    width: 65px;
+}
+.comment-box .media-body p {
+    padding: 2px;
+}
+.comment-box .media-body .media p {
+    margin-bottom: 0;
+}
+.comment-box .media-heading {
+    padding: 7px 10px;
+    position: relative;
+    margin-bottom: -1px;
+}
+.comment-box .media-heading:before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-width: 1px 0 0 1px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 10px;
+    left: -6px;
+}
+a.anchor {
+    display: block;
+    position: relative;
+    top: -150px;
+    visibility: hidden;
+}
+
+#myImg {
+ border-radius: 5px;
+ cursor: pointer;
+ transition: 0.3s;
+}
+#myImg:hover {opacity: 0.5;}
+
+.photo-gallery {
+  color:#313437;
+  background-color:#fff;
+}
+
+.photo-gallery p {
+  color:#7d8285;
+}
+
+.photo-gallery h2 {
+  font-weight:bold;
+  margin-bottom:40px;
+  padding-top:40px;
+  color:inherit;
+}
+
+@media (max-width:767px) {
+  .photo-gallery h2 {
+    margin-bottom:25px;
+    padding-top:25px;
+    font-size:24px;
+  }
+}
+
+.photo-gallery .intro {
+  font-size:16px;
+  max-width:500px;
+  margin:0 auto 40px;
+}
+
+.photo-gallery .intro p {
+  margin-bottom:0;
+}
+
+.photo-gallery .photos {
+  padding-bottom:20px;
+}
+
+.photo-gallery .item {
+  padding-bottom:30px;
+}

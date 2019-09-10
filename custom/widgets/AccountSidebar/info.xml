@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DOCUMENT>
+  <!-- Title of the Widget -->
+  <TITLE>Account Sidebar</TITLE>
+  <!-- Small Description of the Widget - What does it do? -->
+  <DESCRIPTION>Sidebar that displays account links.</DESCRIPTION>
+  <!-- Name of Widget - This is how it is stored in the DB - No spaces or special characters -->
+  <NAME>AccountSidebar</NAME>
+  <!-- Let UserCany Dispenser know that this is a Widget -->
+  <TYPE>widget</TYPE>
+  <!-- Folder name where the Widget is located - Normally same as Name -->
+  <FOLDER_LOCATION>AccountSidebar</FOLDER_LOCATION>
+  <!-- Let everyone know who created this Widget -->
+  <AUTHOR>DaVaR</AUTHOR>
+  <!-- Current Release Version of this Widget - Used to let others know when to update -->
+  <VERSION>1.0.0</VERSION>
+  <!-- Current Release Date of this Widget -->
+  <RELEASE_DATE>9/2/2019</RELEASE_DATE>
+  <!-- Widget Image URL to display with the Widget in the Dispenser -->
+  <IMAGE>https://www.usercandy.com/UserCandyLogo.png</IMAGE>
+</DOCUMENT>
