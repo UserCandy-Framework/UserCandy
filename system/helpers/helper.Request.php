@@ -42,8 +42,8 @@ class Request
     {
         $post_data = array_key_exists($key, $_POST)? $_POST[$key]: null;
         if(is_array($post_data)){
-          foreach ($post_data as $value) {
-            $clean_post_data[] = htmlspecialchars($value);
+          foreach ($post_data as $index => $value) {
+            $clean_post_data[$index] = htmlspecialchars($value);
           }
           return $clean_post_data;
         }else{
@@ -89,8 +89,8 @@ class Request
     {
         $get_data = array_key_exists($key, $_GET)? $_GET[$key]: null;
         if(is_array($get_data)){
-          foreach ($post_data as $value) {
-            $clean_post_data[] = htmlspecialchars($value);
+          foreach ($post_data as $index => $value) {
+            $clean_post_data[$index] = htmlspecialchars($value);
           }
           return $clean_post_data;
         }else{

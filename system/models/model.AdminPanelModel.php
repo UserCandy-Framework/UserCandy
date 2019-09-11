@@ -1171,7 +1171,7 @@ class AdminPanelModel extends Models {
     * @return int inserted ID
     */
     public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)'){
-      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url));
+      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments));
       if($data > 0){
         return $data;
       }else{

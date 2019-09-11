@@ -172,7 +172,7 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
               if(PageFunctions::checkPageGroup($data['page_data'][0]->id, '0')){ $checked = "checked"; }
 
               echo "<div class='custom-control custom-checkbox'>";
-                echo "<input type='checkbox' class='custom-control-input' id='group_id_0' name='group_id[]' value='0' $checked>";
+                echo "<input type='checkbox' class='custom-control-input' id='group_id_0' name='group_id[0]' value='0' $checked>";
                 echo "<label class='custom-control-label' for='group_id_0'>Public</label>";
               echo "</div>";
               unset($checked);
