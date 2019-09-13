@@ -170,19 +170,21 @@ class Load {
               '<meta name=\"keywords\" content=\"{$data['site_keywords']}\">',
               '<meta name=\"description\" content=\"{$data['site_description']}\">',
               '<link rel=\"canonical\" href=\"".SITE_URL."\" />',
-              '<meta property=\"og:locale\" content=\"en_US\" />',
-              '<meta property=\"og:type\" content=\"website\" />',
-              '<meta property=\"og:title\" content=\"{$data['title']}\" />',
-              '<meta property=\"og:description\" content=\"{$data['site_description']}\" />',
-              '<meta property=\"og:url\" content=\"".SITE_URL."\" />',
-              '<meta property=\"og:site_name\" content=\"".SITE_TITLE."\" />',
-              '<meta property=\"og:image\" content=\"{$data['site_image']}\"/>',
-              '<meta name=\"twitter:card\" content=\"summary\" />',
-              '<meta name=\"twitter:description\" content=\"{$data['site_description']}\" />',
-              '<meta name=\"twitter:title\" content=\"{$data['title']}\" />',
             );
           });
         </script>";
+        echo "
+        <meta property=\"og:locale\" content=\"en_US\" />
+        <meta property=\"og:type\" content=\"website\" />
+        <meta property=\"og:title\" content=\"{$data['title']}\" />
+        <meta property=\"og:description\" content=\"{$data['site_description']}\" />
+        <meta property=\"og:url\" content=\"".SITE_URL."\" />',
+        <meta property=\"og:site_name\" content=\"".SITE_TITLE."\" />
+        <meta property=\"og:image\" content=\"{$data['site_image']}\"/>
+        <meta name=\"twitter:card\" content=\"summary\" />
+        <meta name=\"twitter:description\" content=\"{$data['site_description']}\" />
+        <meta name=\"twitter:title\" content=\"{$data['title']}\" />
+        ";
         /** Load the Breadcrumbs if enabled **/
         if(isset($data['breadcrumbs'])){
           $breadcrumbs_display = "<ol class='breadcrumb'><li class='breadcrumb-item'><a href='".SITE_URL."'>".Language::show('uc_home', 'Welcome')."</a></li>{$data['breadcrumbs']}</ol>";
