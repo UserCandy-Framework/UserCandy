@@ -21,14 +21,21 @@ if (isset($_POST['submit'])) {
 				$captcha_fail = false;
 				//Check the reCaptcha if the public and private keys were provided
 				if (RECAP_PUBLIC_KEY != "" && RECAP_PRIVATE_KEY != "") {
-						if (Request::post('g-recaptcha-response') !== null) {
-								$recaptcha = new ReCaptcha(RECAP_PRIVATE_KEY);
-								// Added extra security to the recaptcha check.
-								$resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
-									->verify(Request::post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
-								if (!$resp->isSuccess())
-										$captcha_fail = true;
-						}
+					if(isset($_POST['g-recaptcha-response'])){
+			    	$captcha=$_POST['g-recaptcha-response'];
+			    }else{
+			    	$captcha = false;
+					}
+			    if(!$captcha){
+			      $captcha_fail = true;
+			    }else{
+            $secret = RECAP_PRIVATE_KEY;
+            $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']);
+						// use json_decode to extract json response
+            if($response.'success'==false){
+                $captcha_fail = true;
+            }
+			    }
 				}
 				/** Check for site user invite code **/
 				$site_user_invite_code = strip_tags( trim( Request::post('site_user_invite_code') ) );
@@ -87,17 +94,20 @@ if(!empty($site_user_invite_code_db)){ $data['invite_code'] = true; }
 
 /** needed for recaptcha **/
 if (RECAP_PUBLIC_KEY != "" && RECAP_PRIVATE_KEY != "") {
-		$ownjs = array(
-			"
-				<script type='text/javascript'>
-					var onloadCallback = function() {
-						grecaptcha.render('html_element', {
-							'sitekey' : '".RECAP_PUBLIC_KEY."'
-						});
-					};
-				</script>
-			",
-			"<script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>");
+		$js .= "
+			<script src='https://www.google.com/recaptcha/api.js?render=".RECAP_PUBLIC_KEY."'></script>
+			<script>
+			    grecaptcha.ready(function() {
+			    // do request for recaptcha token
+			    // response is promise with passed token
+			        grecaptcha.execute('".RECAP_PUBLIC_KEY."', {action:'validate_captcha'})
+			                  .then(function(token) {
+			            // add token value to form
+			            document.getElementById('g-recaptcha-response').value = token;
+			        });
+			    });
+			</script>
+		";
 }
 
 /** Get lang Code **/
@@ -201,7 +211,8 @@ if(isset($data['error'])) { echo ErrorMessages::display_raw($data['error']); }
 				<?php } ?>
 
 				<!-- reCAPTCHA -->
-				<div id="html_element"></div>
+				<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+    		<input type="hidden" name="action" value="validate_captcha">
 
 				<!-- CSRF Token -->
 				<input type="hidden" name="token_register" value="<?=$data['csrfToken'];?>" />

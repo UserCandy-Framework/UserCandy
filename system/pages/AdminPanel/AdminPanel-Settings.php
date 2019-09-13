@@ -147,8 +147,8 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
     <div class='col-lg-12 col-md-12 col-sm-12'>
     	<div class='card mb-3'>
     		<div class='card-header h4'>
-    			Site reCAPCHA Settings
-          <?php echo PageFunctions::displayPopover('Google reCAPCHA', 'Visit Google reCAPCHA website to setup your keys and add security to your website.', false, 'btn btn-sm btn-light'); ?>
+    			Site reCAPCHA v3 Settings
+          <?php echo PageFunctions::displayPopover('Google reCAPCHA', 'Visit Google reCAPCHA website to setup your keys and add security to your website.  Make sure to use reCAPCHA v3 keys or it will not work.', false, 'btn btn-sm btn-light'); ?>
     		</div>
     		<div class='card-body'>
           <p>

@@ -23,7 +23,7 @@ class Cookie {
             if ($domain === false)
                 $domain = $_SERVER['HTTP_HOST'];
 
-            $retval = @setcookie($key, $value, $expiry, $path, $domain);
+            $retval = setcookie($key, $value, $expiry, $path, $domain);
             if ($retval)
                 $_COOKIE[$key] = $value;
         }

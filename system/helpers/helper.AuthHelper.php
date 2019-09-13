@@ -408,10 +408,11 @@ class AuthHelper {
 							/** Add New user to New Members Group **/
               $info = array('userID' => $user_id, 'groupID' => 1);
               $this->authorize->addIntoDB("users_groups",$info);
-							if(SITE_AUTO_FRIEND != FALSE){
+              $DispenserModel = new DispenserModel();
+							if(SITE_AUTO_FRIEND != FALSE && $DispenserModel->checkDispenserEnabled('Friends')){
 								/** Add New user as Friend with Main User **/
 								$info = array('uid1' => $user_id, 'uid2' => SITE_AUTO_FRIEND_ID, 'status1' => 1, 'status2' => 1);
-								$this->authorize->addIntoDB("friends",$info);
+								$this->authorize->addIntoDB("plugin_friends",$info);
 							}
 							/** Check to see if Account Activation is required **/
               $account_activation = ACCOUNT_ACTIVATION;
