@@ -10,11 +10,7 @@
 class Cookie {
 
     public static function exists($key) {
-        if (isset($_COOKIE[$key])) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($_COOKIE[$key]);
     }
 
     public static function set($key, $value, $expiry = "", $path = "/", $domain = false) {
@@ -23,7 +19,7 @@ class Cookie {
             if ($domain === false)
                 $domain = $_SERVER['HTTP_HOST'];
 
-            $retval = @setcookie($key, $value, $expiry, $path, $domain);
+            $retval = setcookie($key, $value, $expiry, $path, $domain);
             if ($retval)
                 $_COOKIE[$key] = $value;
         }
@@ -31,7 +27,7 @@ class Cookie {
     }
 
     public static function get($key, $default = '') {
-        return (isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default);
+        return $_COOKIE[$key] ?? $default;
     }
 
     public static function display() {
