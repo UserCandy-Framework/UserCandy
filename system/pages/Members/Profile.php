@@ -42,7 +42,7 @@ if($profile){
       /** Get 15 of the users friends **/
       $data['friends'] = $Recent->getFriendsIDs($profile[0]->userID, '15');
       /** Get 15 of the users friends **/
-      $data['mutual_friends'] = $Recent->getMutualFriendsIDs($profile[0]->userID, $u_id, '15');
+      $data['mutual_friends'] = $Recent->getMutualFriendsIDs($profile[0]->userID, $currentUserData[0]->userID, '15');
     }else{
       $data['friends_disable'] = true;
     }
@@ -158,13 +158,13 @@ if($data['profile']->userID == $data['current_userID']){
                                 /* Check to see if Friends Plugin is installed, if it is show link */
                                 if($DispenserModel->checkDispenserEnabled('Friends') && $currentUserData[0]->username != $data['profile']->username){
                                     /** Check to see if users are friends or if a request is pending **/
-                                    $friends_status = \Libs\CurrentUserData::getFriendStatus($currentUserData[0]->userID, $data['profile']->userID);
+                                    $friends_status = CurrentUserData::getFriendStatus($currentUserData[0]->userID, $data['profile']->userID);
                                     if($friends_status == "Friends"){
                                         echo "<tr><td>".Language::show('friends', 'Members')."</td><td> ".Language::show('your_friend', 'Friends')." </td></tr>";
                                     }else if($friends_status == "Pending"){
                                         echo "<tr><td>".Language::show('friends', 'Members')."</td><td> ".Language::show('pending_approval', 'Friends')." </td></tr>";
                                     }else{
-                                        echo "<tr><td>".Language::show('friends', 'Members')."</td><td><a href='".SITE_URL."AddFriend/".$data['profile']->username."' class='btn btn-sm btn-secondary'>".Language::show('send_friend_request', 'Friends')."</a></td></tr>";
+                                        echo "<tr><td>".Language::show('friends', 'Members')."</td><td><a href='".SITE_URL."Friends/AddFriend/".$data['profile']->username."' class='btn btn-sm btn-secondary'>".Language::show('send_friend_request', 'Friends')."</a></td></tr>";
                                     }
                                 }
                             }

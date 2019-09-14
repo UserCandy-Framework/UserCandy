@@ -104,7 +104,7 @@ if(isset($DispenserEnabledPlugins)){
       /** Check to see if Plugin is already in Pages **/
       if(!$AdminPanelModel->checkPagesURL($deh->folder_location)){
         /** Add Page to Database */
-        if($page_id = $AdminPanelModel->addPage('plugins/'.$deh->folder_location, $deh->folder_location, $deh->folder_location)){
+        if($page_id = $AdminPanelModel->addPluginPage('plugins/'.$deh->folder_location, $deh->folder_location, $deh->folder_location)){
           /** New Page added to database.  Let Admin Know it was added */
           $new_pages[] = "<b>URL: ".$deh->folder_location."</b> (Plugin - ".$deh->folder_location.")<Br>";
           /** Add new permission for the page and set as public */
