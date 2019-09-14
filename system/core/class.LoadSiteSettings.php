@@ -31,6 +31,22 @@ class LoadSiteSettings {
         /* Define Site Keywords */
         define('SITE_KEYWORDS', $this->model->getSettings('site_keywords'));
 
+        /* Define Default Home Page **/
+        $default_home_page = $this->model->getSettings('default_home_page');
+        if(!empty($default_home_page)){
+          define('DEFAULT_HOME_PAGE', $default_home_page);
+        }else{
+          define('DEFAULT_HOME_PAGE', "Home");
+        }
+
+        /* Define Default Home Page Folder */
+        $default_home_page_folder = $this->model->getSettings('default_home_page_folder');
+        if(!empty($default_home_page_folder)){
+          define('DEFAULT_HOME_PAGE_FOLDER', $default_home_page_folder);
+        }else{
+          define('DEFAULT_HOME_PAGE_FOLDER', "Home");
+        }
+
         /********************
          *                  *
          *      EMAIL       *

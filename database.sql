@@ -364,6 +364,7 @@ CREATE TABLE IF NOT EXISTS `uc_pages` (
   `pagefolder` varchar(255) DEFAULT NULL,
   `pagefile` varchar(255) DEFAULT NULL,
   `arguments` varchar(255) DEFAULT NULL,
+  `headfoot` BOOLEAN NOT NULL DEFAULT TRUE,
   `enable` varchar(5) NOT NULL DEFAULT 'true',
   `sitemap` varchar(5) NOT NULL DEFAULT 'true',
   `stock` varchar(5) NOT NULL DEFAULT 'false',
