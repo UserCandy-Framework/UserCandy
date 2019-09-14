@@ -55,7 +55,7 @@ if(isset($database_working)){
     {
         // Change the prefix if not default
         $set_prefix = PREFIX;
-        $default_prefix = "uc4_";
+        $default_prefix = "uc_";
         if($set_prefix != $default_prefix){
           $templine = str_replace($default_prefix, $set_prefix, $templine);
         }
