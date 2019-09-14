@@ -13,6 +13,9 @@
 if (file_exists(SYSTEMDIR.'Example-Config.php') && is_writable(SYSTEMDIR)) {
 	if(copy(SYSTEMDIR.'Example-Config.php', SYSTEMDIR.'Config.php')){
 		$copy_file = true;
+		//delete example-config file and database
+		unlink(SYSTEMDIR.'Example-Config.php');
+		unlink(ROOTDIR.'database.sql');
 	}else{
 		$copy_file = false;
 	}
