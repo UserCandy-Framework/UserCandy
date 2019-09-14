@@ -66,7 +66,7 @@ class Dispenser {
     /** Function to get data from UserCandy Dispensary **/
     public function getDataFromDispensary($dispenser_api_key, $type){
       if(!empty($dispenser_api_key)){
-        $url = "https://test.usercandy.com/Dispensary/listdownloads.php?token=".$dispenser_api_key."&type=".$type;
+        $url = "https://test.usercandy.com/Dispensary/listdownloads/".$dispenser_api_key."/".$type;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

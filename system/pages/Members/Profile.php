@@ -36,7 +36,7 @@ if($profile){
     $data['csrfToken'] = Csrf::makeToken('status');
 
     /** Check to see if Friends Plugins is installed **/
-    if($DispenserModel->checkDispenserEnabled('Friends')){
+    if($DispenserModel->checkDispenserEnabled('Recent')){
       /** Load the Recent Model **/
       $Recent = new Recent();
       /** Get 15 of the users friends **/

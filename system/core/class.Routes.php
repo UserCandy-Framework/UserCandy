@@ -108,7 +108,8 @@ class Routes {
                 stock = 'false'
             ");
         foreach ($db_routes as $db_route) {
-            $routes[] = self::add($db_route->url, $db_route->pagefolder, $db_route->pagefile, $db_route->arguments);
+            ($db_route->headfoot == 1) ? $set_headfoot = true : $set_headfoot = false;
+            $routes[] = self::add($db_route->url, $db_route->pagefolder, $db_route->pagefile, $db_route->arguments, $set_headfoot);
         }
         /** End Get Routes From Database **/
 
@@ -116,12 +117,13 @@ class Routes {
         return $routes;
     }
 
-    static function add($url, $pagefolder, $pagefile, $arguments = null){
+    static function add($url, $pagefolder, $pagefile, $arguments = null, $headfoot = true){
         $routes = array(
             "url" => $url,
             "pagefolder" => $pagefolder,
             "pagefile" => $pagefile,
-            "arguments" => $arguments
+            "arguments" => $arguments,
+            "headfoot" => $headfoot
         );
         return $routes;
     }

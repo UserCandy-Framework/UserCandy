@@ -302,22 +302,6 @@ INSERT INTO `uc_settings` (`setting_id`, `setting_title`, `setting_data`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uc_friends`
---
-
-CREATE TABLE IF NOT EXISTS `uc_friends` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid1` int(15) DEFAULT NULL,
-  `uid2` int(15) DEFAULT NULL,
-  `status1` varchar(4) NOT NULL DEFAULT '0',
-  `status2` varchar(4) NOT NULL DEFAULT '0',
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `uc_links`
 --
 
@@ -380,6 +364,7 @@ CREATE TABLE IF NOT EXISTS `uc_pages` (
   `pagefolder` varchar(255) DEFAULT NULL,
   `pagefile` varchar(255) DEFAULT NULL,
   `arguments` varchar(255) DEFAULT NULL,
+  `headfoot` BOOLEAN NOT NULL DEFAULT TRUE,
   `enable` varchar(5) NOT NULL DEFAULT 'true',
   `sitemap` varchar(5) NOT NULL DEFAULT 'true',
   `stock` varchar(5) NOT NULL DEFAULT 'false',

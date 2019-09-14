@@ -110,17 +110,19 @@ class Load {
         }
 
         /* Setup Template Files */
-        if($useHeadFoot == true){
+        if($useHeadFoot === true){
             $templateHeader = SYSTEMDIR."templates/".$template."/Header.php";
             $templateFooter = SYSTEMDIR."templates/".$template."/Footer.php";
+        }else{
+            $templateHeader = "";
+            $templateFooter = "";
         }
-
         /* todo - setup a file checker that sends error to log file or something if something is missing */
 
 
         /* Load files needed to make the page work */
         /* Load Header File */
-        (isset($templateHeader)) ? require_once $templateHeader : "";
+        (!empty($templateHeader)) ? require_once $templateHeader : "";
 
         /* Check for Left Sidebar and load files if needed */
         if(isset($leftSidebar)){
@@ -156,45 +158,47 @@ class Load {
         }
 
         /* Load Footer File */
-        (isset($templateFooter)) ? require_once $templateFooter : "";
+        (!empty($templateFooter)) ? require_once $templateFooter : "";
 
-        /** Check to see if Meta Tags **/
-        if(empty($data['site_keywords'])){ $data['site_keywords'] = SITE_KEYWORDS; }
-        if(empty($data['site_description'])){ $data['site_description'] = SITE_DESCRIPTION; }
+        if(!empty($templateFooter)){
+          /** Check to see if Meta Tags **/
+          if(empty($data['site_keywords'])){ $data['site_keywords'] = SITE_KEYWORDS; }
+          if(empty($data['site_description'])){ $data['site_description'] = SITE_DESCRIPTION; }
 
-        /** Set Header Content **/
-        echo "<script>
-          $(document).ready(function() {
-            $('head').prepend(
-              '<title>".SITE_TITLE." - ".$data['title']."</title>',
-              '<meta name=\"keywords\" content=\"{$data['site_keywords']}\">',
-              '<meta name=\"description\" content=\"{$data['site_description']}\">',
-              '<link rel=\"canonical\" href=\"".SITE_URL."\" />',
-            );
-          });
-        </script>";
-        echo "
-        <meta property=\"og:locale\" content=\"en_US\" />
-        <meta property=\"og:type\" content=\"website\" />
-        <meta property=\"og:title\" content=\"{$data['title']}\" />
-        <meta property=\"og:description\" content=\"{$data['site_description']}\" />
-        <meta property=\"og:url\" content=\"".SITE_URL."\" />',
-        <meta property=\"og:site_name\" content=\"".SITE_TITLE."\" />
-        <meta property=\"og:image\" content=\"{$data['site_image']}\"/>
-        <meta name=\"twitter:card\" content=\"summary\" />
-        <meta name=\"twitter:description\" content=\"{$data['site_description']}\" />
-        <meta name=\"twitter:title\" content=\"{$data['title']}\" />
-        ";
-        /** Load the Breadcrumbs if enabled **/
-        if(isset($data['breadcrumbs'])){
-          $breadcrumbs_display = "<ol class='breadcrumb'><li class='breadcrumb-item'><a href='".SITE_URL."'>".Language::show('uc_home', 'Welcome')."</a></li>{$data['breadcrumbs']}</ol>";
+          /** Set Header Content **/
+          echo "<script>
+            $(document).ready(function() {
+              $('head').prepend(
+                '<title>".SITE_TITLE." - ".$data['title']."</title>',
+                '<meta name=\"keywords\" content=\"{$data['site_keywords']}\">',
+                '<meta name=\"description\" content=\"{$data['site_description']}\">',
+                '<link rel=\"canonical\" href=\"".SITE_URL."\" />',
+              );
+            });
+          </script>";
           echo "
-            <script>
-              $(document).ready(function() {
-                $('#breadcrumbs').prepend(\"{$breadcrumbs_display}\");
-              });
-            </script>
+          <meta property=\"og:locale\" content=\"en_US\" />
+          <meta property=\"og:type\" content=\"website\" />
+          <meta property=\"og:title\" content=\"{$data['title']}\" />
+          <meta property=\"og:description\" content=\"{$data['site_description']}\" />
+          <meta property=\"og:url\" content=\"".SITE_URL."\" />',
+          <meta property=\"og:site_name\" content=\"".SITE_TITLE."\" />
+          <meta property=\"og:image\" content=\"{$data['site_image']}\"/>
+          <meta name=\"twitter:card\" content=\"summary\" />
+          <meta name=\"twitter:description\" content=\"{$data['site_description']}\" />
+          <meta name=\"twitter:title\" content=\"{$data['title']}\" />
           ";
+          /** Load the Breadcrumbs if enabled **/
+          if(isset($data['breadcrumbs'])){
+            $breadcrumbs_display = "<ol class='breadcrumb'><li class='breadcrumb-item'><a href='".SITE_URL."'>".Language::show('uc_home', 'Welcome')."</a></li>{$data['breadcrumbs']}</ol>";
+            echo "
+              <script>
+                $(document).ready(function() {
+                  $('#breadcrumbs').prepend(\"{$breadcrumbs_display}\");
+                });
+              </script>
+            ";
+          }
         }
 
     }

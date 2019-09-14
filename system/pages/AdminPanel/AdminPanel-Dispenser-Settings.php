@@ -78,7 +78,7 @@ $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
 /** Connect to UserCandy Dispensary **/
 if(!empty($dispenser_api_key)){
-  $url = "https://test.usercandy.com/Dispensary/connect.php?token=".$dispenser_api_key;
+  $url = "https://test.usercandy.com/Dispensary/connect/".$dispenser_api_key;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_URL,$url);
@@ -128,6 +128,18 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
                 }else{
                   echo "<font color='red'>Not Connected</font>";
                 }
+              ?>
+          </p>
+
+          <p>
+            <strong>Custom Folder Writeable</strong><Br>
+              <?php
+                /** Folder Writeable Check **/
+                  if (is_writable(CUSTOMDIR)) {
+                    echo "<font color='green'>/custom/ Folder Writeable</font> - Installs should work.";
+                  } else {
+                    echo "<font color='red'>/custom/ Folder Not Writeable</font> - Installs may fail.";
+                  }
               ?>
           </p>
 

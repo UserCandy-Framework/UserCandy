@@ -193,21 +193,21 @@ class Router {
                             if($route['pagefolder'] == 'AdminPanel'){
                               $load_pagefolder = $pagefolder;
                               $load_pagefile = $route['pagefile'];
-                              Load::View("$load_pagefolder::$load_pagefile", $new_params, 'AdminPanel');
+                              Load::View("$load_pagefolder::$load_pagefile", $new_params, 'AdminPanel', $route['headfoot']);
                             }else{
                               $load_pagefolder = $pagefolder;
                               $load_pagefile = $route['pagefile'];
-                              Load::View("$load_pagefolder::$load_pagefile", $new_params);
+                              Load::View("$load_pagefolder::$load_pagefile", $new_params, "", $route['headfoot']);
                             }
                         }else{
                             if($route['pagefolder'] == 'AdminPanel'){
                               $load_pagefolder = $pagefolder;
                               $load_pagefile = $route['pagefile'];
-                              Load::View("$load_pagefolder::$load_pagefile", array(), 'AdminPanel');
+                              Load::View("$load_pagefolder::$load_pagefile", array(), 'AdminPanel', $route['headfoot']);
                             }else{
                               $load_pagefolder = $pagefolder;
                               $load_pagefile = $route['pagefile'];
-                              Load::View("$load_pagefolder::$load_pagefile");
+                              Load::View("$load_pagefolder::$load_pagefile", array(), "", $route['headfoot']);
                             }
                         }
                     }else{
@@ -217,11 +217,11 @@ class Router {
                     if($route['pagefolder'] == 'AdminPanel'){
                       $load_pagefolder = $pagefolder;
                       $load_pagefile = $route['pagefile'];
-                      Load::View("$load_pagefolder::$load_pagefile", array(), 'AdminPanel');
+                      Load::View("$load_pagefolder::$load_pagefile", array(), 'AdminPanel', $route['headfoot']);
                     }else{
                       $load_pagefolder = $pagefolder;
                       $load_pagefile = $route['pagefile'];
-                      Load::View("$load_pagefolder::$load_pagefile");
+                      Load::View("$load_pagefolder::$load_pagefile", array(), "", $route['headfoot']);
                     }
                 }
             }else{
@@ -261,7 +261,8 @@ class Router {
             $route = array(
                 "url" => "",
                 "pagefolder" => "Home",
-                "pagefile" => "Home"
+                "pagefile" => "Home",
+                "headfoot" => true,
             );
             return $route;
         }
