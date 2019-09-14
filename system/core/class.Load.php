@@ -78,10 +78,15 @@ class Load {
         /** Check for sidebar widgets based on page_id **/
         $viewFileData = explode("/", $viewFile);
         $viewFileDataSlice = array_slice($viewFileData, -2, 2);
-        $cur_pagefolder = $viewFileDataSlice[0];
+        /** Check for Custom Page **/
+        if($viewFileData[5] == "custom"){
+          $cur_pagefolder = "custompages";
+        }else{
+          $cur_pagefolder = $viewFileDataSlice[0];
+        }
         $cur_pagefile = str_replace(".php", "", $viewFileDataSlice[1]);
         $cur_page_id = $DispenserModel->getCurrentPageID($cur_pagefolder, $cur_pagefile);
-//        var_dump($cur_page_id);
+//        var_dump($cur_page_id, $cur_pagefolder, $cur_pagefile, $viewFileDataSlice, $viewFile, $viewFileData);
         if($get_widget_data = $DispenserModel->getWidgetByPage($cur_page_id)){
 //          var_dump($get_widget_data);
           if(isset($get_widget_data)){

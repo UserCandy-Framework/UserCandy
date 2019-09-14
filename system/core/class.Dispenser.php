@@ -28,7 +28,7 @@ class Dispenser {
     public function downloadFromDispensary($folder, $type){
       if(is_writable(SYSTEMDIR."temp/")){
         if(isset($folder) && isset($type)){
-          $url = "https://test.usercandy.com/Dispensary/Files/".$type."s/".$folder.".zip";
+          $url = "https://www.usercandy.com/Dispensary/Files/".$type."s/".$folder.".zip";
           $filepath = SYSTEMDIR."temp/".$folder.".zip";
           $fp = fopen($filepath, 'w+');
           $ch = curl_init($url);
@@ -66,7 +66,7 @@ class Dispenser {
     /** Function to get data from UserCandy Dispensary **/
     public function getDataFromDispensary($dispenser_api_key, $type){
       if(!empty($dispenser_api_key)){
-        $url = "https://test.usercandy.com/Dispensary/listdownloads/".$dispenser_api_key."/".$type;
+        $url = "https://www.usercandy.com/Dispensary/listdownloads/".$dispenser_api_key."/".$type;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

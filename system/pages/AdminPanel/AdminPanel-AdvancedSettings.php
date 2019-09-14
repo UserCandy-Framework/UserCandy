@@ -67,6 +67,8 @@ if(isset($_POST['submit'])){
             $site_auto_friend = Request::post('site_auto_friend');
             if($site_auto_friend != 'TRUE'){ $site_auto_friend = 'FALSE'; }
             $site_auto_friend_id = Request::post('site_auto_friend_id');
+            $default_home_page = Request::post('default_home_page');
+            $default_home_page_folder = Request::post('default_home_page_folder');
 
             if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
             if(!$AdminPanelModel->updateSetting('site_user_invite_code', $site_user_invite_code)){ $errors[] = 'site_user_invite_code Error'; }
@@ -92,6 +94,8 @@ if(isset($_POST['submit'])){
             if(!$AdminPanelModel->updateSetting('online_bubble', $online_bubble)){ $errors[] = 'online_bubble Error'; }
             if(!$AdminPanelModel->updateSetting('site_auto_friend', $site_auto_friend)){ $errors[] = 'site_auto_friend Error'; }
             if(!$AdminPanelModel->updateSetting('site_auto_friend_id', $site_auto_friend_id)){ $errors[] = 'site_auto_friend_id Error'; }
+            if(!$AdminPanelModel->updateSetting('default_home_page', $default_home_page)){ $errors[] = 'default_home_page Error'; }
+            if(!$AdminPanelModel->updateSetting('default_home_page_folder', $default_home_page_folder)){ $errors[] = 'default_home_page_folder Error'; }
 
             // Run the update settings script
             if(!isset($errors) || count($errors) == 0){
@@ -149,6 +153,8 @@ $image_max_size = $AdminPanelModel->getSettings('image_max_size');
 $online_bubble = $AdminPanelModel->getSettings('online_bubble');
 $site_auto_friend = $AdminPanelModel->getSettings('site_auto_friend');
 $site_auto_friend_id = $AdminPanelModel->getSettings('site_auto_friend_id');
+$default_home_page = $AdminPanelModel->getSettings('default_home_page');
+$default_home_page_folder = $AdminPanelModel->getSettings('default_home_page_folder');
 
 /** Setup Token for Form */
 $data['csrfToken'] = Csrf::makeToken('settings');
@@ -393,7 +399,7 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
 
           <?php
           /** Check to see if Friends Plugin is installed, if it is show link **/
-          if(file_exists(ROOTDIR.'app/Plugins/Friends/Controllers/Friends.php')){
+          if($DispenserModel->checkDispenserEnabled('Friends')){
           ?>
           <!-- Friends Paginator Limit -->
           <div class='input-group mb-3' style='margin-bottom: 25px'>
@@ -512,7 +518,38 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
     </div>
   </div>
 
+  <div class='col-lg-12 col-md-12 col-sm-12'>
+    <div class='card mb-3'>
+      <div class='card-header h4'>
+        Main Home Page Settings
+        <?php echo PageFunctions::displayPopover('Main Home Page Settings', 'Setting to set the default Home page based on Page Name and Page Folder.  Refer to Page permissions for correct data.', false, 'btn btn-sm btn-light'); ?>
+      </div>
+      <div class='card-body'>
 
+        <!-- Default Home Page -->
+        <div class='input-group mb-3' style='margin-bottom: 25px'>
+          <div class="input-group-prepend">
+            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page</span>
+          </div>
+          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page', 'class' => 'form-control', 'value' => $default_home_page, 'placeholder' => 'Default Home Page', 'maxlength' => '255')); ?>
+          <?php echo PageFunctions::displayPopover('Default Home Page', 'Default: Blank.  Loads the Home.php page from /system/pages/ folder.', true, 'input-group-text'); ?>
+        </div>
+        <div style='margin-bottom: 25px'>
+
+        </div>
+
+        <!-- Default Home Page Folder -->
+        <div class='input-group mb-3' style='margin-bottom: 25px'>
+          <div class="input-group-prepend">
+            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Folder</span>
+          </div>
+          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_folder', 'class' => 'form-control', 'value' => $default_home_page_folder, 'placeholder' => 'Default Home Page', 'maxlength' => '255')); ?>
+          <?php echo PageFunctions::displayPopover('Default Home Page Folder', 'Default: Blank.  Loads the Home.php page from /system/pages/Home/ folder.', true, 'input-group-text'); ?>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
     <div class='col-lg-12 col-md-12 col-sm-12'>
         <button class="btn btn-md btn-success" name="submit" type="submit">

@@ -78,7 +78,7 @@ $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
 /** Connect to UserCandy Dispensary **/
 if(!empty($dispenser_api_key)){
-  $url = "https://test.usercandy.com/Dispensary/connect/".$dispenser_api_key;
+  $url = "https://www.usercandy.com/Dispensary/connect/".$dispenser_api_key;
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_URL,$url);

@@ -260,8 +260,8 @@ class Router {
         if(empty($uri)){
             $route = array(
                 "url" => "",
-                "pagefolder" => "Home",
-                "pagefile" => "Home",
+                "pagefolder" => DEFAULT_HOME_PAGE_FOLDER,
+                "pagefile" => DEFAULT_HOME_PAGE,
                 "headfoot" => true,
             );
             return $route;
