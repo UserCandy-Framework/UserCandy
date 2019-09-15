@@ -202,4 +202,16 @@ return [
 	'new_password_label' => "New Password",
 	'confirm_new_password_label' => "Confirm New Password",
 	'change_my_password_button' => "Change my Password",
+
+	/** Terms and Privacy **/
+	'terms_updated' => SITE_TITLE." Terms and Conditions has been updated.  Please review and agree.  <a href='".SITE_URL."Terms'>View Updated Terms and Conditions</a>",
+	'terms_agree_button' => "I Agree and Understand the Terms and Conditions",
+	'edit_user_terms_success' => "You have agreed to the latest Terms and Conditions",
+	'edit_user_terms_error' => "Error with Terms and Conditions agreement",
+	'privacy_updated' => SITE_TITLE." Privacy Policy has been updated.  Please review and agree.  <a href='".SITE_URL."Privacy'>View Updated Privacy Policy</a>",
+	'privacy_agree_button' => "I Agree and Understand the Privacy Policy",
+	'edit_user_privacy_success' => "You have agreed to the latest Privacy Policy",
+	'edit_user_privacy_error' => "Error with Privacy Policy agreement",
+	'agree_terms_policy' => "I Agree and Understand the ".SITE_TITLE." <a href='".SITE_URL."Terms'>Terms and Conditions</a> and <a href='".SITE_URL."Privacy'>Privacy Policy</a>",
+
 ];

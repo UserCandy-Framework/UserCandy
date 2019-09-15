@@ -477,4 +477,26 @@ class CurrentUserData
       return $user_groups;
     }
 
+    /**
+     * Get current user's Terms view timestamp from database
+     */
+    public static function getUserTermsUpdate($where_id){
+    self::$db = Database::get();
+      $data = self::$db->select("SELECT terms_view_date FROM ".PREFIX."users WHERE userID = :userID",
+        array(':userID' => $where_id));
+        (isset($data[0]->terms_view_date)) ? $terms_view_date= $data[0]->terms_view_date : $terms_view_date = null;
+      return $terms_view_date;
+    }
+
+    /**
+     * Get current user's Privacy view timestamp from database
+     */
+    public static function getUserPrivacyUpdate($where_id){
+    self::$db = Database::get();
+      $data = self::$db->select("SELECT privacy_view_date FROM ".PREFIX."users WHERE userID = :userID",
+        array(':userID' => $where_id));
+        (isset($data[0]->privacy_view_date)) ? $privacy_view_date= $data[0]->privacy_view_date : $privacy_view_date = null;
+      return $privacy_view_date;
+    }
+
 }

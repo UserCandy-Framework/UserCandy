@@ -144,6 +144,18 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
           </p>
 
           <p>
+            <strong>Temp Folder Writeable</strong><Br>
+              <?php
+                /** Folder Writeable Check **/
+                  if (is_writable(SYSTEMDIR."temp")) {
+                    echo "<font color='green'>/system/temp/ Folder Writeable</font> - Downloads should work.";
+                  } else {
+                    echo "<font color='red'>/system/temp/ Folder Not Writeable</font> - Downloads may fail.";
+                  }
+              ?>
+          </p>
+
+          <p>
             <strong>How to Connect?</strong><br>
             1 - Register for <a href="https://www.usercandy.com" target="_blank">www.UserCandy.com</a><Br>
             2 - Login and go to your <a href="https://www.usercandy.com/Account-Settings" target="_blank">Account Settings</a><br>

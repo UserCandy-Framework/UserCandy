@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
 		// Get Post Data just in case of fail
 		$data['username'] = Request::post('username');
 		$data['email'] = Request::post('email');
+		$data['agree_terms_policy'] = Request::post('agree_terms_policy');
 		//Check the CSRF token first
 		if(Csrf::isTokenValid('register')) {
 				$captcha_fail = false;
@@ -36,6 +37,11 @@ if (isset($_POST['submit'])) {
                 $captcha_fail = true;
             }
 			    }
+				}
+				/** Check to see if user agreed to Terms and Policy **/
+				if($data['agree_terms_policy'] != "true"){
+					/** Error Message Display **/
+					ErrorMessages::push(Language::show('register_error', 'Auth'), 'Register');
 				}
 				/** Check for site user invite code **/
 				$site_user_invite_code = strip_tags( trim( Request::post('site_user_invite_code') ) );
@@ -226,6 +232,11 @@ if(isset($data['error'])) { echo ErrorMessages::display_raw($data['error']); }
 				<span id='resultemail2' class='label'></span>
 
 				<hr>
+
+				<input type="checkbox" name="agree_terms_policy" value="true"> <?php echo Language::show('agree_terms_policy', 'Auth'); ?>
+
+				<hr>
+
 				<button class="btn btn-md btn-success" name="submit" type="submit">
 					<?php echo Language::show('register_button', 'Auth'); ?>
 				</button>

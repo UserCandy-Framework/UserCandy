@@ -30,6 +30,26 @@ class AdminPanelModel extends Models {
   }
 
   /**
+  * Get Site Settings Timestamp From Database
+  * @param $setting
+  * @return string data
+  */
+  public function getSettingsTimestamp($setting){
+      $settings_data = $this->db->select("
+          SELECT
+              timestamp
+          FROM
+              ".PREFIX."settings
+          WHERE
+              setting_title = :setting
+          ORDER BY
+              setting_id DESC
+      ",
+      array(':setting' => $setting));
+      return $settings_data[0]->timestamp;
+  }
+
+  /**
   * Check Site Setting in Database
   * @param $setting
   * @return boolean true/false

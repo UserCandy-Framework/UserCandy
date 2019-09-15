@@ -461,4 +461,34 @@ class MembersModel extends Models
       return $data[0]->total_rows;
     }
 
+    /**
+    * Update user terms timestamp
+    * @param int $u_id
+    * @return boolean true/false
+    */
+    public function updateUserTerms($u_id)
+    {
+        $data = $this->db->update(PREFIX.'users', array('terms_view_date' => date('Y-m-d G:i:s')), array('userID' => $u_id));
+        if($data > 0){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    /**
+    * Update user terms timestamp
+    * @param int $u_id
+    * @return boolean true/false
+    */
+    public function updateUserPrivacy($u_id)
+    {
+        $data = $this->db->update(PREFIX.'users', array('privacy_view_date' => date('Y-m-d G:i:s')), array('userID' => $u_id));
+        if($data > 0){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
 }
