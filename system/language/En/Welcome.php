@@ -65,6 +65,6 @@ return [
 	'uc_friends' => "Friends",
 
 	// Terms and Privacy
-	'terms_title' => "Terms",
-	'privacy_title' => "Privacy",
+	'terms_title' => "Terms and Conditions",
+	'privacy_title' => "Privacy Policy",
 ];

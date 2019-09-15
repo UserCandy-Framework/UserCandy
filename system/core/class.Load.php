@@ -25,6 +25,8 @@ class Load {
         /** initialize the Dispenser object */
         $Dispenser = new Dispenser();
         $DispenserModel = new DispenserModel();
+        /** initialize the PageFunctions object **/
+        $PageFunctions = new PageFunctions();
         /** Check to see if user is logged in **/
         if($user_data['isLoggedIn'] = $auth->isLogged()){
           /** User is logged in - Get their data **/
@@ -47,6 +49,9 @@ class Load {
                 $info_alert = Language::show('edit_profile_default_image_not_set', 'Members')." <a href='".SITE_URL."Edit-Profile-Images'>".Language::show('mem_act_edit_profile_images', 'Members')."</a>";
               }
             }
+            /** Run a check to see if user has seen latest terms and privacy **/
+            $terms_privacy_check = $PageFunctions->checkUserTermsPrivacy($u_id);
+            if(!empty($terms_privacy_check)){ $info_alert = $terms_privacy_check; }
 
         }
         /** Get Data For Member Totals Stats Sidebar **/

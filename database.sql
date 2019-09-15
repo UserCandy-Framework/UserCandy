@@ -126,6 +126,8 @@ CREATE TABLE IF NOT EXISTS `uc_users` (
   `privacy_massemail` varchar(5) NOT NULL DEFAULT 'true',
   `privacy_pm` varchar(5) NOT NULL DEFAULT 'true',
   `privacy_profile` varchar(20) NOT NULL DEFAULT 'Public',
+  `terms_view_date` TIMESTAMP NULL DEFAULT NULL,
+  `privacy_view_date` TIMESTAMP NULL DEFAULT NULL,
   `SignUp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (`userID`)
@@ -207,44 +209,6 @@ INSERT INTO `uc_groups` (`groupID`, `groupName`, `groupDescription`, `groupFontC
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uc_sweets`
---
-
-CREATE TABLE IF NOT EXISTS `uc_sweets` (
-  `sid` int(10) NOT NULL AUTO_INCREMENT,
-  `sweet_id` int(10) DEFAULT NULL,
-  `sweet_sec_id` int(10) DEFAULT NULL,
-  `sweet_location` varchar(255) DEFAULT NULL,
-  `sweet_user_ip` varchar(50) DEFAULT NULL,
-  `sweet_server` varchar(255) DEFAULT NULL,
-  `sweet_uri` varchar(255) DEFAULT NULL,
-  `sweet_owner_userid` int(10) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `uc_views`
---
-
-CREATE TABLE IF NOT EXISTS `uc_views` (
-  `vid` int(10) NOT NULL AUTO_INCREMENT,
-  `view_id` int(10) DEFAULT NULL,
-  `view_sec_id` int(10) DEFAULT NULL,
-  `view_location` varchar(255) DEFAULT NULL,
-  `view_user_ip` varchar(50) DEFAULT NULL,
-  `view_server` varchar(255) DEFAULT NULL,
-  `view_uri` varchar(255) DEFAULT NULL,
-  `view_owner_userid` int(10) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`vid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `uc_settings`
 --
 
@@ -252,6 +216,7 @@ CREATE TABLE IF NOT EXISTS `uc_settings` (
   `setting_id` int(10) NOT NULL AUTO_INCREMENT,
   `setting_title` varchar(255) DEFAULT NULL,
   `setting_data` text,
+  `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`setting_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

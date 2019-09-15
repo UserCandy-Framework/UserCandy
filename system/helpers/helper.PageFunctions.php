@@ -320,4 +320,34 @@ class PageFunctions {
 		}
 	}
 
+	/** Check if current user has viewed the latest Terms and Privacy updates **/
+	public static function checkUserTermsPrivacy($u_id = null){
+		if(!empty($u_id)){
+			/** Get users terms view timestamp **/
+			$AdminPanelModel = new AdminPanelModel();
+			$user_terms_view = CurrentUserData::getUserTermsUpdate($u_id);
+			$site_terms_date = $AdminPanelModel->getSettingsTimestamp('site_terms_content');
+			$user_privacy_view = CurrentUserData::getUserPrivacyUpdate($u_id);
+			$site_privacy_date = $AdminPanelModel->getSettingsTimestamp('site_privacy_content');
+			if($site_terms_date > $user_terms_view){
+				$display_data = self::displayTermsPrivacy('Terms');
+			}else if($site_privacy_date > $user_privacy_view){
+				$display_data = self::displayTermsPrivacy('Privacy');
+			}
+
+			return $display_data;
+		}
+	}
+
+	public static function displayTermsPrivacy($type = null){
+		if($type == "Terms"){
+			$tp_data = Language::show('terms_updated', 'Auth');
+		}else if($type == "Privacy"){
+			$tp_data = Language::show('privacy_updated', 'Auth');
+		}
+		if(!empty($tp_data)){
+			return $tp_data;
+		}
+	}
+
 }
