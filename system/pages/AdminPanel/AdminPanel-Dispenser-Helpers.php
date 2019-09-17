@@ -119,8 +119,10 @@ if($action == "Install" && !empty($folder)){
   }
 }else if($action == "Download" && !empty($folder) && !empty($type)){
   $Dispenser = new Dispenser();
+  /** Get Settings Data */
+  $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
-  if($filedata = Dispenser::downloadFromDispensary($folder, $type)){
+  if($filedata = Dispenser::downloadFromDispensary($dispenser_api_key, $folder, $type)){
     $download_status = $filedata;
   }else{
     $download_status = false;
