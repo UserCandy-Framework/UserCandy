@@ -25,10 +25,10 @@ class Dispenser {
     }
 
     /** Function to download file by URL **/
-    public function downloadFromDispensary($folder, $type){
+    public function downloadFromDispensary($token, $folder, $type){
       if(is_writable(SYSTEMDIR."temp/")){
         if(isset($folder) && isset($type)){
-          $url = "https://www.usercandy.com/assets/files/".$type."s/".$folder.".zip";
+          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$type."s/".$folder."/";
           $filepath = SYSTEMDIR."temp/".$folder.".zip";
           $fp = fopen($filepath, 'w+');
           $ch = curl_init($url);
