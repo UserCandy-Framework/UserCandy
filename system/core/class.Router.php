@@ -197,7 +197,7 @@ class Router {
                             }else{
                               $load_pagefolder = $pagefolder;
                               $load_pagefile = $route['pagefile'];
-                              Load::View("$load_pagefolder::$load_pagefile", $new_params, "", $route['headfoot']);
+                              Load::View("$load_pagefolder::$load_pagefile", $new_params, $route['template'], $route['headfoot']);
                             }
                         }else{
                             if($route['pagefolder'] == 'AdminPanel'){
@@ -207,7 +207,7 @@ class Router {
                             }else{
                               $load_pagefolder = $pagefolder;
                               $load_pagefile = $route['pagefile'];
-                              Load::View("$load_pagefolder::$load_pagefile", array(), "", $route['headfoot']);
+                              Load::View("$load_pagefolder::$load_pagefile", array(), $route['template'], $route['headfoot']);
                             }
                         }
                     }else{
@@ -221,7 +221,7 @@ class Router {
                     }else{
                       $load_pagefolder = $pagefolder;
                       $load_pagefile = $route['pagefile'];
-                      Load::View("$load_pagefolder::$load_pagefile", array(), "", $route['headfoot']);
+                      Load::View("$load_pagefolder::$load_pagefile", array(), $route['template'], $route['headfoot']);
                     }
                 }
             }else{

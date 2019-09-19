@@ -109,7 +109,7 @@ class Routes {
             ");
         foreach ($db_routes as $db_route) {
             ($db_route->headfoot == 1) ? $set_headfoot = true : $set_headfoot = false;
-            $routes[] = self::add($db_route->url, $db_route->pagefolder, $db_route->pagefile, $db_route->arguments, $set_headfoot);
+            $routes[] = self::add($db_route->url, $db_route->pagefolder, $db_route->pagefile, $db_route->arguments, $set_headfoot, $db_route->template);
         }
         /** End Get Routes From Database **/
 
@@ -117,13 +117,14 @@ class Routes {
         return $routes;
     }
 
-    static function add($url, $pagefolder, $pagefile, $arguments = null, $headfoot = true){
+    static function add($url, $pagefolder, $pagefile, $arguments = null, $headfoot = true, $template = 'Default'){
         $routes = array(
             "url" => $url,
             "pagefolder" => $pagefolder,
             "pagefile" => $pagefile,
             "arguments" => $arguments,
-            "headfoot" => $headfoot
+            "headfoot" => $headfoot,
+            "template" => $template
         );
         return $routes;
     }

@@ -72,6 +72,8 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
       /** Get all Main Site Links */
       $main_site_links = $AdminPanelModel->getSiteLinks('header_main');
       $link_order_last = $AdminPanelModel->getSiteLinksLastID('header_main');
+      $footer_site_links = $AdminPanelModel->getSiteLinks('footer_main');
+      $admin_site_links = $AdminPanelModel->getSiteLinks('nav_admin');
 
 
 ?>
@@ -120,6 +122,106 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
       <?php
         if(isset($main_site_links)){
           foreach ($main_site_links as $link) {
+            echo "<tr>";
+            echo "<td>".$link->title."</td>";
+            echo "<td>".$link->url."</td>";
+            echo "<td class='d-none d-md-table-cell'>".$link->alt_text."</td>";
+            echo "<td class='d-none d-md-table-cell'>";
+              if($link->drop_down == "1"){ echo "Drop Down Link"; }
+            echo "</td>";
+            echo "<td class='d-none d-md-table-cell'>".$link->require_plugin."</td>";
+            echo "<td class='d-none d-md-table-cell'>".CurrentUserData::getGroupData($link->permission)."</td>";
+            echo "<td class='d-none d-md-table-cell'> <i class='$link->icon'></i> </td>";
+            echo "<td align='right'>";
+            /** Check to see if object is at top **/
+            if($link->link_order > 1){
+              echo "<a href='".SITE_URL."AdminPanel-SiteLinks/LinkUp/$link->location/$link->id/' class='btn btn-primary btn-sm' role='button'><span class='fa fa-fw fa-caret-up' aria-hidden='true'></span></a> ";
+            }
+            /** Check to see if object is at bottom **/
+            if($link_order_last != $link->link_order){
+              echo "<a href='".SITE_URL."AdminPanel-SiteLinks/LinkDown/$link->location/$link->id/' class='btn btn-primary btn-sm' role='button'><span class='fa fa-fw fa-caret-down' aria-hidden='true'></span></a> ";
+            }
+            echo "<a href='".SITE_URL."AdminPanel-SiteLink/$link->id' class='btn btn-sm btn-success'><span class='fas fa-edit'></span></a>";
+            echo "</td>";
+            echo "</tr>";
+          }
+        }
+      ?>
+    </table>
+    <div class='card-footer'>
+      <a href='<?=SITE_URL?>AdminPanel-SiteLink/New' class='btn btn-sm btn-success'>Add New Site Link</a>
+    </div>
+  </div>
+
+  <div class='card mb-3'>
+    <div class='card-header h4'>
+      Footer Main Site Links
+      <?php echo PageFunctions::displayPopover('Site Footer Links', 'Site Footer Links are located in the footer on the site.  They can be edited here.', false, 'btn btn-sm btn-light'); ?>
+    </div>
+    <table class='table table-hover responsive'>
+      <tr>
+        <th>Link Title</th>
+        <th>URL</th>
+        <th class='d-none d-md-table-cell'>Alt Text</th>
+        <th class='d-none d-md-table-cell'>Drop Down</th>
+        <th class='d-none d-md-table-cell'>Require Plugin</th>
+        <th class='d-none d-md-table-cell'>Permission</th>
+        <th class='d-none d-md-table-cell'>Icon</th>
+        <th></th>
+      </tr>
+      <?php
+        if(isset($footer_site_links)){
+          foreach ($footer_site_links as $link) {
+            echo "<tr>";
+            echo "<td>".$link->title."</td>";
+            echo "<td>".$link->url."</td>";
+            echo "<td class='d-none d-md-table-cell'>".$link->alt_text."</td>";
+            echo "<td class='d-none d-md-table-cell'>";
+              if($link->drop_down == "1"){ echo "Drop Down Link"; }
+            echo "</td>";
+            echo "<td class='d-none d-md-table-cell'>".$link->require_plugin."</td>";
+            echo "<td class='d-none d-md-table-cell'>".CurrentUserData::getGroupData($link->permission)."</td>";
+            echo "<td class='d-none d-md-table-cell'> <i class='$link->icon'></i> </td>";
+            echo "<td align='right'>";
+            /** Check to see if object is at top **/
+            if($link->link_order > 1){
+              echo "<a href='".SITE_URL."AdminPanel-SiteLinks/LinkUp/$link->location/$link->id/' class='btn btn-primary btn-sm' role='button'><span class='fa fa-fw fa-caret-up' aria-hidden='true'></span></a> ";
+            }
+            /** Check to see if object is at bottom **/
+            if($link_order_last != $link->link_order){
+              echo "<a href='".SITE_URL."AdminPanel-SiteLinks/LinkDown/$link->location/$link->id/' class='btn btn-primary btn-sm' role='button'><span class='fa fa-fw fa-caret-down' aria-hidden='true'></span></a> ";
+            }
+            echo "<a href='".SITE_URL."AdminPanel-SiteLink/$link->id' class='btn btn-sm btn-success'><span class='fas fa-edit'></span></a>";
+            echo "</td>";
+            echo "</tr>";
+          }
+        }
+      ?>
+    </table>
+    <div class='card-footer'>
+      <a href='<?=SITE_URL?>AdminPanel-SiteLink/New' class='btn btn-sm btn-success'>Add New Site Link</a>
+    </div>
+  </div>
+
+  <div class='card mb-3'>
+    <div class='card-header h4'>
+      AdminPanel Links
+      <?php echo PageFunctions::displayPopover('AdminPanel Links', 'AdminPanel Links are located in the Sidebar within the AdminPanel Template.  They can be edited here.', false, 'btn btn-sm btn-light'); ?>
+    </div>
+    <table class='table table-hover responsive'>
+      <tr>
+        <th>Link Title</th>
+        <th>URL</th>
+        <th class='d-none d-md-table-cell'>Alt Text</th>
+        <th class='d-none d-md-table-cell'>Drop Down</th>
+        <th class='d-none d-md-table-cell'>Require Plugin</th>
+        <th class='d-none d-md-table-cell'>Permission</th>
+        <th class='d-none d-md-table-cell'>Icon</th>
+        <th></th>
+      </tr>
+      <?php
+        if(isset($admin_site_links)){
+          foreach ($admin_site_links as $link) {
             echo "<tr>";
             echo "<td>".$link->title."</td>";
             echo "<td>".$link->url."</td>";

@@ -139,6 +139,7 @@
 						<span class="nav-link-text">Auth Logs</span>
 					</a>
 				</li>
+				<?php echo PageFunctions::getLinks('nav_admin', $currentUserData[0]->userID); ?>
 			</ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">

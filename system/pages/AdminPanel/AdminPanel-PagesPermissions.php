@@ -61,7 +61,7 @@ $scan_custom_pages_dir = array_diff(scandir($custom_pages_dir), array('..', '.')
 /** Extract the methods from the classes */
 foreach ($scan_custom_pages_dir as $filename) {
     /** Remove the .php from the files */
-    $dir_pagefile = str_replace('.php', '', str_replace('-', ' ', $filename));
+    $dir_pagefile = str_replace('.php', '', $filename);
     $dir_pagefolder = 'custompages';
     /** Check to see if page is in database **/
     if(!$AdminPanelModel->checkForPage($dir_pagefolder, $dir_pagefile)){
