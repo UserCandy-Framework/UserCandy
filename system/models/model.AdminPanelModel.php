@@ -1424,8 +1424,8 @@ class AdminPanelModel extends Models {
     * @param boolean $sitemap
     * @return boolean true/false
     */
-    public function updatePageSiteMap($page_id = null, $sitemap = null, $pagefolder = null, $pagefile = null, $url = null, $arguments = null, $enable = 'true'){
-      $query = $this->db->update(PREFIX.'pages', array('sitemap' => $sitemap, 'pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'enable' => $enable), array('id' => $page_id));
+    public function updatePageSiteMap($page_id = null, $sitemap = null, $pagefolder = null, $pagefile = null, $url = null, $arguments = null, $enable = 'true', $headfoot = 1, $template = 'Default'){
+      $query = $this->db->update(PREFIX.'pages', array('sitemap' => $sitemap, 'pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'enable' => $enable, 'headfoot' => $headfoot, 'template' => $template), array('id' => $page_id));
       if($query > 0){
         return true;
       }else{

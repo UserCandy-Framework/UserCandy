@@ -51,10 +51,14 @@ if(isset($_POST['submit'])){
         $pagefile = Request::post('pagefile');
         $url = Request::post('url');
         $arguments = Request::post('arguments');
+        $headfoot = Request::post('headfoot');
+        $template = Request::post('template');
         $enable = Request::post('enable');
 
+        var_dump($headfoot);
+
         /** Updated Sitemap Setting **/
-        if($AdminPanelModel->updatePageSiteMap($page_id, $sitemap, $pagefolder, $pagefile, $url, $arguments, $enable)){
+        if($AdminPanelModel->updatePageSiteMap($page_id, $sitemap, $pagefolder, $pagefile, $url, $arguments, $enable, $headfoot, $template)){
           $success[] = " - Changed Settings for page: ".$page_name[0]->url;
           if($AdminPanelModel->updateLinkURL($data['page_data'][0]->url, $url)){$success[] = ' - Updated Site Link URL: '.$url;}
         }
@@ -238,8 +242,32 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
               <?php echo PageFunctions::displayPopover('Arguments', 'Arguments lets the System Router what type of arguments and how many can be used for a given controller.  EX: (:any)/(:num)/(:all)', true, 'input-group-text'); ?>
           </div>
 
+          <!-- Page Header/Footer Enabled -->
+          <div class='input-group mb-3' style='margin-bottom: 25px'>
+            <div class="input-group-prepend">
+              <span class='input-group-text'><i class='fa fa-fw  fa-book'></i> Header/Footer Enabled</span>
+            </div>
+            <select class='form-control' id='headfoot' name='headfoot'>
+              <option value='1' <?php if($data['page_data'][0]->headfoot == 1){echo "SELECTED";}?> >Enabled</option>
+              <option value='0' <?php if($data['page_data'][0]->headfoot == 0){echo "SELECTED";}?> >Disabled</option>
+            </select>
+            <?php echo PageFunctions::displayPopover('Header and Footer Enabled', 'Header and Footer Enabled lets the System Router know if Header and Footer should be loaded from templates folder.', true, 'input-group-text'); ?>
+          </div>
 
-            <!-- Group Font Weight -->
+          <!-- Page Template -->
+          <!-- Todo - Setup to auto detect all templates -->
+          <div class='input-group mb-3' style='margin-bottom: 25px'>
+            <div class="input-group-prepend">
+              <span class='input-group-text'><i class='fa fa-fw  fa-book'></i> Page Template</span>
+            </div>
+            <select class='form-control' id='template' name='template'>
+              <option value='Default' <?php if($data['page_data'][0]->template == 'Default'){echo "SELECTED";}?> >Default</option>
+              <option value='AdminPanel' <?php if($data['page_data'][0]->template == 'AdminPanel'){echo "SELECTED";}?> >AdminPanel</option>
+            </select>
+            <?php echo PageFunctions::displayPopover('Page Template', 'Page Template lets the System Router know which template should be used for this page.', true, 'input-group-text'); ?>
+          </div>
+
+            <!-- Page Route Enabled -->
     				<div class='input-group mb-3' style='margin-bottom: 25px'>
               <div class="input-group-prepend">
       				  <span class='input-group-text'><i class='fa fa-fw  fa-book'></i> Route Enabled</span>
@@ -250,7 +278,6 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
               </select>
               <?php echo PageFunctions::displayPopover('Page Enabled', 'Page Enabled lets the System Router know if this route can be used or not.  When disabled it give a error page.', true, 'input-group-text'); ?>
     				</div>
-
 
           </div>
         </div>

@@ -121,17 +121,17 @@ $data['current_page'] = $_SERVER['REQUEST_URI'];
            $title = Request::post('title');
            $url = Request::post('url');
            $alt_text = Request::post('alt_text');
-           $location = "header_main";
+           $location = Request::post('location');
            $drop_down = Request::post('drop_down');
            $drop_down_for = Request::post('drop_down_for');
            $dd_link_id = Request::post('dd_link_id');
            $permission = Request::post('permission');
            $icon = Request::post('icon');
+           if(empty($drop_down)){ $drop_down = "0"; }
            /** Check if update or new */
            if($link_action == "update"){
              if($AdminPanelModel->updateSiteLink($id, $title, $url, $alt_text, $location, $drop_down, $permission, $icon)){
                /** Update URL in Page Permissions and Site Routes */
-               if($AdminPanelModel->updateRouteURL($data['link_data'][0]->url, $url)){$success_msg .= '<br> - Updated Site Route URL: '.$url;}
                if($AdminPanelModel->updatePagePermURL($data['link_data'][0]->url, $url)){$success_msg .= '<br> - Updated Page URL: '.$url;}
                if($AdminPanelModel->updateLinkURL($data['link_data'][0]->url, $url)){$success_msg .= '<br> - Updated  URL: '.$url;}
                /** Success */
@@ -167,7 +167,6 @@ $data['current_page'] = $_SERVER['REQUEST_URI'];
            }else if($link_action == "dropdownupdate"){
              if($AdminPanelModel->updateSiteDDLink($dd_link_id, $title, $url, $alt_text, $location, $drop_down, $require_plugin, $permission, $icon)){
                /** Update URL in Page Permissions and Site Routes */
-               if($AdminPanelModel->updateRouteURL($data['link_data'][0]->url, $url)){$success_msg .= '<br> - Updated Site Route URL: '.$url;}
                if($AdminPanelModel->updatePagePermURL($data['link_data'][0]->url, $url)){$success_msg .= '<br> - Updated Page URL: '.$url;}
                if($AdminPanelModel->updateLinkURL($data['link_data'][0]->url, $url)){$success_msg .= '<br> - Updated  URL: '.$url;}
                /** Success */
@@ -270,6 +269,20 @@ $data['current_page'] = $_SERVER['REQUEST_URI'];
             </select>
             <?php echo PageFunctions::displayPopover('Drop Down Menu Enable', 'Drop Down Menu Enable will set the link as a drop down menu.  URL is not needed if Enabled.  Once Enabled, Drop Down Links will apear below.', true, 'input-group-text'); ?>
           </div>
+
+          <!-- Link For Drop Down Menu -->
+          <div class='input-group mb-3' style='margin-bottom: 25px'>
+            <div class="input-group-prepend">
+              <span class='input-group-text'><i class='fas fa-fw fa-caret-down'></i> Link Location</span>
+            </div>
+            <select class='form-control' id='location' name='location'>
+              <option value='header_main' <?php if($data['link_data'][0]->location == "header_main"){echo "SELECTED";}?> >Header Main</option>
+              <option value='footer_main' <?php if($data['link_data'][0]->location == "footer_main"){echo "SELECTED";}?> >Footer Main</option>
+              <option value='nav_admin' <?php if($data['link_data'][0]->location == "nav_admin"){echo "SELECTED";}?> >Navbar AdminPanel</option>
+            </select>
+            <?php echo PageFunctions::displayPopover('Link Location', 'Link location sets where the link is displayed within the site.', true, 'input-group-text'); ?>
+          </div>
+
         <?php } ?>
 
         <!-- Permission -->

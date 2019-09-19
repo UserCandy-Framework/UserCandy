@@ -81,14 +81,27 @@ class PageFunctions {
 					}
 					/** Get output for links display **/
 					if($link_enable == true){
-						if($link->location == "header_main"){ $set_class = "nav-link"; }
-						if($link->drop_down == "1"){
-							$links_output .= "<li class='nav-item dropdown'>";
-							$links_output .= "<a href='#' title='".$link->alt_text."' class='nav-link dropdown-toggle' data-toggle='dropdown' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
-							$links_output .= SELF::getDropDownLinks($link->id, $userID);
-							$links_output .= "</li>";
-						}else{
-							$links_output .= "<li><a class='$set_class' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a></li>";
+						if($link->location == "header_main"){
+							$set_class = "nav-link";
+							if($link->drop_down == "1"){
+								$links_output .= "<li class='nav-item dropdown'>";
+								$links_output .= "<a href='#' title='".$link->alt_text."' class='nav-link dropdown-toggle' data-toggle='dropdown' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
+								$links_output .= SELF::getDropDownLinks($link->id, $userID);
+								$links_output .= "</li>";
+							}else{
+								$links_output .= "<li><a class='$set_class' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a></li>";
+							}
+						}
+						if($link->location == "nav_admin"){
+							$set_class = "nav-link";
+							if($link->drop_down == "1"){
+								$links_output .= "<li class='nav-item dropdown'>";
+								$links_output .= "<a href='#' title='".$link->alt_text."' class='nav-link dropdown-toggle' data-toggle='dropdown' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
+								$links_output .= SELF::getDropDownLinks($link->id, $userID);
+								$links_output .= "</li>";
+							}else{
+								$links_output .= "<li class='nav-item' data-toggle='tooltip' data-placement='right' title='Tables'><a class='$set_class' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a></li>";
+							}
 						}
 					}
 				}
