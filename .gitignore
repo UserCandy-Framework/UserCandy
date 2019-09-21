@@ -1,21 +1,6 @@
 
-_notes/dwsync.xml
-system/_notes/dwsync.xml
-system/pages/AdminPanel/_notes/dwsync.xml
-system/helpers/_notes/dwsync.xml
-system/logs/_notes/dwsync.xml
-system/models/_notes/dwsync.xml
-system/pages/Members/_notes/dwsync.xml
-system/core/_notes/dwsync.xml
-system/pages/Auth/_notes/dwsync.xml
-system/pages/Home/_notes/dwsync.xml
-system/Install/_notes/dwsync.xml
-system/language/En/_notes/dwsync.xml
-system/temp/_notes/dwsync.xml
-system/templates/AdminPanel/_notes/dwsync.xml
-custom/plugins
-custom/widgets/*
+*dwsync.xml
+custom/*
 !custom/widgets/AccountSidebar
 !custom/widgets/MembersSidebar
 system/Config.php
-system/templates/Default/Assets/js/_notes/dwsync.xml
