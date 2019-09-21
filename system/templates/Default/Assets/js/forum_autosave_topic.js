@@ -23,13 +23,14 @@ $(document).ready(function(){
   var forum_content = $('#forum_content').val().trim();
   var token_forum = $('#token_forum').val();
   var forum_topic_autosave = "autosave_topic";
+  var hide_head_foot = "true";
 
   if(forum_title != '' || forum_content != ''){
    // AJAX request
    $.ajax({
     url: forum_cat_id+'/',
     type: 'post',
-    data: {forum_post_id:forum_post_id,forum_title:forum_title,forum_content:forum_content,token_forum:token_forum,forum_topic_autosave:forum_topic_autosave},
+    data: {forum_post_id:forum_post_id,forum_title:forum_title,forum_content:forum_content,token_forum:token_forum,forum_topic_autosave:forum_topic_autosave,hide_head_foot:hide_head_foot},
     success: function(data){
       if(data != '')
       {

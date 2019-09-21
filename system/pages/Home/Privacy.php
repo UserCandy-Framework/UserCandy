@@ -44,7 +44,7 @@ $data['csrfToken'] = Csrf::makeToken('settings');
             <?=$data['title'];?>
         </div>
         <div class="card-body forum"><?=$data['bodyText']?></div>
-				<?php if($site_privacy_date > $user_privacy_view){ ?>
+				<?php if($site_privacy_date > $user_privacy_view && $currentUserData[0]->userID > 0){ ?>
 					<?php echo Form::open(array('method' => 'post')); ?>
 					<div class="card-footer">
 						<button class="btn btn-md btn-info" name="submit" type="submit"><?=$privacy_agree_button_text?></button>

@@ -18,6 +18,8 @@ class Load {
     */
     static function View($viewFile, $viewVars = array(), $template = DEFAULT_TEMPLATE, $useHeadFoot = true){
         /** Get Common User Data For Site **/
+        /** initialize the AdminPanelModel **/
+        $AdminPanelModel = new AdminPanelModel();
         /** initialize the AuthHelper object */
         $auth = new AuthHelper();
         /** initialize the Users object */
@@ -27,6 +29,10 @@ class Load {
         $DispenserModel = new DispenserModel();
         /** initialize the PageFunctions object **/
         $PageFunctions = new PageFunctions();
+        /** initialize Forum Stats if Installed **/
+        if($DispenserModel->checkDispenserEnabled('Forum')){
+          require_once(CUSTOMDIR.'plugins/Forum/helper.ForumStats.php');
+        }
         /** Check to see if user is logged in **/
         if($user_data['isLoggedIn'] = $auth->isLogged()){
           /** User is logged in - Get their data **/
@@ -35,7 +41,9 @@ class Load {
           $user_data['isAdmin'] = $usersModel->checkIsAdmin($u_id);
           $user_data['current_userID'] = $u_id;
 
-          //Todo - Add setting for admin to enable or disable
+          /** Check if Site Profile Notifications are enabled **/
+          $site_profile_notifi_check = $AdminPanelModel->getSettings('site_profile_notifi_check');
+          if($site_profile_notifi_check == "true"){
             /** Check to see if user is missing anything in their profile **/
             $firstNameCheck = $user_data['currentUserData'][0]->firstName;
             $aboutmeCheck = $user_data['currentUserData'][0]->aboutme;
@@ -49,10 +57,10 @@ class Load {
                 $info_alert = Language::show('edit_profile_default_image_not_set', 'Members')." <a href='".SITE_URL."Edit-Profile-Images'>".Language::show('mem_act_edit_profile_images', 'Members')."</a>";
               }
             }
-            /** Run a check to see if user has seen latest terms and privacy **/
-            $terms_privacy_check = $PageFunctions->checkUserTermsPrivacy($u_id);
-            if(!empty($terms_privacy_check)){ $info_alert = $terms_privacy_check; }
-
+          }
+          /** Run a check to see if user has seen latest terms and privacy **/
+          $terms_privacy_check = $PageFunctions->checkUserTermsPrivacy($u_id);
+          if(!empty($terms_privacy_check)){ $info_alert = $terms_privacy_check; }
         }
         /** Get Data For Member Totals Stats Sidebar **/
         $membersModel = new MembersModel();
@@ -118,9 +126,12 @@ class Load {
             }
           }
         }
-
+        /* Check to see if $_POST['hide_head_foot'] == true */
         /* Setup Template Files */
-        if($useHeadFoot === true){
+        if($_POST['hide_head_foot'] == "true"){
+            $templateHeader = "";
+            $templateFooter = "";
+        }else if($useHeadFoot === true){
             $templateHeader = SYSTEMDIR."templates/".$template."/Header.php";
             $templateFooter = SYSTEMDIR."templates/".$template."/Footer.php";
         }else{
@@ -136,7 +147,7 @@ class Load {
 
         /* Check for Left Sidebar and load files if needed */
         if(isset($leftSidebar)){
-          echo "<div class='col-lg-3 col-md-3 col-sm-12 pr-0'>";
+          echo "<div class='col-lg-3 col-md-3 col-sm-12'>";
           foreach ($leftSidebar as $lsb) {
             (isset($lsb)) ? require_once $lsb : "";
           }
@@ -160,7 +171,7 @@ class Load {
 
         /* Check for Left Sidebar and load files if needed */
         if(isset($rightSidebar)){
-          echo "<div class='col-lg-3 col-md-3 col-sm-12 pl-0'>";
+          echo "<div class='col-lg-3 col-md-3 col-sm-12'>";
           foreach ($rightSidebar as $rsb) {
             (isset($rsb)) ? require_once $rsb : "";
           }
@@ -212,104 +223,5 @@ class Load {
         }
 
     }
-
-    /*
-    ** Load Plugin View
-    ** Loads files needed to display a plugin page.
-    */
-    static function ViewPlugin($viewFile, $viewVars = array(), $sidebarFile = "", $pluginFolder = "", $template = DEFAULT_TEMPLATE, $useHeadFoot = true){
-
-        /** Get Common User Data For Site **/
-        /** initialise the AuthHelper object */
-        $auth = new AuthHelper();
-        /** initialise the Users object */
-        $usersModel = new Users();
-        /** Check to see if user is logged in **/
-        if($user_data['isLoggedIn'] = $auth->isLogged()){
-          /** User is logged in - Get their data **/
-          $u_id = $auth->user_info();
-          $user_data['currentUserData'] = $usersModel->getCurrentUserData($u_id);
-          $user_data['isAdmin'] = $usersModel->checkIsAdmin($u_id);
-          $user_data['current_userID'] = $u_id;
-        }
-        /** Get Data For Member Totals Stats Sidebar **/
-        $membersModel = new MembersModel();
-        $user_data['activatedAccounts'] = count($membersModel->getActivatedAccounts());
-        $user_data['onlineAccounts'] = count($membersModel->getOnlineAccounts());
-
-        (empty($template)) ? $template = DEFAULT_TEMPLATE : "";
-        $data = array_merge($user_data, $viewVars);
-        /** Extract the $data array to vars **/
-        extract($user_data);
-        extract($viewVars);
-
-        /* Setup Main View File */
-        $viewFileCheck = explode(".", $viewFile);
-        if(!isset($viewFileCheck[1])){
-            $viewFile .= ".php";
-        }
-        $viewFile = str_replace("::", "/", $viewFile);
-        $viewFile = SYSTEMDIR."Plugins/".$pluginFolder."/Views/".$viewFile;
-
-        /* Setup Sidebar File */
-        if(!empty($sidebarFile)){
-            $sidebarFileCheck = explode(".", $sidebarFile);
-            $esbfc = explode("/", str_replace("::", "/", $sidebarFile));
-            $sidebarLocation = $esbfc[1];
-            $sidebarFile = str_replace($sidebarLocation, "", $sidebarFile);
-            $sidebarFile = rtrim(rtrim($sidebarFile,'/'),'::');
-            if(!isset($sidebarFileCheck[1])){
-                $sidebarFile .= ".php";
-            }
-            $sidebarFile = str_replace("::", "/", $sidebarFile);
-            if($esbfc[0] == 'AdminPanel'){
-                $sidebarLocation = $esbfc[2];
-                $sidebarFile = SYSTEMDIR."pages/AdminPanel/".$esbfc[1].".php";
-            }else{
-                $sidebarFile = SYSTEMDIR."Plugins/".$pluginFolder."/Views/".$sidebarFile;
-            }
-            ($sidebarLocation == "Right" || $sidebarLocation == "right") ? $rightSidebar = $sidebarFile : "";
-            ($sidebarLocation == "Left" || $sidebarLocation == "left") ? $leftSidebar = $sidebarFile : "";
-        }
-
-        /* Setup Template Files */
-        if($useHeadFoot == true){
-            $templateHeader = SYSTEMDIR."templates/".$template."/Header.php";
-            $templateFooter = SYSTEMDIR."templates/".$template."/Footer.php";
-        }
-
-        /* todo - setup a file checker that sends error to log file or something if something is missing */
-
-        /* Check to see if Adds are enabled for current page */
-        if(preg_match('/(Members)/', $data['current_page']) || preg_match('/(AdminPanel)/', $data['current_page']) || preg_match('/(Friend)/', $data['title']) || preg_match('/(Message)/', $data['title'])){
-          $addsEnable = false;
-        }else{
-          $addsEnable = true;
-        }
-
-        /* Setup Adds if Demo is FALSE */
-        $mainAddsTop = SYSTEMDIR."pages/Adds/AddsTop.php";
-        $mainAddsBottom = SYSTEMDIR."pages/Adds/AddsBottom.php";
-        $sidebarAddsTop = SYSTEMDIR."pages/Adds/AddsSidebarTop.php";
-        $sidebarAddsBottom = SYSTEMDIR."pages/Adds/AddsSidebarBottom.php";
-
-        /* Load files needed to make the page work */
-        (isset($templateHeader)) ? require_once $templateHeader : "";
-        ($addsEnable) ? require_once $mainAddsTop : "";
-        if(isset($leftSidebar)){ echo "<div class='col-lg-3 col-md-4 col-sm-12'>"; }
-        (isset($leftSidebar) && $addsEnable) ? require_once $sidebarAddsTop : "";
-        (isset($leftSidebar)) ? require_once $leftSidebar : "";
-        (isset($leftSidebar) && $addsEnable) ? require_once $sidebarAddsBottom : "";
-        if(isset($leftSidebar)){ echo "</div>"; }
-        require_once $viewFile;
-        if(isset($rightSidebar)){ echo "<div class='col-lg-3 col-md-4 col-sm-12'>"; }
-        (isset($rightSidebar) && $addsEnable) ? require_once $sidebarAddsTop : "";
-        (isset($rightSidebar)) ? require_once $rightSidebar : "";
-        (isset($rightSidebar) && $addsEnable) ? require_once $sidebarAddsBottom : "";
-        if(isset($rightSidebar)){ echo "</div>"; }
-        ($addsEnable) ? require_once $mainAddsBottom : "";
-        (isset($templateFooter)) ? require_once $templateFooter : "";
-    }
-
 
 }

@@ -55,8 +55,8 @@ if($profile){
       $data['forum_disable'] = true;
     }
 
-    /** Check to see if Forum and Friends Plugins are installed **/
-    if($DispenserModel->checkDispenserEnabled('Forum') && $DispenserModel->checkDispenserEnabled('Friends')){
+    /** Check to see if Status Plugin are installed **/
+    if($DispenserModel->checkDispenserEnabled('Status')){
       /** Get Users Status Updates **/
       $data['status_updates'] = $membersModel->getUserStatusUpdates($profile[0]->userID, $status_limit);
       $data['status_total'] = $membersModel->getUserStatusUpdatesTotal($profile[0]->userID);

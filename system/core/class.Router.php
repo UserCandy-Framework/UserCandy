@@ -22,7 +22,7 @@ class Router {
         /** Check if Plugin is being Requested **/
         $check_for_plugin = explode("/", $route['pagefolder']);
         if($check_for_plugin[0] == "plugins"){
-            $pagefolder = CUSTOMDIR."plugins/{$route['pagefile']}/";
+            $pagefolder = CUSTOMDIR."{$route['pagefolder']}/";
         }else if($crc_array == "custompages"){
             $pagefolder = CUSTOMDIR."pages/";
         }else{
