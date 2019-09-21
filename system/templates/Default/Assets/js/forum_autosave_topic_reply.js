@@ -22,13 +22,14 @@ $(document).ready(function(){
   var fpr_content = $('#fpr_content').val().trim();
   var token_forum = $('#token_forum').val();
   var forum_topic_reply_autosave = "autosave_topic_reply";
+  var hide_head_foot = "true";
 
   if(fpr_content != ''){
    // AJAX request
    $.ajax({
-    url: '/Topic/' + topic_id + "/",
+    url: topic_id + "/",
     type: 'post',
-    data: {fpr_post_id:fpr_post_id,topic_id:topic_id,fpr_content:fpr_content,token_forum:token_forum,forum_topic_reply_autosave:forum_topic_reply_autosave},
+    data: {fpr_post_id:fpr_post_id,topic_id:topic_id,fpr_content:fpr_content,token_forum:token_forum,forum_topic_reply_autosave:forum_topic_reply_autosave,hide_head_foot:hide_head_foot},
     success: function(data){
       if(data != '')
       {

@@ -69,6 +69,8 @@ if(isset($_POST['submit'])){
             $site_auto_friend_id = Request::post('site_auto_friend_id');
             $default_home_page = Request::post('default_home_page');
             $default_home_page_folder = Request::post('default_home_page_folder');
+            $site_profile_notifi_check = Request::post('site_profile_notifi_check');
+            if($site_profile_notifi_check != 'true'){ $site_profile_notifi_check = 'false'; }
 
             if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
             if(!$AdminPanelModel->updateSetting('site_user_invite_code', $site_user_invite_code)){ $errors[] = 'site_user_invite_code Error'; }
@@ -96,6 +98,7 @@ if(isset($_POST['submit'])){
             if(!$AdminPanelModel->updateSetting('site_auto_friend_id', $site_auto_friend_id)){ $errors[] = 'site_auto_friend_id Error'; }
             if(!$AdminPanelModel->updateSetting('default_home_page', $default_home_page)){ $errors[] = 'default_home_page Error'; }
             if(!$AdminPanelModel->updateSetting('default_home_page_folder', $default_home_page_folder)){ $errors[] = 'default_home_page_folder Error'; }
+            if(!$AdminPanelModel->updateSetting('site_profile_notifi_check', $site_profile_notifi_check)){ $errors[] = 'site_profile_notifi_check Error'; }
 
             // Run the update settings script
             if(!isset($errors) || count($errors) == 0){
@@ -155,6 +158,7 @@ $site_auto_friend = $AdminPanelModel->getSettings('site_auto_friend');
 $site_auto_friend_id = $AdminPanelModel->getSettings('site_auto_friend_id');
 $default_home_page = $AdminPanelModel->getSettings('default_home_page');
 $default_home_page_folder = $AdminPanelModel->getSettings('default_home_page_folder');
+$site_profile_notifi_check = $AdminPanelModel->getSettings('site_profile_notifi_check');
 
 /** Setup Token for Form */
 $data['csrfToken'] = Csrf::makeToken('settings');
@@ -353,6 +357,17 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
               <span class="slider block"></span>
             </label>
             <?php echo PageFunctions::displayPopover('Online Bubble', 'Default: Enabled - When Enabled a small bubble displays next to each username with online status. Green = Online. Red = Offline.', true, 'input-group-text'); ?>
+          </div>
+          <!-- Profile notifi checker -->
+          <div class='input-group mb-3' style='margin-bottom: 25px'>
+            <div class="input-group-prepend">
+              <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Profile Notifications</span>
+            </div>
+            <label class='switch form-control'>
+              <input type="checkbox" class='form-control' id='site_profile_notifi_check' name='site_profile_notifi_check' value="true" <?php if($site_profile_notifi_check == "true"){echo "CHECKED";}?> />
+              <span class="slider block"></span>
+            </label>
+            <?php echo PageFunctions::displayPopover('Profile Notifi Checker', 'Default: Enabled - When Enabled New Users will see a info alert letting them know to update their profile.', true, 'input-group-text'); ?>
           </div>
         </div>
       </div>

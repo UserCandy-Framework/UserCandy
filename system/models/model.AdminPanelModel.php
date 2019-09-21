@@ -881,7 +881,7 @@ class AdminPanelModel extends Models {
       }
       $data = $this->db->insert(PREFIX.'links', array('title' => $title, 'url' => $url, 'alt_text' => $alt_text, 'location' => $location, 'drop_down' => $drop_down, 'require_plugin' => $require_plugin, 'link_order' => $link_order, 'permission' => $permission, 'icon' => $icon));
       if($data > 0){
-        return true;
+        return $data;
       }else{
         return false;
       }
@@ -1190,8 +1190,8 @@ class AdminPanelModel extends Models {
     * @param string $url
     * @return int inserted ID
     */
-    public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)'){
-      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments));
+    public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)', $sitemap = 'true', $template = 'Default'){
+      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'sitemap' => $sitemap, 'template' => $template));
       if($data > 0){
         return $data;
       }else{

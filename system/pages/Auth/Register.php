@@ -11,6 +11,11 @@
 if ($auth->isLogged())
 		Url::redirect();
 
+/** Get Terms and Privacy Data **/
+$AdminPanelModel = new AdminPanelModel();
+$site_terms = $AdminPanelModel->getSettings('site_terms_content');
+$site_privacy = $AdminPanelModel->getSettings('site_privacy_content');
+
 //The form is submmited
 if (isset($_POST['submit'])) {
 		// Get Post Data just in case of fail
@@ -38,10 +43,13 @@ if (isset($_POST['submit'])) {
             }
 			    }
 				}
-				/** Check to see if user agreed to Terms and Policy **/
-				if($data['agree_terms_policy'] != "true"){
-					/** Error Message Display **/
-					ErrorMessages::push(Language::show('register_error', 'Auth'), 'Register');
+				/** Check if Terms and Privacy is enabled **/
+				if(!empty($site_terms) || !empty($site_privacy)){
+					/** Check to see if user agreed to Terms and Policy **/
+					if($data['agree_terms_policy'] != "true"){
+						/** Error Message Display **/
+						ErrorMessages::push(Language::show('register_error', 'Auth'), 'Register');
+					}
 				}
 				/** Check for site user invite code **/
 				$site_user_invite_code = strip_tags( trim( Request::post('site_user_invite_code') ) );
@@ -233,9 +241,13 @@ if(isset($data['error'])) { echo ErrorMessages::display_raw($data['error']); }
 
 				<hr>
 
+				<?php
+					/** Check to see if Terms and Privacy are enabled **/
+					if(!empty($site_terms) || !empty($site_privacy)){
+				?>
 				<input type="checkbox" name="agree_terms_policy" value="true"> <?php echo Language::show('agree_terms_policy', 'Auth'); ?>
-
 				<hr>
+				<?php } ?>
 
 				<button class="btn btn-md btn-success" name="submit" type="submit">
 					<?php echo Language::show('register_button', 'Auth'); ?>

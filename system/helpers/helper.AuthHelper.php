@@ -414,6 +414,10 @@ class AuthHelper {
 								$info = array('uid1' => $user_id, 'uid2' => SITE_AUTO_FRIEND_ID, 'status1' => 1, 'status2' => 1);
 								$this->authorize->addIntoDB("plugin_friends",$info);
 							}
+              /** Add Agreement Timestamp for New User **/
+              $MembersModel = new MembersModel();
+              $MembersModel->updateUserPrivacy($user_id);
+              $MembersModel->updateUserTerms($user_id);
 							/** Check to see if Account Activation is required **/
               $account_activation = ACCOUNT_ACTIVATION;
 							if($account_activation == "true"){

@@ -18,3 +18,4 @@ custom/widgets/*
 !custom/widgets/AccountSidebar
 !custom/widgets/MembersSidebar
 system/Config.php
+system/templates/Default/Assets/js/_notes/dwsync.xml
