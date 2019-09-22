@@ -1,0 +1,19 @@
+{
+    "name": "usercandy/usercandy-framework",
+    "type": "project",
+    "description": "User Management Framework for PHP 7.1.3+",
+    "homepage": "https://github.com/UserCandy-Framework/UserCandy",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David DaVaR Sargent",
+            "email": "davar@usercandy.com",
+            "homepage": "http://www.usercandy.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.3"
+    },
+    "minimum-stability": "dev"
+}
