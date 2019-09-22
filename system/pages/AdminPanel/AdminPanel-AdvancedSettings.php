@@ -166,6 +166,54 @@ $data['csrfToken'] = Csrf::makeToken('settings');
 /** Setup Breadcrumbs */
 $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item active'><i class='fa fa-fw fa-cog'></i> ".$data['title']."</li>";
 
+/** Get list of All php time zones **/
+$list = DateTimeZone::listAbbreviations();
+$idents = DateTimeZone::listIdentifiers();
+
+$tzdata = $offset = $added = array();
+foreach ($list as $abbr => $info) {
+    foreach ($info as $zone) {
+        if ( ! empty($zone['timezone_id'])
+            AND
+            ! in_array($zone['timezone_id'], $added)
+            AND
+              in_array($zone['timezone_id'], $idents)) {
+            $z = new DateTimeZone($zone['timezone_id']);
+            $c = new DateTime(null, $z);
+            $zone['time'] = $c->format('H:i a');
+            $offset[] = $zone['offset'] = $z->getOffset($c);
+            $tzdata[] = $zone;
+            $added[] = $zone['timezone_id'];
+        }
+    }
+}
+
+array_multisort($offset, SORT_ASC, $tzdata);
+$tzoptions = array();
+foreach ($tzdata as $key => $row) {
+    $tzoptions[$row['timezone_id']] = $row['time'] . ' - '
+                                    . formatOffset($row['offset'])
+                                    . ' ' . $row['timezone_id'];
+}
+
+// now you can use $options;
+
+function formatOffset($offset) {
+    $hours = $offset / 3600;
+    $remainder = $offset % 3600;
+    $sign = $hours > 0 ? '+' : '-';
+    $hour = (int) abs($hours);
+    $minutes = (int) abs($remainder / 60);
+
+    if ($hour == 0 AND $minutes == 0) {
+        $sign = ' ';
+    }
+    return 'GMT' . $sign . str_pad($hour, 2, '0', STR_PAD_LEFT)
+            .':'. str_pad($minutes,2, '0');
+
+}
+
+
 ?>
 <div class='col-lg-12 col-md-12 col-sm-12'>
   <div class='row'>
@@ -386,7 +434,18 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
             <div class="input-group-prepend">
               <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Time Zone</span>
             </div>
-            <?php echo Form::input(array('type' => 'text', 'name' => 'default_timezone', 'class' => 'form-control', 'value' => $default_timezone, 'placeholder' => 'Default Time Zone', 'maxlength' => '255')); ?>
+
+            <select class='form-control' id='default_timezone' name='default_timezone'>
+              <?php
+                foreach ($tzoptions as $key => $value) {
+                  if($key == $default_timezone){ $selected = "SELECTED"; }else{ $selected = ""; }
+                  echo "<option value='$key' $selected />$value</option>";
+                }
+
+
+              ?>
+            </select>
+
             <?php echo PageFunctions::displayPopover('Default Site Time Zone', 'Default: America/Chicago - Default Site Time Zone. There is a list of time zones in the correct format on https://www.php.net/manual/en/timezones.php', true, 'input-group-text'); ?>
           </div>
 

@@ -36,13 +36,14 @@ if($profile){
     $data['csrfToken'] = Csrf::makeToken('status');
 
     /** Check to see if Friends Plugins is installed **/
-    if($DispenserModel->checkDispenserEnabled('Recent')){
+    if($DispenserModel->checkDispenserEnabled('Friends')){
       /** Load the Recent Model **/
-      $Recent = new Recent();
+      require(CUSTOMDIR."plugins/Friends/class.Friends.php");
+      $Friends = new Friends();
       /** Get 15 of the users friends **/
-      $data['friends'] = $Recent->getFriendsIDs($profile[0]->userID, '15');
+      $data['friends'] = $Friends->getFriendsIDs($profile[0]->userID, '15');
       /** Get 15 of the users friends **/
-      $data['mutual_friends'] = $Recent->getMutualFriendsIDs($profile[0]->userID, $currentUserData[0]->userID, '15');
+      $data['mutual_friends'] = $Friends->getMutualFriendsIDs($profile[0]->userID, $currentUserData[0]->userID, '15');
     }else{
       $data['friends_disable'] = true;
     }
@@ -86,7 +87,7 @@ $user_status = CurrentUserData::getUserStatus($data['profile']->userID);
 $user_privacy = $data['profile']->privacy_profile;
 /** Get current users relationship **/
 /* Check to see if Friends Plugin is installed, if it is show link */
-if($DispenserModel->checkDispenserEnabled('Friends') && $currentUserData[0]->username != $data['profile']->username){
+if($DispenserModel->checkDispenserEnabled('Status') && $currentUserData[0]->username != $data['profile']->username){
   /** Check to see if users are friends or if a request is pending **/
   $friends_status = CurrentUserData::getFriendStatus($currentUserData[0]->userID, $data['profile']->userID);
 }
@@ -213,7 +214,7 @@ echo "<div class='col-md-8 col-lg-8'>
 ?>
 <?php
 /** Check if Status is enabled **/
-if($data['status_disable'] != true){
+if($DispenserModel->checkDispenserEnabled('Friends')){
 ?>
     <div class='card mb-3'>
         <div class='card-header h4'>
@@ -221,9 +222,9 @@ if($data['status_disable'] != true){
         </div>
         <ul class="list-group list-group-flush">
           <?php
-            if(!empty($friends)){
+            if(!empty($data['friends'])){
               /** Get User's Friends **/
-              foreach ($friends as $friend) {
+              foreach ($data['friends'] as $friend) {
                 /** Get User's Friends Data **/
                 $friend_userName = CurrentUserData::getUserName($friend->userID);
                 $friend_userImage = CurrentUserData::getUserImage($friend->userID);
@@ -250,9 +251,9 @@ if($data['status_disable'] != true){
         </div>
         <ul class="list-group list-group-flush">
           <?php
-            if(!empty($mutual_friends)){
+            if(!empty($data['mutual_friends'])){
               /** Get User's Friends **/
-              foreach ($mutual_friends as $friend) {
+              foreach ($data['mutual_friends'] as $friend) {
                 /** Get User's Friends Data **/
                 $friend_userName = CurrentUserData::getUserName($friend);
                 $friend_userImage = CurrentUserData::getUserImage($friend);
@@ -316,7 +317,7 @@ if($data['forum_disable'] != true){
               echo "<ul class='list-group-item'>";
               echo "<a href='".SITE_URL."Profile/$f_p_user_id'>$f_p_user_name</a> created.. <br>";
               echo "<strong>";
-              echo "<a href='".SITE_URL."Topic/$url_link/' title='$f_p_title' ALT='$f_p_title'>$f_p_title</a>";
+              echo "<a href='".SITE_URL."Forum/Topic/$url_link/' title='$f_p_title' ALT='$f_p_title'>$f_p_title</a>";
               echo "</strong>";
               echo "<br>";
               //Display how long ago this was posted
@@ -331,7 +332,7 @@ if($data['forum_disable'] != true){
               echo "<ul class='list-group-item'>";
               echo "<a href='".SITE_URL."Profile/$rp_user_id2'>$rp_user_name2</a> posted on.. <br>";
               echo "<strong>";
-              echo "<a href='".SITE_URL."Topic/$url_link/' title='$f_p_title' ALT='$f_p_title'>$f_p_title</a>";
+              echo "<a href='".SITE_URL."Forum/Topic/$url_link/' title='$f_p_title' ALT='$f_p_title'>$f_p_title</a>";
               echo "</strong>";
               //Display how long ago this was posted
               $timestart = $rp_timestamp2;  //Time of post
