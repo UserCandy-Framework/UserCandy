@@ -363,4 +363,26 @@ class PageFunctions {
 		}
 	}
 
+	/**
+  * Check MetaData in DB and see if there are any changes before updating
+  */
+  public static function checkUpdateMetaData($url, $title = null, $description = null, $keywords = null, $image = null, $breadcrumbs = null){
+		self::$db = Database::get();
+    $check_url = self::$db->select("SELECT id FROM ".PREFIX."metadata WHERE url = :url LIMIT 1", array(':url' => $url));
+    if(!empty($check_url)){
+      $update_meta = self::$db->update(PREFIX."metadata", array('title' => $title, 'description' => $description, 'keywords' => $keywords, 'image' => $image, 'breadcrumbs' => $breadcrumbs), array('id' => $check_url[0]->id));
+    }else{
+      self::$db->insert(PREFIX."metadata", array('url' => $url, 'title' => $title, 'description' => $description, 'keywords' => $keywords, 'image' => $image, 'breadcrumbs' => $breadcrumbs));
+    }
+  }
+
+	/**
+	* Get Current Page MetaData from DB
+	*/
+	public static function getPageMetaData(){
+		$url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+		self::$db = Database::get();
+		return self::$db->select("SELECT * FROM ".PREFIX."metadata WHERE url = :url LIMIT 1", array(':url' => $url));
+	}
+
 }

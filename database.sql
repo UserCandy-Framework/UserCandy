@@ -129,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `uc_users` (
   `terms_view_date` TIMESTAMP NULL DEFAULT NULL,
   `privacy_view_date` TIMESTAMP NULL DEFAULT NULL,
   `SignUp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
   PRIMARY KEY (`userID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -180,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `uc_sitelogs` (
   `server` varchar(255) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 CREATE INDEX index_timestamp ON uc_sitelogs(timestamp);
 
@@ -218,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `uc_settings` (
   `setting_data` text,
   `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -286,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `uc_links` (
   `permission` int(11) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -338,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `uc_pages` (
   `edit_timestamp` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -410,7 +409,7 @@ CREATE TABLE IF NOT EXISTS `uc_pages_permissions` (
   `group_id` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -445,7 +444,7 @@ CREATE TABLE IF NOT EXISTS `uc_dispenser` (
   `enable` varchar(5) NOT NULL DEFAULT 'true',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -471,7 +470,7 @@ CREATE TABLE IF NOT EXISTS `uc_dispenser_widgets` (
   `page_id` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -491,5 +490,23 @@ INSERT INTO `uc_dispenser_widgets` (`id`, `widget_id`, `display_type`, `display_
 (9, 2, 'sidebar', 'sidebar_left', 15),
 (10, 1, 'sidebar', 'sidebar_right', 19),
 (11, 1, 'sidebar', 'sidebar_right', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uc_metadata`
+--
+
+CREATE TABLE IF NOT EXISTS `uc_metadata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `keywords` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `breadcrumbs` text,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
