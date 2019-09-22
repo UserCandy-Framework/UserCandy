@@ -35,7 +35,7 @@
           <meta property=\"og:type\" content=\"website\" />
           <meta property=\"og:title\" content=\"{$meta_output[0]->title}\" />
           <meta property=\"og:description\" content=\"{$meta_output[0]->description}\" />
-          <meta property=\"og:url\" content=\"".SITE_URL."\" />',
+          <meta property=\"og:url\" content=\"".SITE_URL."\" />
           <meta property=\"og:site_name\" content=\"".SITE_TITLE."\" />
           <meta property=\"og:image\" content=\"{$meta_output[0]->image}\"/>
           <meta name=\"twitter:card\" content=\"summary\" />
@@ -186,7 +186,7 @@
               <!-- BreadCrumbs -->
               <?php
               // Display Breadcrumbs if set
-              if(isset($meta_output[0]->breadcrumbs)){
+              if(!empty($meta_output[0]->breadcrumbs)){
                 echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
                   echo "<ol class='breadcrumb'>";
                     echo "<li class='breadcrumb-item'><a href='".SITE_URL."'>".Language::show('uc_home', 'Welcome')."</a></li>";
