@@ -16,6 +16,8 @@
     $site_wide_message = SITE_WIDE_MESSAGE;
     if(!empty($site_wide_message)){ $info_alert = $site_wide_message; }
 
+    $meta_output = PageFunctions::getPageMetaData();
+
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +26,22 @@
         <meta charset="utf-8">
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+        <?php echo "
+          <title>".SITE_TITLE." - ".$meta_output[0]->title."</title>
+          <meta name=\"keywords\" content=\"{$meta_output[0]->keywords}\">
+          <meta name=\"description\" content=\"{$meta_output[0]->description}\">
+          <link rel=\"canonical\" href=\"".SITE_URL."\" />
+          <meta property=\"og:locale\" content=\"en_US\" />
+          <meta property=\"og:type\" content=\"website\" />
+          <meta property=\"og:title\" content=\"{$meta_output[0]->title}\" />
+          <meta property=\"og:description\" content=\"{$meta_output[0]->description}\" />
+          <meta property=\"og:url\" content=\"".SITE_URL."\" />',
+          <meta property=\"og:site_name\" content=\"".SITE_TITLE."\" />
+          <meta property=\"og:image\" content=\"{$meta_output[0]->image}\"/>
+          <meta name=\"twitter:card\" content=\"summary\" />
+          <meta name=\"twitter:description\" content=\"{$meta_output[0]->description}\" />
+          <meta name=\"twitter:title\" content=\"{$meta_output[0]->title}\" />
+        ";?>
         <link rel='shortcut icon' href='<?=Url::templatePath()?>images/favicon.ico'>
         <?php
           /** Check if SITE_THEME is not default **/
@@ -166,7 +184,17 @@
               <?php if(!empty($data['underHeader'])){ echo $data['underHeader']; } ?>
 
               <!-- BreadCrumbs -->
-              <div class='col-lg-12 col-md-12 col-sm-12' id='breadcrumbs'></div>
+              <?php
+              // Display Breadcrumbs if set
+              if(isset($meta_output[0]->breadcrumbs)){
+                echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
+                  echo "<ol class='breadcrumb'>";
+                    echo "<li class='breadcrumb-item'><a href='".SITE_URL."'>".Language::show('uc_home', 'Welcome')."</a></li>";
+                    echo $meta_output[0]->breadcrumbs;
+                  echo "</ol>";
+                echo "</div>";
+              }
+              ?>
 
               <?php
               // Setup the Error and Success Messages Libs

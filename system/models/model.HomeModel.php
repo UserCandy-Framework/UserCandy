@@ -85,4 +85,5 @@ class HomeModel extends Models {
     ", array(':forum_post_id' => $forum_post_id));
     return $data[0]->fpr_timestamp;
   }
+
 }
