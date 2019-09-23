@@ -29,24 +29,40 @@ Check out the demo website at [demo.usercandy.com](https://demo.usercandy.com/)
 
 ## Requirements
 
-The UC v4 requirements are limited.
+The UserCandy server system requirements are limited.
+* Apache Web Server or equivalent with mod rewrite support.
+* IIS with URL Rewrite module installed - http://www.iis.net/downloads/microsoft/url-rewrite
+* PHP 7.1.3 or greater is required
+* fileinfo enabled (edit php.ini and uncomment php_fileinfo.dll or use php selector within cpanel if available.) mySQL Database Server or equivalent
 
-- Apache Web Server or equivalent with mod rewrite support.
-- IIS with URL Rewrite module installed - [http://www.iis.net/downloads/microsoft/url-rewrite](http://www.iis.net/downloads/microsoft/url-rewrite)
-- PHP 7.1.3 or greater is required
-- fileinfo enabled (edit php.ini and uncomment php_fileinfo.dll or use php selector within cpanel if available.)
-- mySQL Database Server or equivalent
+UserCandy has been tested on the following systems.  Others may cause issues.  Please report in Forums if you have tried a different setup.
+* Latest versions of Xammp on Windows 10
+* Latest versions of LAMP stack on Ubuntu 16.01
 
 ---
 
-# Recommended way to install (Not Complete)
+# Basic Installation
 
-UserCandy is on packagist [https://packagist.org/packages/usercandy/uc-user-management](https://packagist.org/packages/usercandy/uc-user-management)
+1. Download the latest version of UserCandy Framework from UserCandy Downloads.
+2. Unzip the UserCandy Framework zip file into your server directory. /var/www/html/ etc
+3. Open your web browser and navigate to the url for your project. https://localhost/ etc
+4. Follow the Installation instructions to create your config file and import data to database.
+5. Once you have successfully installed the UserCandy Framework be sure your the first to Register.
+6. Login to your UserCany Framework project and navigate to the AdminPanel from the dropdown by your username.
+7. Chance settings as needed to fit your needs.
+8. Enjoy your installation.  If you run into any issues please post on the UserCandy Forum.  We are happy to help.
+
+
+---
+
+# Install with Composer
+
+UserCandy is on packagist [https://packagist.org/packages/usercandy/usercandy-framework](https://packagist.org/packages/usercandy/uc-user-management)
 
 Install from terminal now by using:
 
 ```
-composer create-project usercandy/uc-user-management foldername dev-master
+composer create-project usercandy/usercandy-framework foldername dev-master
 ```
 
 The foldername is the desired folder to be created.
@@ -55,38 +71,29 @@ Once installed on your server, open the site, and it will display an install scr
 
 ---
 
-# Install Manually (Not Complete)
+# Install with everything inside your public folder (NOT Recommended)
 
 Option 1 - files above document root:
 
-* place the contents of public into your public folder (.htaccess and index.php)
-* navigate to your project in terminal and type composer install to initiate the composer install.
-* edit public/.htaccess set the rewritebase if running on a sub folder otherwise a single / will do.
-* edit app/Example-Config.php change the SITE_URL and DIR constants. the DIR path this is relative to the project url for example / for on the root or /foldername/ when in a folder. Also change other options as desired. Rename file as Config.php
-* Import the database.sql to your database (Updated table PREFIX if changed in Config.php).
-* Enjoy!
-
-Option 2 - everything inside your public folder (NOT Recommended)
-
-* place all files inside your public folder
-* navigate to the public folder in terminal and type composer install to initiate the composer install.
-* open index.php and change the paths from using DIR to FILE:
+1. Download the latest version of UserCandy Framework from UserCandy Downloads.
+2. Move index.php and .htaccess files to the webroot folder.
+3. Open index.php and change the paths from using DIR to FILE:
 
 ````
-define('APPDIR', realpath(__DIR__.'/app/').'/');
-define('SYSTEMDIR', realpath(__DIR__.'/system/').'/');
-define('PUBLICDIR', realpath(__DIR__).'/');
 define('ROOTDIR', realpath(__DIR__).'/');
+define('SYSTEMDIR', realpath(__DIR__.'/system/').'/');
+define('CUSTOMDIR', realpath(__DIR__.'/custom/').'/');
 ````
 
-* edit .htaccess set the rewritebase if running on a sub folder otherwise a single / will do.
-* edit system/Core/Example-Config.php change the SITE_URL and DIR constants. the DIR path this is relative to the project url for example / for on the root or /foldername/ when in a folder. Also change other options as desired. Rename file as Config.php
-* Import the database.sql to your database (Updated table PREFIX if changed in Config.php).
-* Enjoy!
+4. Edit .htaccess set the rewritebase if running on a sub folder otherwise a single / will do.
+5. Edit /system/Example-Config.php settings to connect to your database. Refer to UserCandy Docs.
+6. Rename the Example-Config.php to Config.php
+7. Import the database.sql to your database (Updated table PREFIX if changed in Config.php).
+8. Enjoy!
 
 ---
 
-##Setting up a VirtualHost (Optional but recommended)
+# Setting up a VirtualHost (Optional but recommended)
 
 Navigate to:
 ````
