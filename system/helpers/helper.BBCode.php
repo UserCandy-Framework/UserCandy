@@ -10,7 +10,7 @@
 class BBCode
 {
 
-    // Convert BBCode to HTML Output
+    /** Convert BBCode to HTML Output **/
     public static function getHtml($str){
       $bb[] = "#\[b\](.*?)\[/b\]#si";
       $html[] = "<b>\\1</b>";
@@ -36,6 +36,11 @@ class BBCode
       $str=preg_replace($patern, $replace, $str);
       //$str=nl2br($str);
       return $str;
+    }
+
+    /** BBCode Buttons **/
+    public static function showButtons($id_name = null){
+      //ToDo - Setup so that Buttons can be called and keep universal look
     }
 
 }
