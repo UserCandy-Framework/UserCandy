@@ -9,7 +9,6 @@
 * @author David Carr - dave@daveismyname.com
 */
 
-use PhpMailer\Mail;
 /**
  * Record and email/display errors or a custom error message.
  */

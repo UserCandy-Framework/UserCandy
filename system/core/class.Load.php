@@ -40,7 +40,6 @@ class Load {
           $user_data['currentUserData'] = $usersModel->getCurrentUserData($u_id);
           $user_data['isAdmin'] = $usersModel->checkIsAdmin($u_id);
           $user_data['current_userID'] = $u_id;
-
           /** Check if Site Profile Notifications are enabled **/
           $site_profile_notifi_check = $AdminPanelModel->getSettings('site_profile_notifi_check');
           if($site_profile_notifi_check == "true"){
@@ -69,25 +68,22 @@ class Load {
         /** Check to if Terms and Privacy are enabled **/
         $user_data['terms_enabled'] = $usersModel->checkSiteSetting('site_terms_content');
         $user_data['privacy_enabled'] = $usersModel->checkSiteSetting('site_privacy_content');
-
+        /** Check to see if the Template is set **/
         (empty($template)) ? $template = DEFAULT_TEMPLATE : "";
         $data = array_merge($user_data, $viewVars);
         /** Extract the $data array to vars **/
         extract($user_data);
         extract($viewVars);
-
         /* Setup Main View File */
         if(!preg_match('/(\.php)$/i', $viewFile)){
             $viewFile .= ".php";
         }
         $viewFile = str_replace("::", "", $viewFile);
         $viewFile = $viewFile;
-
         /** Check to see if $viewFile is Error Page **/
         if($viewFile == 'HomeError.php'){
           $viewFile = SYSTEMDIR."pages/Home/Error.php";
         }
-
         /** Check for sidebar widgets based on page_id **/
         $viewFileData = explode("/", $viewFile);
         $viewFileDataSlice = array_slice($viewFileData, -2, 2);
@@ -97,25 +93,23 @@ class Load {
         }else{
           $cur_pagefolder = $viewFileDataSlice[0];
         }
+        /** Remove the .php extension from the page file if it exist **/
         $cur_pagefile = str_replace(".php", "", $viewFileDataSlice[1]);
+        /** Get the current page ID from the pages db **/
         $cur_page_id = $DispenserModel->getCurrentPageID($cur_pagefolder, $cur_pagefile);
-//        var_dump($cur_page_id, $cur_pagefolder, $cur_pagefile, $viewFileDataSlice, $viewFile, $viewFileData);
+        /** Check to see if a Widget is enabled for the current page **/
         if($get_widget_data = $DispenserModel->getWidgetByPage($cur_page_id)){
-//          var_dump($get_widget_data);
+          /** Check to see if the widget has data **/
           if(isset($get_widget_data)){
             foreach ($get_widget_data as $widget_data) {
               if($get_dispenser_data = $DispenserModel->getDispenserData($widget_data->widget_id)){
-//                var_dump($get_dispenser_data);
                 /** Check if widget is a sidebar **/
                 if($widget_data->display_type == 'sidebar'){
                   $sidebarFileDir = CUSTOMDIR."widgets/".$get_dispenser_data[0]->folder_location."/display.php";
                   if(file_exists($sidebarFileDir)){
                     $sidebarFile = $sidebarFileDir;
                     $sidebarLocation = $widget_data->display_location;
-//                  var_dump($sidebarFile, $sidebarLocation);
-
-                    /** Put the Files into an Array **/
-                    /* Setup Sidebar File */
+                    /* Add the widget to the sidebar if the file exist */
                     if(!empty($sidebarFile)){
                         ($sidebarLocation == "sidebar_right") ? $rightSidebar[] = $sidebarFile : "";
                         ($sidebarLocation == "sidebar_left") ? $leftSidebar[] = $sidebarFile : "";
@@ -126,7 +120,6 @@ class Load {
             }
           }
         }
-        /* Check to see if $_POST['hide_head_foot'] == true */
         /* Setup Template Files */
         if($_POST['hide_head_foot'] == "true"){
             $templateHeader = "";
@@ -138,50 +131,41 @@ class Load {
             $templateHeader = "";
             $templateFooter = "";
         }
-        /* todo - setup a file checker that sends error to log file or something if something is missing */
-
-
         /* Load files needed to make the page work */
-        /* Load Header File */
-        (!empty($templateHeader)) ? require_once $templateHeader : "";
-
+        /* Load Header File if exists */
+        (file_exists($templateHeader)) ? require_once $templateHeader : "";
         /* Check for Left Sidebar and load files if needed */
         if(isset($leftSidebar)){
           echo "<div class='col-lg-3 col-md-3 col-sm-12'>";
           foreach ($leftSidebar as $lsb) {
-            (isset($lsb)) ? require_once $lsb : "";
+            (file_exists($lsb)) ? require_once $lsb : "";
           }
           echo "</div>";
         }
-
         /* Add Col if Sidebars are set */
         if(isset($leftSidebar) && isset($rightSidebar)){
           echo "<div class='col-lg-6 col-md-6 col-sm-12 p-0 m-0'>";
         }else if(isset($leftSidebar) || isset($rightSidebar)){
           echo "<div class='col-lg-9 col-md-9 col-sm-12 p-0 m-0'>";
         }
-
         /* Load Display Page File */
         require_once $viewFile;
-
         /* Add Col if Sidebars are set */
         if(isset($leftSidebar) || isset($rightSidebar)){
           echo "</div>";
         }
-
         /* Check for Left Sidebar and load files if needed */
         if(isset($rightSidebar)){
           echo "<div class='col-lg-3 col-md-3 col-sm-12'>";
           foreach ($rightSidebar as $rsb) {
-            (isset($rsb)) ? require_once $rsb : "";
+            (file_exists($rsb)) ? require_once $rsb : "";
           }
           echo "</div>";
         }
-
         /* Load Footer File */
-        (!empty($templateFooter)) ? require_once $templateFooter : "";
-
-        if(!empty($templateHeader)){
+        (file_exists($templateFooter)) ? require_once $templateFooter : "";
+        /** Make sure the Template Header File exists before setting up Meta Data **/
+        if(file_exists($templateHeader)){
           /** Get Meta Data From Page **/
           $current_page_url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
           if(!empty($data['title'])){ $meta['title'] = $data['title']; }
@@ -192,12 +176,8 @@ class Load {
           (empty($meta['keywords'])) ? $meta['keywords'] = SITE_KEYWORDS : $meta['keywords'] = $meta['keywords'];
           (empty($meta['image'])) ? $meta['image'] = "" : $meta['image'] = $meta['image'];
           (empty($data['breadcrumbs'])) ? $data['breadcrumbs'] = "" : $data['breadcrumbs'] = $data['breadcrumbs'];
-
           /** Send Meta Data to DB For Future Use **/
           $PageFunctions->checkUpdateMetaData($current_page_url, $meta['title'], $meta['description'], $meta['keywords'], $meta['image'], $data['breadcrumbs']);
-
         }
-
     }
-
 }

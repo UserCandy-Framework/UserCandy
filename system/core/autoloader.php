@@ -21,14 +21,6 @@ spl_autoload_register(function($class_name) {
         SYSTEMDIR.'helpers/PhpMailer/', // PhpMailer Classes
     );
 
-    // Search Subfolders of each main folder TODO
-    // foreach ($dirs as $dir) {
-    //   var_dump($dir);
-    //   $dirs_load[] = array_filter(glob($dir), 'is_dir');
-    //
-    //   var_dump($dirs_load);
-    // }
-
     // Looping through each directory to load all the class files. It will only require a file once.
     // If it finds the same class in a directory later on, IT WILL IGNORE IT! Because of that require once!
     foreach( $dirs as $dir ) {

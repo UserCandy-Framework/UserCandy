@@ -15,5 +15,4 @@ class Models {
         /** Connect to PDO for all models. */
         $this->db = Database::get();
     }
-
 }

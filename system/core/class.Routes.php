@@ -9,14 +9,12 @@
 */
 
 /*
-* Router::run($url, $pagefolder, $pagefile, $params);
-* Router::run('Home', 'Home', '');
+* self::add($url, $pagefolder, $pagefile, $params);
+* self::add('Home', 'Home', '');
 */
 
 class Routes {
 
-    private $forum;
-    private $forum_on_off;
     private static $db;
 
     static function setRoutes(){
