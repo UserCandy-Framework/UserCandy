@@ -44,7 +44,14 @@ if($action == "Install" && !empty($folder)){
     }
     /** Insert Helper to Dispenser Database **/
     if($DispenserModel->insertDispenser($xmlinstall->NAME, $xmlinstall->TYPE, $xmlinstall->FOLDER_LOCATION, $xmlinstall->VERSION)){
-      $install_status = 'Success';
+      /** Send data to the Database **/
+      if(isset($install_db_data)){
+        if($db_update_status = $DispenserModel->updateDatabase($install_db_data)){
+            $install_status = 'Success';
+        }
+      }else{
+        $install_status = 'Success';
+      }
     }
   }
   if($install_status == 'Success'){

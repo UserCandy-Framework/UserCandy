@@ -36,6 +36,3 @@ $language = new Language();
 /** Set userID to 0 if null **/
 if(!isset($u_id)){$u_id='0';}
 $PageFunctions->systemPagePermission($u_id);
-
-/* Run the Core Loader */
-require(SYSTEMDIR.'core/customhelperloader.php');
