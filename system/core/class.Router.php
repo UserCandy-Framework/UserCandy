@@ -160,13 +160,26 @@ class Router {
 
     private function findRoute(){
         $uri = Router::uri(0);
-        if(empty($uri)){
-            $route = array(
-                "url" => "",
-                "pagefolder" => DEFAULT_HOME_PAGE_FOLDER,
-                "pagefile" => DEFAULT_HOME_PAGE,
-                "headfoot" => true,
-            );
+        if(empty($uri) || $uri == "Home"){
+            /** Check to see if user is logged in and has set logged in pages **/
+            $dhpl = DEFAULT_HOME_PAGE_LOGIN;
+            $dhpfl = DEFAULT_HOME_PAGE_FOLDER_LOGIN;
+            $auth = new AuthHelper();
+            if(!empty($dhpl) && !empty($dhpfl) & $auth->isLogged()){
+              $route = array(
+                  "url" => "",
+                  "pagefolder" => $dhpfl,
+                  "pagefile" => $dhpl,
+                  "headfoot" => true,
+              );
+            }else{
+              $route = array(
+                  "url" => "",
+                  "pagefolder" => DEFAULT_HOME_PAGE_FOLDER,
+                  "pagefile" => DEFAULT_HOME_PAGE,
+                  "headfoot" => true,
+              );
+            }
             return $route;
         }
         foreach ($this->routes as $route) {
