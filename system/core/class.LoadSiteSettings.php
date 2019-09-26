@@ -47,6 +47,10 @@ class LoadSiteSettings {
           define('DEFAULT_HOME_PAGE_FOLDER', "Home");
         }
 
+        /** Define Default Home Page and Folder **/
+        define('DEFAULT_HOME_PAGE_LOGIN', $this->model->getSettings('default_home_page_login'));
+        define('DEFAULT_HOME_PAGE_FOLDER_LOGIN', $this->model->getSettings('default_home_page_folder_login'));
+
         /********************
          *                  *
          *      EMAIL       *

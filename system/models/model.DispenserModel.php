@@ -330,7 +330,7 @@ class DispenserModel extends Models {
   */
   public function updateDatabase($db_data){
     /** Inserting Raw Data to Database - $db_data must be an array **/
-    if(isset($db_data)){
+    if(!empty($db_data)){
       /** Go through the Array and update the database **/
       foreach ($db_data as $data) {
         /** Send the data to the database **/

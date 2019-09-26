@@ -69,6 +69,8 @@ if(isset($_POST['submit'])){
             $site_auto_friend_id = Request::post('site_auto_friend_id');
             $default_home_page = Request::post('default_home_page');
             $default_home_page_folder = Request::post('default_home_page_folder');
+            $default_home_page_login = Request::post('default_home_page_login');
+            $default_home_page_folder_login = Request::post('default_home_page_folder_login');
             $site_profile_notifi_check = Request::post('site_profile_notifi_check');
             if($site_profile_notifi_check != 'true'){ $site_profile_notifi_check = 'false'; }
 
@@ -98,6 +100,8 @@ if(isset($_POST['submit'])){
             if(!$AdminPanelModel->updateSetting('site_auto_friend_id', $site_auto_friend_id)){ $errors[] = 'site_auto_friend_id Error'; }
             if(!$AdminPanelModel->updateSetting('default_home_page', $default_home_page)){ $errors[] = 'default_home_page Error'; }
             if(!$AdminPanelModel->updateSetting('default_home_page_folder', $default_home_page_folder)){ $errors[] = 'default_home_page_folder Error'; }
+            if(!$AdminPanelModel->updateSetting('default_home_page_login', $default_home_page_login)){ $errors[] = 'default_home_page_login Error'; }
+            if(!$AdminPanelModel->updateSetting('default_home_page_folder_login', $default_home_page_folder_login)){ $errors[] = 'default_home_page_folder_login Error'; }
             if(!$AdminPanelModel->updateSetting('site_profile_notifi_check', $site_profile_notifi_check)){ $errors[] = 'site_profile_notifi_check Error'; }
 
             // Run the update settings script
@@ -158,6 +162,8 @@ $site_auto_friend = $AdminPanelModel->getSettings('site_auto_friend');
 $site_auto_friend_id = $AdminPanelModel->getSettings('site_auto_friend_id');
 $default_home_page = $AdminPanelModel->getSettings('default_home_page');
 $default_home_page_folder = $AdminPanelModel->getSettings('default_home_page_folder');
+$default_home_page_login = $AdminPanelModel->getSettings('default_home_page_login');
+$default_home_page_folder_login = $AdminPanelModel->getSettings('default_home_page_folder_login');
 $site_profile_notifi_check = $AdminPanelModel->getSettings('site_profile_notifi_check');
 
 /** Setup Token for Form */
@@ -618,6 +624,29 @@ function formatOffset($offset) {
             <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Folder</span>
           </div>
           <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_folder', 'class' => 'form-control', 'value' => $default_home_page_folder, 'placeholder' => 'Default Home Page', 'maxlength' => '255')); ?>
+          <?php echo PageFunctions::displayPopover('Default Home Page Folder', 'Default: Blank.  Loads the Home.php page from /system/pages/Home/ folder.', true, 'input-group-text'); ?>
+        </div>
+
+        <hr>
+
+        <!-- Default Home Page Logged In -->
+        <div class='input-group mb-3' style='margin-bottom: 25px'>
+          <div class="input-group-prepend">
+            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Logged In</span>
+          </div>
+          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_login', 'class' => 'form-control', 'value' => $default_home_page_login, 'placeholder' => 'Default Home Page When Logged In', 'maxlength' => '255')); ?>
+          <?php echo PageFunctions::displayPopover('Default Home Page Logged In', 'Default: Blank.  Loads the Home.php page from /system/pages/ folder.', true, 'input-group-text'); ?>
+        </div>
+        <div style='margin-bottom: 25px'>
+
+        </div>
+
+        <!-- Default Home Page Folder Logged In -->
+        <div class='input-group mb-3' style='margin-bottom: 25px'>
+          <div class="input-group-prepend">
+            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Folder Logged In</span>
+          </div>
+          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_folder_login', 'class' => 'form-control', 'value' => $default_home_page_folder_login, 'placeholder' => 'Default Home Page Folder When Logged In', 'maxlength' => '255')); ?>
           <?php echo PageFunctions::displayPopover('Default Home Page Folder', 'Default: Blank.  Loads the Home.php page from /system/pages/Home/ folder.', true, 'input-group-text'); ?>
         </div>
 
