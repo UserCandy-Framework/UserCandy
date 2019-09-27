@@ -606,48 +606,37 @@ function formatOffset($offset) {
       </div>
       <div class='card-body'>
 
+        <?php
+          /** Get All Pages Data */
+          $all_pages_data = $AdminPanelModel->getAllPages('URL-ASC');
+        ?>
+
         <!-- Default Home Page -->
         <div class='input-group mb-3' style='margin-bottom: 25px'>
           <div class="input-group-prepend">
-            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page</span>
+            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Home Page</span>
           </div>
-          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page', 'class' => 'form-control', 'value' => $default_home_page, 'placeholder' => 'Default Home Page', 'maxlength' => '255')); ?>
-          <?php echo PageFunctions::displayPopover('Default Home Page', 'Default: Blank.  Loads the Home.php page from /system/pages/ folder.', true, 'input-group-text'); ?>
+          <select class='form-control' id='default_home_page' name='default_home_page'>
+            <option value='' <?php if($default_home_page == ""){echo "SELECTED";}?> >Default to Home Page</option>
+            <?php if(!empty($all_pages_data)){ foreach ($all_pages_data as $pagedata) { ?>
+              <option value='<?=$pagedata->id?>' <?php if($default_home_page == $pagedata->id){echo "SELECTED";}?> >URL: <?=$pagedata->url?></option>
+            <?php }} ?>
+          </select>
+          <?php echo PageFunctions::displayPopover('Default Home Page', 'Default: Default to Home Page.  Loads the Home.php page from /system/pages/ folder.', true, 'input-group-text'); ?>
         </div>
-        <div style='margin-bottom: 25px'>
-
-        </div>
-
-        <!-- Default Home Page Folder -->
-        <div class='input-group mb-3' style='margin-bottom: 25px'>
-          <div class="input-group-prepend">
-            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Folder</span>
-          </div>
-          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_folder', 'class' => 'form-control', 'value' => $default_home_page_folder, 'placeholder' => 'Default Home Page', 'maxlength' => '255')); ?>
-          <?php echo PageFunctions::displayPopover('Default Home Page Folder', 'Default: Blank.  Loads the Home.php page from /system/pages/Home/ folder.', true, 'input-group-text'); ?>
-        </div>
-
-        <hr>
 
         <!-- Default Home Page Logged In -->
         <div class='input-group mb-3' style='margin-bottom: 25px'>
           <div class="input-group-prepend">
-            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Logged In</span>
+            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Home Page Logged In</span>
           </div>
-          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_login', 'class' => 'form-control', 'value' => $default_home_page_login, 'placeholder' => 'Default Home Page When Logged In', 'maxlength' => '255')); ?>
-          <?php echo PageFunctions::displayPopover('Default Home Page Logged In', 'Default: Blank.  Loads the Home.php page from /system/pages/ folder.', true, 'input-group-text'); ?>
-        </div>
-        <div style='margin-bottom: 25px'>
-
-        </div>
-
-        <!-- Default Home Page Folder Logged In -->
-        <div class='input-group mb-3' style='margin-bottom: 25px'>
-          <div class="input-group-prepend">
-            <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> Default Home Page Folder Logged In</span>
-          </div>
-          <?php echo Form::input(array('type' => 'text', 'name' => 'default_home_page_folder_login', 'class' => 'form-control', 'value' => $default_home_page_folder_login, 'placeholder' => 'Default Home Page Folder When Logged In', 'maxlength' => '255')); ?>
-          <?php echo PageFunctions::displayPopover('Default Home Page Folder', 'Default: Blank.  Loads the Home.php page from /system/pages/Home/ folder.', true, 'input-group-text'); ?>
+          <select class='form-control' id='default_home_page_login' name='default_home_page_login'>
+            <option value='' <?php if($default_home_page_login == ""){echo "SELECTED";}?> >Default to Home Page</option>
+            <?php if(!empty($all_pages_data)){ foreach ($all_pages_data as $pagedata) { ?>
+              <option value='<?=$pagedata->id?>' <?php if($default_home_page_login == $pagedata->id){echo "SELECTED";}?> >URL: <?=$pagedata->url?></option>
+            <?php }} ?>
+          </select>
+          <?php echo PageFunctions::displayPopover('Default Home Page Logged In', 'Default: Default to Home Page.  Loads the Home.php page from /system/pages/ folder.', true, 'input-group-text'); ?>
         </div>
 
       </div>
