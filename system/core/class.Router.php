@@ -162,21 +162,32 @@ class Router {
         $uri = Router::uri(0);
         if(empty($uri) || $uri == "Home"){
             /** Check to see if user is logged in and has set logged in pages **/
-            $dhpl = DEFAULT_HOME_PAGE_LOGIN;
-            $dhpfl = DEFAULT_HOME_PAGE_FOLDER_LOGIN;
-            $auth = new AuthHelper();
-            if(!empty($dhpl) && !empty($dhpfl) & $auth->isLogged()){
+            $dhp = DEFAULT_HOME_PAGE;
+            if(!empty($dhp)){
+              $dhpl = DEFAULT_HOME_PAGE_LOGIN;
+              $auth = new AuthHelper();
+              $AdminPanelModel = new AdminPanelModel();
+              if(!empty($dhpl) && $auth->isLogged()){
+                $page_data = $AdminPanelModel->getPage($dhpl);
+              }else{
+                $page_data = $AdminPanelModel->getPage($dhp);
+              }
+              if($page_data[0]->headfoot == 1){
+                $headfoot = true;
+              }else{
+                $headfoot = false;
+              }
               $route = array(
                   "url" => "",
-                  "pagefolder" => $dhpfl,
-                  "pagefile" => $dhpl,
-                  "headfoot" => true,
+                  "pagefolder" => $page_data[0]->pagefolder,
+                  "pagefile" => $page_data[0]->pagefile,
+                  "headfoot" => $headfoot,
               );
             }else{
               $route = array(
                   "url" => "",
-                  "pagefolder" => DEFAULT_HOME_PAGE_FOLDER,
-                  "pagefile" => DEFAULT_HOME_PAGE,
+                  "pagefolder" => "Home",
+                  "pagefile" => "Home",
                   "headfoot" => true,
               );
             }

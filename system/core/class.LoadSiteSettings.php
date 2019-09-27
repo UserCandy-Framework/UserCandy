@@ -36,20 +36,11 @@ class LoadSiteSettings {
         if(!empty($default_home_page)){
           define('DEFAULT_HOME_PAGE', $default_home_page);
         }else{
-          define('DEFAULT_HOME_PAGE', "Home");
-        }
-
-        /* Define Default Home Page Folder */
-        $default_home_page_folder = $this->model->getSettings('default_home_page_folder');
-        if(!empty($default_home_page_folder)){
-          define('DEFAULT_HOME_PAGE_FOLDER', $default_home_page_folder);
-        }else{
-          define('DEFAULT_HOME_PAGE_FOLDER', "Home");
+          define('DEFAULT_HOME_PAGE', "");
         }
 
         /** Define Default Home Page and Folder **/
         define('DEFAULT_HOME_PAGE_LOGIN', $this->model->getSettings('default_home_page_login'));
-        define('DEFAULT_HOME_PAGE_FOLDER_LOGIN', $this->model->getSettings('default_home_page_folder_login'));
 
         /********************
          *                  *
