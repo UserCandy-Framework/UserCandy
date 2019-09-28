@@ -14,9 +14,11 @@
 
 	/** Checks to see if current page is in Dispenser **/
 	$current_page = $_SERVER['REQUEST_URI'];
-	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser-Widgets' || $current_page == '/AdminPanel-Dispenser-Plugins' || $current_page == '/AdminPanel-Dispenser-Themes' || $current_page == '/AdminPanel-Dispenser-Helpers'){
+	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers'){
 		$show = "show";
 	}
+
+	$meta_output = PageFunctions::getPageMetaData();
 
 ?>
 
@@ -26,7 +28,7 @@
     <meta charset="utf-8">
 		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?php echo $title.' - '.SITE_TITLE.' Admin Panel';?></title>
+    <title><?php echo $meta_output[0]->title.' - '.SITE_TITLE.' Admin Panel';?></title>
 		<link rel='shortcut icon' href='<?=Url::templatePath()?>images/favicon.ico'>
     <?=Assets::css([
 		'https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
@@ -72,16 +74,16 @@
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Settings"><i class="fa fa-fw fa-cog"></i> Settings</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Widgets"><i class="fa fa-fw fa-puzzle-piece"></i> Widgets</a>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Widgets"><i class="fa fa-fw fa-puzzle-piece"></i> Widgets</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Plugins"><i class="fa fa-fw fa-plug"></i> Plug-Ins</a>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Plugins"><i class="fa fa-fw fa-plug"></i> Plug-Ins</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Themes"><i class="fas fa-folder-plus"></i> Themes</a>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Themes"><i class="fas fa-folder-plus"></i> Themes</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Helpers"><i class="fas fa-plus-square"></i> Helpers</a>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Helpers"><i class="fas fa-plus-square"></i> Helpers</a>
 						</li>
 					</ul>
 				</li>
@@ -162,7 +164,17 @@
     <div class="container-fluid">
 			<div class="row">
 				<!-- BreadCrumbs -->
-				<div class='col-lg-12 col-md-12 col-sm-12' id='breadcrumbs'></div>
+				<?php
+				// Display Breadcrumbs if set
+				if(!empty($meta_output[0]->breadcrumbs)){
+					echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
+						echo "<ol class='breadcrumb'>";
+							echo "<li class='breadcrumb-item'><a href='".SITE_URL."'>".Language::show('uc_home', 'Welcome')."</a></li>";
+							echo $meta_output[0]->breadcrumbs;
+						echo "</ol>";
+					echo "</div>";
+				}
+				?>
 			</div>
 
 	<div class="row">
