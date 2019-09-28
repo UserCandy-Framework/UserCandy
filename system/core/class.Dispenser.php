@@ -87,4 +87,30 @@ class Dispenser {
         return false;
       }
     }
+
+    /** Function to get item data from UserCandy Dispensary **/
+    public function getItemDataFromDispensary($dispenser_api_key, $type, $folder_location){
+      if(!empty($dispenser_api_key)){
+        $url = "https://www.usercandy.com/Dispensary/currentversion/".$dispenser_api_key."/".$type."/".$folder_location;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL,$url);
+        $result=curl_exec($ch);
+        curl_close($ch);
+        if($result){
+          $server_data = json_decode($result, true);
+          if($server_data['error']){
+            return false;
+          }else{
+            return $server_data;
+          }
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }
+
 }

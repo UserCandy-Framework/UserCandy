@@ -159,10 +159,10 @@ class DispenserModel extends Models {
   * @return boolean true/false
   */
 	public function updateDispenserVersion($id = null, $version = null){
-		// Update users table
+		/** Update users table **/
 		$query = $this->db->update(PREFIX.'dispenser', array('version' => $version), array('id' => $id));
 		if($query > 0){
-			return true;
+		 	return true;
 		}else{
 			return false;
 		}
@@ -328,21 +328,47 @@ class DispenserModel extends Models {
   * @param $db_data
   * @return string data
   */
-  public function updateDatabase($db_data){
-    /** Inserting Raw Data to Database - $db_data must be an array **/
-    if(!empty($db_data)){
-      /** Go through the Array and update the database **/
-      foreach ($db_data as $data) {
-        /** Send the data to the database **/
-        $query = $this->db->upgrade($data);
-        if($query > 0){
-          $output[] = "Data Updated in Database.";
+  public function updateDatabase($db_data, $current_version = null, $new_version = null){
+    if(isset($current_version) && isset($new_version)){
+      /** Inserting Raw Data to Database - $db_data must be an array **/
+      $new_version = current($new_version);
+      foreach ($db_data as $key => $value) {
+        if(is_array($value)){
+          $query_version = key($value);
         }else{
-          $output[] = "<font color='red'>Error With the following Query</font><Br>$db_data";
+          $query_version = $value;
+        }
+        if($query_version > $current_version && $query_version <= $new_version){
+          $db_data_sort[] = current($value);
         }
       }
+      if(!empty($db_data_sort)){
+        /** Go through the Array and update the database **/
+        foreach ($db_data_sort as $key => $data) {
+          /** Send the data to the database **/
+          if($query = $this->db->raw($data)){
+            $output[] = "Data Updated in Database.<br><i><small>$data</small></i><br>";
+          }else{
+            $output[] = "<font color='red'>Error With the following Query<Br><i><small>$data</small></i></font><br>";
+          }
+        }
+      }else{
+        $output[] = "No Data Found to Insert to Database.";
+      }
     }else{
-      $output[] = "No Data Fround to Insert to Database.";
+      if(!empty($db_data)){
+        /** Go through the Array and update the database **/
+        foreach ($db_data as $data) {
+          /** Send the data to the database **/
+          if($query = $this->db->raw($data)){
+            $output[] = "Data Updated in Database.<br><i><small>$data</small></i><br>";
+          }else{
+            $output[] = "<font color='red'>Error With the following Query<Br><i><small>$data</small></i></font><br>";
+          }
+        }
+      }else{
+        $output[] = "No Data Found to Insert to Database.";
+      }
     }
     return $output;
   }

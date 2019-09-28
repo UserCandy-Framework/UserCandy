@@ -79,10 +79,7 @@ class Routes {
         $routes[] = self::add('AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', '(:num)');
         $routes[] = self::add('AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy');
         $routes[] = self::add('AdminPanel-Dispenser-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Settings');
-        $routes[] = self::add('AdminPanel-Dispenser-Widgets', 'AdminPanel', 'AdminPanel-Dispenser-Widgets', '(:any)/(:any)/(:any)');
-        $routes[] = self::add('AdminPanel-Dispenser-Plugins', 'AdminPanel', 'AdminPanel-Dispenser-Plugins', '(:any)/(:any)/(:any)');
-        $routes[] = self::add('AdminPanel-Dispenser-Themes', 'AdminPanel', 'AdminPanel-Dispenser-Themes', '(:any)/(:any)/(:any)');
-        $routes[] = self::add('AdminPanel-Dispenser-Helpers', 'AdminPanel', 'AdminPanel-Dispenser-Helpers', '(:any)/(:any)/(:any)');
+        $routes[] = self::add('AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', '(:any)/(:any)/(:any)/(:any)');
         $routes[] = self::add('AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', '(:num)/(:num)');
         /* End Admin Panel Routing */
 
