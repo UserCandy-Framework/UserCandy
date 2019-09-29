@@ -179,7 +179,7 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
 .fit-image{
 width: 250px;
 object-fit: cover;
-height: 200px; /* only if you want fixed height */
+height: 250px; /* only if you want fixed height */
 }
 </style>
 <div class='col-lg-12 col-md-12 col-sm-12'>

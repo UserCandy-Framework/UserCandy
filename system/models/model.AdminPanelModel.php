@@ -887,6 +887,21 @@ class AdminPanelModel extends Models {
       }
     }
 
+    public function addSiteLinkDispenser($title, $location, $permission = 0, $icon = null, $drop_down = '0'){
+      $link_order_last = SELF::getSiteLinksLastID($location);
+      if(isset($link_order_last)){
+        $link_order = $link_order_last + 1;
+      }else{
+        $link_order = "1";
+      }
+      $data = $this->db->insert(PREFIX.'links', array('title' => $title, 'url' => $title, 'alt_text' => $title, 'location' => $location, 'drop_down' => $drop_down, 'require_plugin' => $title, 'link_order' => $link_order, 'permission' => $permission, 'icon' => $icon));
+      if($data > 0){
+        return $data;
+      }else{
+        return false;
+      }
+    }
+
     /**
     * updates Site Link in Database
     * @param int $id
