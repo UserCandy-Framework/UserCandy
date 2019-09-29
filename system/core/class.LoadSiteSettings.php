@@ -184,9 +184,13 @@ class LoadSiteSettings {
           *                *
           *****************/
           // Sweets Purl Display
-          define('SWEET_TITLE_DISPLAY', $this->model->getSettings('sweet_title_display'));
+          $sweet_title_display = $this->model->getSettings('sweet_title_display');
+          if(empty($sweet_title_display)){ $sweet_title_display = "Sweets"; }
+          define('SWEET_TITLE_DISPLAY', $sweet_title_display);
           // Sweets Singular Button Display
-          define('SWEET_BUTTON_DISPLAY', $this->model->getSettings('sweet_button_display'));
+          $sweet_button_display = $this->model->getSettings('sweet_button_display');
+          if(empty($sweet_button_display)){ $sweet_button_display = "Sweet"; }
+          define('SWEET_BUTTON_DISPLAY', $sweet_button_display);
           /*****************
            *                *
            *    Images      *

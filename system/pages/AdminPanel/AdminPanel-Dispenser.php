@@ -185,6 +185,25 @@ if($action == "Install" && !empty($folder)){
     /** Success */
     ErrorMessages::push('There was an Error Downloading a '.$page_single, 'AdminPanel-Dispenser/'.$page);
   }
+}else if($action == "Activate" && !empty($folder)){
+  $load_update_file = CUSTOMDIR."themes/$folder/update.php";
+  if(file_exists($load_update_file)){
+    /** Get Data from info.xml file for DB **/
+    $load_info_file_u = CUSTOMDIR."themes/$folder/info.xml";
+    if(file_exists($load_info_file_u)){
+      /** Update Site Theme in DB **/
+      if($AdminPanelModel->updateSetting('site_theme', $folder)){
+        $update_status = "Success";
+      }
+    }
+  }
+  if($update_status == 'Success'){
+    /** Success */
+    SuccessMessages::push('You Have Successfully Updated a Theme', 'AdminPanel-Dispenser/Themes');
+  }else{
+    /** Success */
+    ErrorMessages::push('There was an Error Updating a Theme', 'AdminPanel-Dispenser/Themes');
+  }
 }
 
 /** Get data for dashboard */
@@ -210,6 +229,11 @@ if(isset($get_dirs)){
       $xml[]=simplexml_load_file($load_info_file);
     }
   }
+}
+
+/** Check if Theme **/
+if($page == "Themes"){
+  $site_theme = $AdminPanelModel->getSettings('site_theme');
 }
 
 /** Setup Breadcrumbs */
@@ -285,6 +309,12 @@ height: 250px; /* only if you want fixed height */
                                 if($item_data[0]->enable == 'true'){
                                   if($page == "Widgets"){
                                     echo " <a href='".SITE_URL."AdminPanel-Dispenser-Widgets-Settings/{$item_data[0]->id}/' class='btn btn-primary btn-sm'>Settings</a> ";
+                                  }else if($page == "Themes"){
+                                    if($site_theme == $xmldata->FOLDER_LOCATION){
+                                      echo " <font color='green'>Active Theme</font> <Br>";
+                                    }else{
+                                      echo " <a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Activate</a> ";
+                                    }
                                   }
                                   echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Disable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-warning btn-sm'>Disable</a>";
                                 }else{
@@ -295,6 +325,12 @@ height: 250px; /* only if you want fixed height */
                                 echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm'>Install</a>";
                               }
                               echo $item_update_download;
+                            }else{
+                              if($site_theme != 'default' && $page == "Themes"){
+                                echo "<a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Activate</a>";
+                              }else{
+                                echo "<font color='green'>Active Theme</font>";
+                              }
                             }
                         echo "</div>";
                     echo "</div>";
