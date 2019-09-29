@@ -40,7 +40,7 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 if($action == "Install" && !empty($folder)){
   $load_install_file = CUSTOMDIR."$page_lowercase/$folder/install.php";
   if(file_exists($load_install_file)){
-    require($load_install_file);
+    require_once($load_install_file);
     /** Get Data from info.xml file for DB **/
     $load_info_file_i = CUSTOMDIR."$page_lowercase/$folder/info.xml";
     if(file_exists($load_info_file_i)){
@@ -51,8 +51,21 @@ if($action == "Install" && !empty($folder)){
     if($DispenserModel->insertDispenser($xmlinstall->NAME, $xmlinstall->TYPE, $xmlinstall->FOLDER_LOCATION, $xmlinstall->VERSION)){
       /** Send data to the Database **/
       if(isset($install_db_data)){
-        if($db_update_status = $DispenserModel->updateDatabase($install_db_data)){
-            $install_status = 'Success';
+        if($db_install_status = $DispenserModel->updateDatabase($install_db_data)){
+          /** Run Updates to Make sure Item is up to date **/
+          $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
+          if(file_exists($load_update_file)){
+            unset($install_db_data);
+            require_once($load_update_file);
+            /** Send data to the Database **/
+            if(isset($install_db_data)){
+              if($db_update_status = $DispenserModel->updateDatabase($install_db_data, '0.0.0', $xmlinstall->VERSION)){
+                  $install_status = 'Success';
+              }
+            }else{
+              $install_status = 'Success';
+            }
+          }
         }
       }else{
         $install_status = 'Success';
@@ -60,14 +73,16 @@ if($action == "Install" && !empty($folder)){
     }
   }
   /** Format Data for Success Message */
-  if(!empty($db_update_status)){$db_update_status = implode(" ", $db_update_status);}
+  if(!empty($db_install_status)){$db_install_status = implode(" ", $db_install_status);}else{$db_install_status = "";}
+  if(!empty($db_update_status)){$db_update_status = implode(" ", $db_update_status);}else{$db_update_status = "";}
+  if(!empty($new_pages)){$new_pages = implode(" ", $new_pages);}else{$new_pages = "";}
   /** Check to see if the install was successful **/
   if($install_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Installed a '.$page_single.'<Br><br>'.$db_update_status , 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Installed a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Installing a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Installing a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page);
   }
 }else if($action == "Update" && !empty($folder)){
   $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
