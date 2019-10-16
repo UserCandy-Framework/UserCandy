@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{Url,Request,Csrf,SuccessMessages,ErrorMessages,Form};
+use Models\AdminPanelModel;
+
 //Redirect user to home page if he is already logged in
 if ($auth->isLogged())
 		Url::redirect();

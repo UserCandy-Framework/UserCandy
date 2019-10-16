@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{Csrf,Request,SuccessMessages,ErrorMessages,Url};
+
 if ($auth->isLogged())
 		Url::redirect();
 

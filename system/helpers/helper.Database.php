@@ -1,6 +1,6 @@
 <?php
 /**
-* Database Plugin
+* Database Helper
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
@@ -12,6 +12,10 @@
 ** Altered version of http://novaframework.com/php-framework 3.0 Database Helper
 */
 
+namespace Helpers;
+
+use Core\ErrorLogger;
+
 class Database extends \PDO {
 
     /**
@@ -22,7 +26,7 @@ class Database extends \PDO {
      * Static method get
      *
      * @param  array $group
-     * @return \helpers\database
+     * @return \Helpers\Database
      */
     public static function get($group = false)
     {
@@ -56,9 +60,9 @@ class Database extends \PDO {
             self::$instances[$id] = $instance;
             return $instance;
         } catch (\PDOException $e) {
-            //in the event of an error record the error to ErrorLog.html
-            //Logger::newMessage($e);
-            //Logger::customErrorMsg();
+            //in the event of an error record the error to Error Log File
+            ErrorLogger::newMessage($e);
+            ErrorLogger::customErrorMsg();
         }
     }
     /**
@@ -82,6 +86,9 @@ class Database extends \PDO {
     {
         $stmt = $this->prepare($sql);
         foreach ($array as $key => $value) {
+            if(strpos($key,":") === false) {
+                $key = ":".$key;
+            }
             if (is_int($value)) {
                 $stmt->bindValue("$key", $value, \PDO::PARAM_INT);
             } else {
@@ -107,6 +114,9 @@ class Database extends \PDO {
     {
         $stmt = $this->prepare($sql);
         foreach ($array as $key => $value) {
+            if(strpos($key,":") === false) {
+                $key = ":".$key;
+            }
             if (is_int($value)) {
                 $stmt->bindValue("$key", $value, \PDO::PARAM_INT);
             } else {

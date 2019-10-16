@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Models;
+
+use Core\Models;
+
 class HomeModel extends Models {
 
   /**

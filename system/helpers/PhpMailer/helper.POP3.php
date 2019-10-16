@@ -27,6 +27,9 @@
  * @author Jim Jagielski (jimjag) <jimjag@gmail.com>
  * @author Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
  */
+
+namespace Helpers;
+
 class POP3
 {
     /**

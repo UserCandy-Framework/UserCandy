@@ -7,6 +7,12 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
+use Core\Language;
+use Helpers\Database;
+use Models\AdminPanelModel;
+
 class PageFunctions {
 
 	/* Ready the DB for usage */

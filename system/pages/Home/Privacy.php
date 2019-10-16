@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{CurrentUserData,Csrf,SuccessMessages,ErrorMessages,Request,Form};
+use Models\{AdminPanelModel,MembersModel};
+
 /** Set the Basic Page Data **/
 $AdminPanelModel = new AdminPanelModel();
 $MembersModel = new MembersModel();

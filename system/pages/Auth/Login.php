@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
+
 /* Check to see if user is already logged in */
         if ($auth->isLogged())
             Url::redirect();

@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
 class TimeDiff
 {
   // Time format is UNIX timestamp or

@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Core;
+
+use Models\DispenserModel;
+
 class Dispenser {
 
     protected $DispenserModel;

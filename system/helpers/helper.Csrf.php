@@ -28,6 +28,9 @@
  *    }
  * And that's all.
  */
+
+namespace Helpers;
+
 class Csrf {
     /**
      * Retrieve the CSRF token and generate a new one if expired.

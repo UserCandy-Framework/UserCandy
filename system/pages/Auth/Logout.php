@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\SuccessMessages;
+
 if ($auth->isLogged()) {
     $u_id = $auth->currentSessionInfo()['uid'];
     $usersModel->remove($u_id);

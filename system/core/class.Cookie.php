@@ -7,6 +7,8 @@
  * @version 1.0.0
  */
 
+namespace Core;
+
 class Cookie {
 
     public static function exists($key) {

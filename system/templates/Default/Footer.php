@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\Assets;
+
 ?>
 </div>
 </div><!-- /.container -->

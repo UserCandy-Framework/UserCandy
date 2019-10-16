@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+
 ?>
 <div class="col-lg-12 col-md-12 col-sm-12">
 	<div class="card card-danger">

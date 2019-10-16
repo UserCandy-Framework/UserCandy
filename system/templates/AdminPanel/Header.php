@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
+
 	// Check to see what page is being viewed
 	// If not Home, Login, Register, etc..
 	// Send url to Session

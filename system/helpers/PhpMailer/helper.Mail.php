@@ -7,6 +7,8 @@
  * @version 1.0.0
  */
 
+namespace Helpers;
+
 /**
  * Custom class for PHPMailer to uniform sending emails.
  */

@@ -10,6 +10,11 @@
 /**
  * collection of methods for working with error messages.
  */
+
+namespace Helpers;
+
+use Core\Language;
+
 class ErrorMessages
 {
   /**

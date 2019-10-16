@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
 class BBCode
 {
 
@@ -58,9 +60,6 @@ class BBCode
         </div>
         <div class='btn-group'>
           <button type=\"button\" class=\"btn btn-sm btn-light\" onclick=\"wrapText('edit','[hr]','');\" title=\"Horizontal Rule\"><b>hr</b></button>
-          <button type=\"button\" class=\"btn btn-sm btn-light\" onclick=\"wrapText('edit','[code]','[/code]');\" title=\"Code\"><i class='fas fa-code'></i></button>
-        </div>
-        <div class='btn-group'>
           <button type=\"button\" class=\"btn btn-sm btn-light\" onclick=\"wrapText('edit','[quote]','[/quote]');\" title=\"Quote\"><i class='fas fa-quote-right'></i></button>
           <button type=\"button\" class=\"btn btn-sm btn-light\" onclick=\"wrapText('edit','[code]','[/code]');\" title=\"Code\"><i class='fas fa-code'></i></button>
         </div>

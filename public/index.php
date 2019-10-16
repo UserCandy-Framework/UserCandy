@@ -41,13 +41,13 @@ if (is_readable(SYSTEMDIR.'Config.php')) {
   new Config();
 
   /* Load Site Settings From Database */
-  new LoadSiteSettings();
+  new Core\LoadSiteSettings();
 
   /* Run the Core Loader */
   require(SYSTEMDIR.'core/coreloader.php');
 
   /* Load the Page Router */
-  new Router();
+  new Core\Router();
 
 } else {
     /** No Config Setup, Start Install */

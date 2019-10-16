@@ -10,6 +10,11 @@
 * @version 1.0.0
 */
 
+namespace Core;
+
+use Helpers\{Assets,Request,AuthHelper,Database};
+use Models\AdminPanelModel;
+
 class Router {
 
     private $routes;

@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
+use Core\Language;
+
 /**
  * Split records into multiple pages.
  */

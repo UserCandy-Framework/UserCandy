@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
 /**
  * Password functions for php's native password functions
  */

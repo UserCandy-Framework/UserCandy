@@ -13,6 +13,10 @@
 * self::add('Home', 'Home', '');
 */
 
+namespace Core;
+
+use Helpers\Database;
+
 class Routes {
 
     private static $db;

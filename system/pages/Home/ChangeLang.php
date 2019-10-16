@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Helpers\Url;
+
 /** Get data from URL **/
 (empty($viewVars[0])) ? $new_lang_code = null : $new_lang_code = $viewVars[0];
 

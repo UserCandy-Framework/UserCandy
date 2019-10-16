@@ -8,6 +8,9 @@
 /**
  * Exceptions for PHPMailer
  */
+
+namespace Helpers;
+
 class phpmailerException extends \Exception
 {
     /**

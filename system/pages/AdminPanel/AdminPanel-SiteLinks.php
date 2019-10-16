@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form,CurrentUserData};
+use Models\AdminPanelModel;
+
 /** Check to see if user is logged in */
 if($data['isLoggedIn'] = $auth->isLogged()){
     /** User is logged in - Get their data */
