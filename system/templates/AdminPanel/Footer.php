@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Helpers\{Assets,Url};
+
 ?>
 	</div>
 </div>

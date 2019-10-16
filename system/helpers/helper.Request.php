@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
 /**
  * It contains the request information and provide methods to fetch request body.
  */

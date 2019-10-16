@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+use Core\{Router,Language};
+use Helpers\{AuthHelper,PageFunctions,SiteStats,CurrentUserData};
+use Models\UsersModel;
+
 /** Initialise the Router object **/
 $routes = Router::extendedRoutes();
 /** initialise the AuthHelper object */

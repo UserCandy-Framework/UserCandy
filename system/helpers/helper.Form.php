@@ -12,6 +12,9 @@
 /**
  * Create form elements quickly.
  */
+
+namespace Helpers;
+
 class Form
 {
     /**

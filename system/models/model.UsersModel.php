@@ -7,6 +7,10 @@
  * @version 1.0.0
  */
 
+namespace Models;
+
+use Core\Models;
+
 class UsersModel extends Models
 {
 
@@ -68,8 +72,8 @@ class UsersModel extends Models
     $onlines = $this->db->select('SELECT * FROM '.PREFIX.'users_online');
     foreach($onlines as $online){
       $format = 'Y-m-d H:i:s';
-      $date = DateTime::createFromFormat($format, $online->lastAccess);
-      if(date_add($date, date_interval_create_from_date_string('15 minute')) < new DateTime("now")){
+      $date = \DateTime::createFromFormat($format, $online->lastAccess);
+      if(date_add($date, date_interval_create_from_date_string('15 minute')) < new \DateTime("now")){
         $this->remove($online->userId);
         $removed++;
       }

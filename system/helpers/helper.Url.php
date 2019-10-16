@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
 /**
  * Collection of methods for working with urls.
  */

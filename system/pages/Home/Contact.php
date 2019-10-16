@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+
 $data['title'] = Language::show('uc_contact', 'Welcome');
 
 ?>

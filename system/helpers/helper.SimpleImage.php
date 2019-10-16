@@ -17,6 +17,8 @@
  *
  */
 
+namespace Helpers;
+
 /**
  * Class SimpleImage
  * This class makes image manipulation in PHP as simple as possible.

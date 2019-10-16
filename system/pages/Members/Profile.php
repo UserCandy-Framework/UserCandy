@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{Paginator,Csrf,CurrentUserData,TimeDiff};
+
 /** Get data from URL **/
 (empty($viewVars[0])) ? $user = "" : $user = $viewVars[0];
 (empty($viewVars[1])) ? $current_page = "1" : $current_page = $viewVars[1];
@@ -37,8 +40,8 @@ if($profile){
 
     /** Check to see if Friends Plugins is installed **/
     if($DispenserModel->checkDispenserEnabled('Friends')){
-      /** Load the Recent Model **/
-      require(CUSTOMDIR."plugins/Friends/class.Friends.php");
+      /** Load the Friends Model **/
+      require_once(CUSTOMDIR.'plugins/Friends/class.Friends.php');
       $Friends = new Friends();
       /** Get 15 of the users friends **/
       $data['friends'] = $Friends->getFriendsIDs($profile[0]->userID, '15');
@@ -51,6 +54,7 @@ if($profile){
     /** Check to see if Forum Plugins is installed **/
     if($DispenserModel->checkDispenserEnabled('Forum')){
       /** Get Users Recent Posts **/
+      require_once(CUSTOMDIR.'plugins/Forum/helper.ForumStats.php');
       $data['forum_recent_posts'] = ForumStats::forum_recent_posts_user($profile[0]->userID);
     }else{
       $data['forum_disable'] = true;

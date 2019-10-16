@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
+use Core\ErrorHandler;
+
 class Assets {
 
     public static function css($css_url){

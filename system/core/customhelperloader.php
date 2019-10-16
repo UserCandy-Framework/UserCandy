@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Models\DispenserModel;
+
 /** Load all Classes for Enabled Helpers **/
 /**
 * UC Autoloader loads all Classes within specified folders
@@ -25,6 +27,9 @@ spl_autoload_register(
     // Looping through each directory to load all the class files. It will only require a file once.
     // If it finds the same class in a directory later on, IT WILL IGNORE IT! Because of that require once!
     foreach( $dirs as $dir ) {
+      // Get the File Name based on the class by taking out the namespace
+      $class_name = explode('\\', $class_name);
+      $class_name = end($class_name);
       if (file_exists($dir.'helper.'.$class_name.'.php')) {
           require_once($dir.'helper.'.$class_name.'.php');
           return;

@@ -7,6 +7,7 @@
 * @version 1.0.0
 */
 
+namespace Core;
 
 /**
  * Language class to load the requested language file.

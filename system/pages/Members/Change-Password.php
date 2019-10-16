@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{ErrorMessages,Csrf,Request,SuccessMessages,Url,Form};
 
 if (!$auth->isLogged())
 	/** User Not logged in - kick them out **/

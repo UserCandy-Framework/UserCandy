@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form};
+use Models\AdminPanelModel;
+
 /** Check to see if user is logged in */
 if($data['isLoggedIn'] = $auth->isLogged()){
     /** User is logged in - Get their data */
@@ -173,8 +176,8 @@ $data['csrfToken'] = Csrf::makeToken('settings');
 $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item active'><i class='fa fa-fw fa-cog'></i> ".$data['title']."</li>";
 
 /** Get list of All php time zones **/
-$list = DateTimeZone::listAbbreviations();
-$idents = DateTimeZone::listIdentifiers();
+$list = \DateTimeZone::listAbbreviations();
+$idents = \DateTimeZone::listIdentifiers();
 
 $tzdata = $offset = $added = array();
 foreach ($list as $abbr => $info) {
@@ -184,8 +187,8 @@ foreach ($list as $abbr => $info) {
             ! in_array($zone['timezone_id'], $added)
             AND
               in_array($zone['timezone_id'], $idents)) {
-            $z = new DateTimeZone($zone['timezone_id']);
-            $c = new DateTime(null, $z);
+            $z = new \DateTimeZone($zone['timezone_id']);
+            $c = new \DateTime(null, $z);
             $zone['time'] = $c->format('H:i a');
             $offset[] = $zone['offset'] = $z->getOffset($c);
             $tzdata[] = $zone;

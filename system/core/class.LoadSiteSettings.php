@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Core;
+
+use Models\AdminPanelModel;
+
 class LoadSiteSettings {
 
     private $model;

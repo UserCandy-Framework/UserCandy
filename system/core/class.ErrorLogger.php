@@ -6,7 +6,6 @@
 * @author David (DaVaR) Sargent <davar@usercandy.com>
 * @version 1.0.0
 *
-* @author David Carr - dave@daveismyname.com
 */
 
 /**

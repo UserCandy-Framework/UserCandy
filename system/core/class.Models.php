@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Core;
+
+use Helpers\Database;
+
 class Models {
 
     protected $db;

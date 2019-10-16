@@ -7,6 +7,10 @@
 * @version 1.0.0
 */
 
+namespace Helpers;
+
+use Core\Language;
+
 /**
  * collection of methods for working with success messages.
  */

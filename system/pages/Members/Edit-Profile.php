@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{ErrorMessages,Csrf,Request,SuccessMessages};
+
 if (!$auth->isLogged())
   /** User Not logged in - kick them out **/
   ErrorMessages::push(Language::show('user_not_logged_in', 'Auth'), 'Login');

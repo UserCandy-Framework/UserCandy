@@ -7,6 +7,12 @@
 * @version 1.0.0
 */
 
+namespace Core;
+
+use Core\Dispenser;
+use Models\{AdminPanelModel,UsersModel,DispenserModel,MembersModel};
+use Helpers\{AuthHelper,PageFunctions};
+
 /**
 * Load Class Loads Views Based on settings in Controllers
 */

@@ -7,6 +7,9 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+use Helpers\{Paginator,CurrentUserData};
+
 /** Get data from URL **/
 (empty($viewVars[0])) ? $set_order_by = "ID-ASC" : $set_order_by = $viewVars[0];
 (empty($viewVars[1])) ? $current_page = "1" : $current_page = $viewVars[1];

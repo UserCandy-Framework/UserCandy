@@ -8,6 +8,12 @@
  * @version 1.0.0
  */
 
+namespace Helpers;
+
+use Core\{Language,Cookie};
+use Helpers\{SuccessMessages,ErrorMessages};
+use Models\{AuthModel,DispenserModel,MembersModel};
+
 class AuthHelper {
 
     public $errormsg;
