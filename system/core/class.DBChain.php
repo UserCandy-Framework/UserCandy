@@ -101,32 +101,32 @@ class DBChain {
     /**
     * DB Insert Columns List
     **/
-    public function columns(){
-      $this->get_cols = func_get_args();
+    public function columns(...$args){
+      $this->get_cols = $args;
       return $this;
     }
 
     /**
     * DB Insert Values List
     **/
-    public function values(){
-      $this->get_vals = func_get_args();
+    public function values(...$args){
+      $this->get_vals = $args;
       return $this;
     }
 
     /**
     * DB Where Columns List
     **/
-    public function whereColumns(){
-      $this->where_get_cols = func_get_args();
+    public function whereColumns(...$args){
+      $this->where_get_cols = $args;
       return $this;
     }
 
     /**
     * DB Where Values List
     **/
-    public function whereValues(){
-      $this->where_get_vals = func_get_args();
+    public function whereValues(...$args){
+      $this->where_get_vals = $args;
       return $this;
     }
 

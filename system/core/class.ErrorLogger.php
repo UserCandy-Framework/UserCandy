@@ -8,6 +8,8 @@
 *
 */
 
+namespace Core;
+
 /**
  * Record and email/display errors or a custom error message.
  */
@@ -100,7 +102,7 @@ class ErrorLogger
         $file = $exception->getFile();
         $line = $exception->getLine();
         $trace = $exception->getTraceAsString();
-        $trace = str_replace(DB_PASS, '********', $trace);
+        $trace = str_replace('DB_PASS', '********', $trace);
         $date = date('M d, Y G:iA');
         $logMessage = "Exception information:\n
            Date: {$date}\n
