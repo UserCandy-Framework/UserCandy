@@ -32,11 +32,11 @@ class Database extends \PDO {
     {
         // Determining if exists or it's not empty, then use default group defined in config
         $group = !$group ? array (
-            'type' => 'DB_TYPE',
-            'host' => 'DB_HOST',
-            'name' => 'DB_NAME',
-            'user' => 'DB_USER',
-            'pass' => 'DB_PASS'
+            'type' => DB_TYPE,
+            'host' => DB_HOST,
+            'name' => DB_NAME,
+            'user' => DB_USER,
+            'pass' => DB_PASS
         ) : $group;
         // Group information
         $type = $group['type'];

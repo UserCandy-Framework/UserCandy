@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Helpers\Request;
+
 /** Get Data from URL and POST **/
 $install_step = Request::get('install_step');
 $install_step_post = Request::post('install_step');
