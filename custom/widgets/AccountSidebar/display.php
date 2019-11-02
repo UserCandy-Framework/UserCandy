@@ -7,6 +7,8 @@
 * @version 1.0.0
 */
 
+use Core\Language;
+
 ?>
 
   <div class='card border-primary mb-3'>
