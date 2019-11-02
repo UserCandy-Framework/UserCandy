@@ -90,8 +90,8 @@ class Config {
     /**
      * Turn on custom error handling.
      */
-    set_exception_handler('ErrorLogger::ExceptionHandler');
-    set_error_handler('ErrorLogger::ErrorHandler');
+    set_exception_handler('Core\ErrorLogger::ExceptionHandler');
+    set_error_handler('Core\ErrorLogger::ErrorHandler');
 
     $GLOBALS["instances"] = array();
 

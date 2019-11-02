@@ -8,6 +8,8 @@
 * @version 1.0.0
 */
 
+use Helpers\Request;
+
 /** Check to see where the user is at within the install **/
 if(isset($_GET['install_step'])){
   /** Check to see what step user is on **/

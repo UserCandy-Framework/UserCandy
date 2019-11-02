@@ -18,7 +18,7 @@ define('UCVersion', '1.0.0');
 /* load UC Autoloader */
 if (file_exists(SYSTEMDIR.'core/autoloader.php')) {
     require SYSTEMDIR.'core/autoloader.php';
-    if (file_exists(SYSTEMDIR.'core/customhelperloader.php')) {
+    if (is_readable(SYSTEMDIR.'Config.php') && file_exists(SYSTEMDIR.'core/customhelperloader.php')) {
       require SYSTEMDIR.'core/customhelperloader.php';
     }
 } else {
