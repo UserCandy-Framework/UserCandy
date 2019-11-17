@@ -104,6 +104,14 @@ if(folder_writable('system/Example-Config.php')){
 }
 
 /** app dir Writeable Check **/
+if(folder_writable('custom')){
+	$write_custom = "<font color=green><strong>Writeable!</strong></font>";
+}else{
+	$write_custom = "<font color=red><strong>Not Writeable!</strong></font>";
+	$step1_errors[] = true;
+}
+
+/** app dir Writeable Check **/
 if(folder_writable('system')){
 	$write_app = "<font color=green><strong>Writeable!</strong></font>";
 }else{
@@ -157,8 +165,9 @@ if(folder_writable('assets/images/profile-pics/')){
 			<!-- Table -->
 			<table class="table">
 				<th> Folder </th><th> Status </th>
-				<tr><td> ../app/ </td><td> <?=$write_app?> </td></tr>
-				<tr><td> ../app/Example-Config.php </td><td> <?=$write_config?> </td></tr>
+				<tr><td> ../custom/ </td><td> <?=$write_custom?> </td></tr>
+				<tr><td> ../system/ </td><td> <?=$write_app?> </td></tr>
+				<tr><td> ../system/Example-Config.php </td><td> <?=$write_config?> </td></tr>
 				<tr><td> ../assets/images/ </td><td> <?=$write_images?> </td></tr>
 				<tr><td> ../assets/images/profile-images/ </td><td> <?=$write_profile_images?> </td></tr>
 			</table>

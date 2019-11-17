@@ -7,6 +7,7 @@
 * @version 1.0.0
 */
 
+use Core\Dispenser;
 use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form};
 use Models\{AdminPanelModel,DispenserModel};
 
