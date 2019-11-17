@@ -162,7 +162,7 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
             <strong>How to Connect?</strong><br>
             1 - Register for <a href="https://www.usercandy.com" target="_blank">www.UserCandy.com</a><Br>
             2 - Login and go to your <a href="https://www.usercandy.com/Account-Settings" target="_blank">Account Settings</a><br>
-            3 - Open <a href="https://www.usercandy.com/Dispensary-API" target="_blank">Dispensary API</a><br>
+            3 - Open <a href="https://www.usercandy.com/AccountDispensary" target="_blank">Dispensary API</a><br>
             4 - Generate a Dispensary API Key<br>
             5 - Copy that key to the UserCandy Dispensary API Key field above<br>
             6 - Click Update Dispenser Settings

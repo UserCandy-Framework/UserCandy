@@ -46,7 +46,7 @@ class Dispenser {
           fclose($fp);
           if(is_resource($zip = zip_open($filepath))){
             zip_close($zip);
-            $zip = new ZipArchive;
+            $zip = new \ZipArchive;
             $res = $zip->open($filepath);
             if ($res === TRUE) {
               $zip->extractTo(CUSTOMDIR.'/'.$type.'s/');
