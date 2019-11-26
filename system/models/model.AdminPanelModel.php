@@ -593,7 +593,7 @@ class AdminPanelModel extends Models {
         array(':userID' => $from_userID));
       $from_username = $data2[0]->username;
       //EMAIL MESSAGE USING PHPMAILER
-      $mail = new Mail();
+      $mail = new Helpers\Mail();
       $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
       $mail->addAddress($email);
       $mail_subject = " " . SITE_TITLE . " - $subject";

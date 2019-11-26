@@ -428,7 +428,7 @@ class AuthHelper {
               $account_activation = ACCOUNT_ACTIVATION;
 							if($account_activation == "true"){
                 /** Activation Enabled - Send Email to the new user **/
-                $mail = new Mail();
+                $mail = new Helpers\Mail();
                 $mail->addAddress($email);
 								$mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
                 $mail->subject(SITE_TITLE. " - EMAIL VERIFICATION");
@@ -783,7 +783,7 @@ class AuthHelper {
                     $this->authorize->updateInDB("users",$info , $where);
 
                     //EMAIL MESSAGE USING PHPMAILER
-                    $mail = new Mail();
+                    $mail = new Helpers\Mail();
                     $mail->addAddress($email);
                     $mail->subject(SITE_TITLE . " - Password reset request !");
                     $body = "Hello {$username}<br/><br/>";
@@ -1002,7 +1002,7 @@ class AuthHelper {
                     $where = array('username' => $username);
                     $this->authorize->updateInDB('users',$info,$where);
                     //EMAIL MESSAGE USING PHPMAILER
-                    $mail = new Mail();
+                    $mail = new Helpers\Mail();
                     $mail->addAddress($email);
                     $mail->subject(SITE_TITLE . " - Account Activation Link");
                     $body = "Hello {$username}<br/><br/>";
