@@ -166,7 +166,7 @@ class ErrorLogger
     public static function sendEmail($message)
     {
         if (self::$emailError == true) {
-            $mail = new Mail();
+            $mail = new Helpers\Mail();
             $mail->setFrom(SITEEMAIL);
             $mail->addAddress(SITEEMAIL);
             $mail->subject('New error on '.SITETITLE);
