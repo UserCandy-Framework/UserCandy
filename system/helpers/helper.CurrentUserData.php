@@ -134,6 +134,17 @@ class CurrentUserData
   }
 
   /**
+   * Get current user's email from database
+   */
+  public static function getUserEmail($where_id){
+  self::$db = Database::get();
+  	$data = self::$db->select("SELECT email FROM ".PREFIX."users WHERE userID = :userID",
+  		array(':userID' => $where_id));
+      (isset($data[0]->email)) ? $email = $data[0]->email : $email = "";
+  	return $email;
+  }
+
+  /**
   * Get Current User's Groups Data For Display
   */
   public static function getUserGroups($where_id){
