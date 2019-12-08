@@ -88,6 +88,40 @@ if($action == "Install" && !empty($folder)){
     /** Success */
     ErrorMessages::push('There was an Error Installing a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page);
   }
+}else if($action == "UnInstall" && !empty($folder)){
+  $load_uninstall_file = CUSTOMDIR."$page_lowercase/$folder/uninstall.php";
+  if(file_exists($load_uninstall_file)){
+    require_once($load_uninstall_file);
+    /** Get Data from info.xml file for DB **/
+    $load_info_file_i = CUSTOMDIR."$page_lowercase/$folder/info.xml";
+    if(file_exists($load_info_file_i)){
+      /** Get list of Downloaded Items **/
+      $xmlinstall=simplexml_load_file($load_info_file_i);
+    }
+    /** Delete Item from Dispenser Database **/
+    if($DispenserModel->deleteDispenser($xmlinstall->NAME, $xmlinstall->TYPE, $xmlinstall->FOLDER_LOCATION, $xmlinstall->VERSION)){
+      /** Send data to the Database **/
+      if(isset($uninstall_db_data)){
+        if($DispenserModel->updateDatabase($uninstall_db_data, '0.0.0', $xmlinstall->VERSION)){
+            $uninstall_status = 'Success';
+        }
+      }else{
+        $uninstall_status = 'Success';
+      }
+    }
+  }
+  /** Format Data for Success Message */
+  if(!empty($db_install_status)){$db_install_status = implode(" ", $db_install_status);}else{$db_install_status = "";}
+  if(!empty($db_update_status)){$db_update_status = implode(" ", $db_update_status);}else{$db_update_status = "";}
+  if(!empty($new_pages)){$new_pages = implode(" ", $new_pages);}else{$new_pages = "";}
+  /** Check to see if the uninstall was successful **/
+  if($uninstall_status == 'Success'){
+    /** Success */
+    SuccessMessages::push('You Have Successfully UnInstalled a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page);
+  }else{
+    /** Success */
+    ErrorMessages::push('There was an Error UnInstalling a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page);
+  }
 }else if($action == "Update" && !empty($folder)){
   $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
   if(file_exists($load_update_file)){
@@ -273,6 +307,7 @@ height: 250px; /* only if you want fixed height */
                 if(!empty($item_data)){
                   if($item_data[0]->enable == "true"){$item_enable = " - <font color='green'>Enabled</font>";}else{$item_enable = " - <font color='red'>Disabled</font>";}
                   $item_status = '<font color="green">Installed</font> '.$item_enable;
+                  $item_uninstall = "<a href='#UnInstallModal{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' class='btn btn-sm btn-danger trigger-btn float-right' data-toggle='modal'>UnInstall</a>";
                   if($xmldata->VERSION > $item_data[0]->version){
                     $item_update = " - <font color='red'>Update Available</font>";
                     $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser/$page/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
@@ -284,6 +319,7 @@ height: 250px; /* only if you want fixed height */
                 }else{
                   $item_status = '<font color="red">Downloaded but Not Installed</font>';
                   $item_installed = "false";
+                  $item_uninstall = "";
                 }
                 if($item_dispensary_version > $xmldata->VERSION){
                   $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
@@ -293,6 +329,7 @@ height: 250px; /* only if you want fixed height */
                 echo "<div class='card mb-3 border-dark'>";
                   echo "<div class='card-header h4'>";
                     echo "{$xmldata->TITLE}";
+                    echo $item_uninstall;
                   echo "</div>";
                   echo "<div class='row no-gutters'>";
                     echo "<div class='col-auto border-right'>";
@@ -340,8 +377,31 @@ height: 250px; /* only if you want fixed height */
                     echo "</div>";
                   echo "</div>";
                 echo "</div>";
+                echo "
+                  <div class='modal fade' id='UnInstallModal{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h5 class='modal-title' id='DeleteLabel'>UnInstall?</h5>
+                          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                            <span aria-hidden='true'>&times;</span>
+                          </button>
+                        </div>
+                        <div class='modal-body'>
+                          Do you want to UnInstall this?<br><br>
+                          {$xmldata->FOLDER_LOCATION} - {$xmldata->TYPE}
+                        </div>
+                        <div class='modal-footer'>
+                          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                          <a href='".SITE_URL."AdminPanel-Dispenser/$page/UnInstall/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-danger'>UnInstall</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ";
               }
             }
+
           ?>
 
         </div>

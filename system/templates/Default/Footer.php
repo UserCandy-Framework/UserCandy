@@ -14,6 +14,10 @@ use Helpers\Assets;
 </div>
 </div><!-- /.container -->
 
+<?php
+/* Load Top Extender for Footer */
+Core\Extender::load_ext('defaultFooter', 'top');
+?>
                     <!-- Footer (sticky) -->
                     <footer class='footer'>
                         <div class='container'>
@@ -67,5 +71,11 @@ use Helpers\Assets;
             $('[data-toggle="popover"]').popover();
           });
         </script>
+
+        <?php
+        /* Load Bottom Extender for Footer */
+        Core\Extender::load_ext('defaultFooter', 'bottom');
+        ?>
+
     </body>
 </html>

@@ -46,8 +46,14 @@ if (is_readable(SYSTEMDIR.'Config.php')) {
   /* Run the Core Loader */
   require(SYSTEMDIR.'core/coreloader.php');
 
+  /* Load Top Extender for Index */
+  Core\Extender::load_ext('index', 'top');
+
   /* Load the Page Router */
   new Core\Router();
+
+  /* Load Bottom Extender for Index */
+  Core\Extender::load_ext('index', 'bottom');
 
 } else {
     /** No Config Setup, Start Install */

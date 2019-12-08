@@ -10,6 +10,9 @@
 use Core\Language;
 use Helpers\{Assets,PageFunctions,Url,SuccessMessages,ErrorMessages,CurrentUserData};
 
+    /* Load Top Extender for Header */
+    Core\Extender::load_ext('defaultHeader', 'top');
+
     // Check to see what page is being viewed
   	// If not Home, Login, Register, etc..
   	// Send url to Session
@@ -179,6 +182,10 @@ use Helpers\{Assets,PageFunctions,Url,SuccessMessages,ErrorMessages,CurrentUserD
           </div>
       </div>
 
+<?php
+/* Load Bottom Extender for Header */
+Core\Extender::load_ext('defaultHeader', 'bottom');
+?>
 
         <div class="container-fluid">
             <div class="row">
@@ -207,4 +214,5 @@ use Helpers\{Assets,PageFunctions,Url,SuccessMessages,ErrorMessages,CurrentUserD
               if(isset($error)) { echo ErrorMessages::display_raw($error); }
               if(isset($success)) { echo SuccessMessages::display_raw($success); }
               if(isset($info_alert)) { echo SuccessMessages::display_raw_info($info_alert); }
+
               ?>

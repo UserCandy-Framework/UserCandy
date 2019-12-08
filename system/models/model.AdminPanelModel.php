@@ -906,6 +906,15 @@ class AdminPanelModel extends Models {
       }
     }
 
+    public function deleteSiteLinkDispenser($title, $location){
+      $data = $this->db->delete(PREFIX.'links', array('title' => $title, 'url' => $title, 'location' => $location, 'require_plugin' => $title));
+      if($data > 0){
+        return $data;
+      }else{
+        return false;
+      }
+    }
+
     /**
     * updates Site Link in Database
     * @param int $id
@@ -1219,6 +1228,22 @@ class AdminPanelModel extends Models {
     }
 
     /**
+    * adds new Page To Database
+    * @param string $pagefolder
+    * @param string $pagefile
+    * @param string $url
+    * @return int inserted ID
+    */
+    public function getPluginPage($pagefolder, $pagefile, $url){
+      $data = $this->db->select("SELECT id FROM ".PREFIX."pages WHERE pagefolder = :pagefolder AND pagefile = :pagefile AND url = :url LIMIT 1", array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url));
+      if($data > 0){
+        return $data[0]->id;
+      }else{
+        return false;
+      }
+    }
+
+    /**
     * gets all system pages from database
     * @param string $orderby
     * @return array dataset
@@ -1299,6 +1324,20 @@ class AdminPanelModel extends Models {
     */
     public function deletePage($id){
       $data = $this->db->delete(PREFIX.'pages', array('id' => $id));
+      if($data > 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    /**
+    * Remove Page Permissions from Database
+    * @param int $id
+    * @return boolean true/false
+    */
+    public function deletePagePermissions($id){
+      $data = $this->db->delete(PREFIX.'pages_permissions', array('page_id' => $id));
       if($data > 0){
         return true;
       }else{

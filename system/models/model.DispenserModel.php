@@ -122,6 +122,24 @@ class DispenserModel extends Models {
   }
 
   /**
+  * Get Dispenser Items From Database
+  * @return array dataset
+  */
+  public function getDispenserItemsAll(){
+      $data = $this->db->select("
+          SELECT
+              *
+          FROM
+              ".PREFIX."dispenser
+          WHERE
+              enable = 'true'
+          ORDER BY
+              id DESC
+      ");
+      return $data;
+  }
+
+  /**
   * Get Current page_id from database
   * @param string $pagefolder
   * @param string $pagefile
@@ -320,6 +338,24 @@ class DispenserModel extends Models {
   public function insertDispenser($name = null, $type = null, $folder_location = null, $version = null){
     // Update users table
     $query = $this->db->insert(PREFIX.'dispenser', array('name' => $name, 'type' => $type, 'folder_location' => $folder_location, 'version' => $version));
+    if($query > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  /**
+  * Delete Item from Database
+  * @param $name
+  * @param $type
+  * @param $folder_location
+  * @param $version
+  * @return boolean true/false
+  */
+  public function deleteDispenser($name = null, $type = null, $folder_location = null, $version = null){
+    // Update users table
+    $query = $this->db->delete(PREFIX.'dispenser', array('name' => $name, 'type' => $type, 'folder_location' => $folder_location, 'version' => $version), '1');
     if($query > 0){
       return true;
     }else{
