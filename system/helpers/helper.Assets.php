@@ -1,6 +1,6 @@
 <?php
 /**
-* Assets Plugin
+* Assets Helper
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
