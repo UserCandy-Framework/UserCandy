@@ -1,6 +1,6 @@
 
 *dwsync.xml
-custom/*
+
 !custom/widgets/AccountSidebar
 !custom/widgets/MembersSidebar
 !custom/themes/default
