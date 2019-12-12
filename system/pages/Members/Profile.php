@@ -30,7 +30,11 @@ $pageFormat = SITE_URL."Profile/".$profile[0]->username."/"; // URL page where p
 $data['pageLinks'] = $pages->pageLinks($pageFormat, '', $current_page);
 $data['current_page_num'] = $current_page;
 
-if($profile){
+if(!empty($profile)){
+
+  /* Load Top Extender for Profile */
+  Core\Extender::load_ext('Profile', 'top');
+
     $data['title'] = $profile[0]->username . "&#146;s ".Language::show('members_profile_title', 'Members');
     $data['profile'] = $profile[0];
     $data['main_image'] = $main_image;
@@ -193,12 +197,22 @@ if($data['profile']->userID == $data['current_userID']){
                         <tr><td><?=Language::show('members_profile_lastlogin', 'Members'); ?></td><td><?php if($data['profile']->LastLogin){ echo date("F d, Y",strtotime($data['profile']->LastLogin)); }else{ echo "Never"; } ?></td></tr>
                         <tr><td><?=Language::show('members_profile_signup', 'Members'); ?></td><td><?php echo date("F d, Y",strtotime($data['profile']->SignUp)); ?></td></tr>
                         <tr><td><?=Language::show('members_profile_privacy', 'Members'); ?></td><td><?php echo $data['profile']->privacy_profile; ?></td></tr>
+<?php
+                        /* Load sidebar-user-data-table Extender for Profile */
+                        Core\Extender::load_ext('Profile', 'sidebar-user-data-table');
+?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <?php
+        /* Load sidebar Extender for Profile */
+        Core\Extender::load_ext('Profile', 'sidebar');
+    ?>
+
 <?php
 /** Check to see if profile can be displayed **/
 if($allow_profile == false){
@@ -355,6 +369,12 @@ if($data['forum_disable'] != true){
 </div>
 
 <div class="col-md-8 col-lg-8">
+
+  <?php
+      /* Load body-top Extender for Profile */
+      Core\Extender::load_ext('Profile', 'body-top');
+  ?>
+
     <div class="card mb-3">
         <div class="card-header h4">
             <?=Language::show('members_profile_allabout', 'Members'); ?> <?php echo $data['profile']->username; ?>
@@ -485,5 +505,16 @@ if($data['forum_disable'] != true){
   </div>
 <?php } ?>
 
+<?php
+    /* Load body-bottom Extender for Profile */
+    Core\Extender::load_ext('Profile', 'body-bottom');
+?>
+
 </div>
+
+<?php
+/* Load Bottom Extender for Profile */
+Core\Extender::load_ext('Profile', 'bottom');
+?>
+
 <?php } ?>

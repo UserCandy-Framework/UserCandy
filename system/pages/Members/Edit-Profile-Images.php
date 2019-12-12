@@ -14,6 +14,9 @@ if (!$auth->isLogged())
   /** User Not logged in - kick them out **/
   ErrorMessages::push(Language::show('user_not_logged_in', 'Auth'), 'Login');
 
+  /* Load Top Extender for Edit-Profile-Images */
+  Core\Extender::load_ext('Edit-Profile-Images', 'top');
+
 /** Get data from URL **/
 (empty($viewVars[0])) ? $imageID = "" : $imageID = $viewVars[0];
 (empty($viewVars[1])) ? $current_page = "1" : $current_page = $viewVars[1];
@@ -73,6 +76,8 @@ if (!$auth->isLogged())
                                     $db_image = $userImage;
                                 }
                                 if(!$membersModel->addUserImage($u_id, $db_image)){
+                                  /* Load Form Submit Extender for Edit-Profile-Images */
+                                  Core\Extender::load_ext('Edit-Profile-Images', 'formSubmit');
                                   $image_error[] = true;
                                 }
                             }else{$image_error[] = true;}
@@ -199,7 +204,10 @@ if($section_display == "Images"){
 								    <label class="custom-file-label" for="inputGroupFile01">Select Image Files</label>
 								  </div>
 								</div>
-
+                <?php
+                        /* Load Form Extender for Edit-Profile-Images */
+                        Core\Extender::load_ext('Edit-Profile-Images', 'form');
+                ?>
                 <input type="hidden" name="token_editprofile" value="<?=$data['csrfToken'];?>" />
                 <input type="submit" name="submit" class="btn btn-primary" value="<?=Language::show('edit_profile_images_button', 'Members'); ?>">
             </form>
@@ -313,3 +321,8 @@ if($section_display == "Images"){
 
 
 <?php } ?>
+
+<?php
+/* Load Bottom Extender for Edit-Profile-Images */
+Core\Extender::load_ext('Edit-Profile-Images', 'Bottom');
+?>

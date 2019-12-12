@@ -14,12 +14,19 @@ if (!$auth->isLogged())
   /** User Not logged in - kick them out **/
   ErrorMessages::push(Language::show('user_not_logged_in', 'Auth'), 'Login');
 
+  /* Load Top Extender for Change-Email */
+  Core\Extender::load_ext('Change-Email', 'top');
+
+
 if(isset($_POST['submit'])){
 
     if(Csrf::isTokenValid('changeemail')) {
         $password = Request::post('passwordemail');
         $newEmail = trim( Request::post('email') );
         $username = $auth->currentSessionInfo()['username'];
+
+        /* Load Form Submit Extender for Change-Email */
+        Core\Extender::load_ext('Change-Email', 'formSubmit');
 
         if($auth->changeEmail($username, $newEmail, $password)){
             /** Success Message Display **/
@@ -91,6 +98,11 @@ $js .= "<script src='".Url::templatePath()."js/live_email.js'></script>";
 						</div>
 				</div>
 
+<?php
+        /* Load Form Extender for Change-Email */
+        Core\Extender::load_ext('Change-Email', 'form');
+?>
+
 				<!-- Error Message Display -->
 				<span id='resultemail2' class='label'></span>
 
@@ -103,3 +115,8 @@ $js .= "<script src='".Url::templatePath()."js/live_email.js'></script>";
     </div>
   </div>
 </div>
+
+<?php
+/* Load Bottom Extender for Change-Email */
+Core\Extender::load_ext('Change-Email', 'Bottom');
+?>

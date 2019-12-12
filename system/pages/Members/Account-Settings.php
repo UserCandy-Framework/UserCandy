@@ -22,6 +22,11 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item active'>".$data['title']."</l
 
 ?>
 
+<?php
+/* Load Top Extender for Account-Settings */
+Core\Extender::load_ext('Account-Settings', 'top');
+?>
+
 <div class="col-lg-12 col-md-12 col-sm-12">
 	<div class="card mb-3">
 		<div class="card-header h4">
@@ -48,3 +53,8 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item active'>".$data['title']."</l
     </div>
   </div>
 </div>
+
+<?php
+/* Load Bottom Extender for Account-Settings */
+Core\Extender::load_ext('Account-Settings', 'bottom');
+?>

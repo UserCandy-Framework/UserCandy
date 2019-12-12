@@ -10,6 +10,9 @@
 use Core\Language;
 use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 
+	/* Load Top Extender for Header */
+	Core\Extender::load_ext('adminHeader', 'top');
+
 	// Check to see what page is being viewed
 	// If not Home, Login, Register, etc..
 	// Send url to Session
@@ -162,6 +165,11 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
       </ul>
     </div>
   </nav>
+
+	<?php
+	/* Load Bottom Extender for Header */
+	Core\Extender::load_ext('adminHeader', 'bottom');
+	?>
 
 	<div class="content-wrapper">
     <div class="container-fluid">

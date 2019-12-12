@@ -14,6 +14,9 @@ if (!$auth->isLogged())
   /** User Not logged in - kick them out **/
   ErrorMessages::push(Language::show('user_not_logged_in', 'Auth'), 'Login');
 
+  /* Load Top Extender for Privacy-Settings */
+  Core\Extender::load_ext('Privacy-Settings', 'top');
+
 $data['title'] = Language::show('ps_title', 'Members');
 $data['welcomeMessage'] = Language::show('ps_welcomemessage', 'Members');
 $data['csrfToken'] = Csrf::makeToken('editprivacy');
@@ -23,6 +26,9 @@ if (isset($_POST['submit'])) {
         $privacy_massemail = Request::post('privacy_massemail');
         $privacy_pm = Request::post('privacy_pm');
         $data['privacy_profile'] = Request::post('privacy_profile');
+
+        /* Load Form Submit Extender for Privacy-Settings */
+        Core\Extender::load_ext('Privacy-Settings', 'formSubmit');
 
         if($privacy_massemail != "true"){$privacy_massemail = "false";}
         if($privacy_pm != "true"){$privacy_pm = "false";}
@@ -99,9 +105,20 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."Account
 					</div>
 				</div>
 			</div>
+
+      <?php
+              /* Load Form Extender for Privacy-Settings */
+              Core\Extender::load_ext('Privacy-Settings', 'form');
+      ?>
+
 				<input type="hidden" name="token_editprivacy" value="<?=$data['csrfToken'];?>" />
 				<input type="submit" name="submit" class="btn btn-success" value="<?=Language::show('ps_button', 'Members'); ?>">
 			<?php echo Form::close(); ?>
     </div>
   </div>
 </div>
+
+<?php
+/* Load Bottom Extender for Privacy-Settings */
+Core\Extender::load_ext('Privacy-Settings', 'Bottom');
+?>

@@ -11,7 +11,7 @@
 namespace Helpers;
 
 use Core\{Language,Cookie};
-use Helpers\{SuccessMessages,ErrorMessages};
+use Helpers\{SuccessMessages,ErrorMessages,Mail};
 use Models\{AuthModel,DispenserModel,MembersModel};
 
 class AuthHelper {
@@ -428,7 +428,7 @@ class AuthHelper {
               $account_activation = ACCOUNT_ACTIVATION;
 							if($account_activation == "true"){
                 /** Activation Enabled - Send Email to the new user **/
-                $mail = new Helpers\Mail();
+                $mail = new Mail();
                 $mail->addAddress($email);
 								$mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
                 $mail->subject(SITE_TITLE. " - EMAIL VERIFICATION");
