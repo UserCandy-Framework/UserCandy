@@ -14,6 +14,11 @@ use Helpers\{Assets,Url};
 </div>
 
 <?php
+/* Load Top Extender for Footer */
+Core\Extender::load_ext('adminFooter', 'top');
+?>
+
+<?php
 if(isset($data['ownjs'])){
 	foreach($data['ownjs'] as $ownjs){
 		echo $ownjs;
@@ -36,5 +41,11 @@ if(isset($data['ownjs'])){
 		$('[data-toggle="popover"]').popover();
 	});
 </script>
+
+<?php
+/* Load Bottom Extender for Footer */
+Core\Extender::load_ext('adminFooter', 'bottom');
+?>
+
 </body>
 </html>

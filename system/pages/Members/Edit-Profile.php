@@ -14,6 +14,9 @@ if (!$auth->isLogged())
   /** User Not logged in - kick them out **/
   ErrorMessages::push(Language::show('user_not_logged_in', 'Auth'), 'Login');
 
+  /* Load Top Extender for Edit-Profile */
+  Core\Extender::load_ext('Edit-Profile', 'top');
+
 $username = $membersModel->getUserName($u_id);
 
 $main_image = $membersModel->getUserImageMain($u_id);
@@ -28,6 +31,9 @@ if(sizeof($username) > 0){
             $website = filter_var(Request::post('website'), FILTER_VALIDATE_URL);
 						$aboutMe = nl2br(Request::post('aboutMe'));
 						$signature = nl2br(Request::post('signature'));
+
+            /* Load Form Submit Extender for Edit-Profile */
+            Core\Extender::load_ext('Edit-Profile', 'formSubmit');
 
 						/* Check to make sure First Name does not have any html char in it */
 						if($firstName != strip_tags($firstName)){
@@ -152,6 +158,11 @@ if(sizeof($username) > 0){
 	                </div>
 								<?php } ?>
 
+                <?php
+                        /* Load Form Extender for Edit-Profile */
+                        Core\Extender::load_ext('Edit-Profile', 'form');
+                ?>
+
                 <input type="hidden" name="token_editprofile" value="<?=$data['csrfToken'];?>" />
                 <input type="submit" name="submit" class="btn btn-primary" value="<?=Language::show('edit_profile_button', 'Members'); ?>">
             </form>
@@ -159,3 +170,8 @@ if(sizeof($username) > 0){
     </div>
   </div>
 </div>
+
+<?php
+/* Load Bottom Extender for Edit-Profile */
+Core\Extender::load_ext('Edit-Profile', 'Bottom');
+?>

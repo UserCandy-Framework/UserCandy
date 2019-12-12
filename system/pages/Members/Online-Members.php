@@ -10,6 +10,9 @@
 use Core\Language;
 use Helpers\{Paginator,CurrentUserData};
 
+/* Load Top Extender for Online-Members */
+Core\Extender::load_ext('Online-Members', 'top');
+
 /** Get data from URL **/
 (empty($viewVars[0])) ? $set_order_by = "ID-ASC" : $set_order_by = $viewVars[0];
 (empty($viewVars[1])) ? $current_page = "1" : $current_page = $viewVars[1];
@@ -120,3 +123,8 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item active'>".$data['title']."</l
 		?>
   </div>
 </div>
+
+<?php
+/* Load Bottom Extender for Online-Members */
+Core\Extender::load_ext('Online-Members', 'Bottom');
+?>

@@ -14,6 +14,9 @@ if (!$auth->isLogged())
 	/** User Not logged in - kick them out **/
 	ErrorMessages::push(Language::show('user_not_logged_in'), 'Login');
 
+	/* Load Top Extender for Change-Password */
+  Core\Extender::load_ext('Change-Password', 'top');
+
 if(isset($_POST['submit'])){
 
 		if (Csrf::isTokenValid('changepassword')) {
@@ -23,6 +26,9 @@ if(isset($_POST['submit'])){
 
 				// Get Current User's UserName
 				$u_username = $auth->currentSessionInfo()['username'];
+
+				/* Load Form Submit Extender for Change-Password */
+        Core\Extender::load_ext('Change-Password', 'formSubmit');
 
 				if($auth->changePass($u_username, $currentPassword, $newPassword, $confirmPassword)){
 						/** Success Message Display **/
@@ -103,6 +109,11 @@ $js .= "<script src='".Url::templatePath()."js/password_strength_match.js'></scr
 					</div>
 				</div>
 
+				<?php
+				        /* Load Form Extender for Change-Password */
+				        Core\Extender::load_ext('Change-Password', 'form');
+				?>
+
 				<!-- Display Live Password Status -->
 				<span class='label' id='passwordStrength'></span>
 
@@ -115,3 +126,8 @@ $js .= "<script src='".Url::templatePath()."js/password_strength_match.js'></scr
     </div>
   </div>
 </div>
+
+<?php
+/* Load Bottom Extender for Change-Password */
+Core\Extender::load_ext('Change-Password', 'Bottom');
+?>
