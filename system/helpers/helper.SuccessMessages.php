@@ -26,14 +26,22 @@ class SuccessMessages
       // Get data from session then display it
   		$success_msg = $_SESSION['success_message'];
   		$display_msg = "
-        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-          <div class='alert alert-success alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong>".Language::show('uc_success', 'Welcome')."!</strong> $success_msg
+        <div class='modal hide fade' id='alertModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header alert-success'>
+                <h5 class='modal-title' id='DeleteLabel'><strong>".Language::show('uc_success', 'Welcome')."!</strong></h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div class='modal-body'>
+                <p>$success_msg</p>
+              </div>
+            </div>
           </div>
-        </div>";
+        </div>
+      ";
   		unset($_SESSION['success_message']);
       return $display_msg;
   	}
@@ -79,14 +87,22 @@ class SuccessMessages
       }
         // Not an array, display single error
       $display_msg = "
-        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-          <div class='alert alert-success alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong>".Language::show('uc_success', 'Welcome')."!</strong> $success_msg
+        <div class='modal hide fade' id='alertModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header alert-success'>
+                <h5 class='modal-title' id='DeleteLabel'><strong>".Language::show('uc_success', 'Welcome')."!</strong></h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div class='modal-body'>
+                <p>$success_msg</p>
+              </div>
+            </div>
           </div>
-        </div>";
+        </div>
+      ";
       return $display_msg;
     }
   }
@@ -134,14 +150,22 @@ class SuccessMessages
       // Get data from session then display it
   		$success_msg = $_SESSION['success_message'];
   		$display_msg = "
-        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-          <div class='alert alert-success alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong>Success!</strong> $success_msg
+        <div class='modal hide fade' id='alertModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header alert-success'>
+                <h5 class='modal-title' id='DeleteLabel'><strong>Success!</strong></h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div class='modal-body'>
+                <p>$success_msg</p>
+              </div>
+            </div>
           </div>
-        </div>";
+        </div>
+      ";
   		unset($_SESSION['success_message']);
       return $display_msg;
   	}

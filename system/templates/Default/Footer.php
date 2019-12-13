@@ -72,6 +72,12 @@ Core\Extender::load_ext('defaultFooter', 'top');
           });
         </script>
 
+        <script type='text/javascript'>
+            $(document).ready(function(){
+                $('#alertModal').modal('show');
+            });
+        </script>
+
         <?php
         /* Load Bottom Extender for Footer */
         Core\Extender::load_ext('defaultFooter', 'bottom');
