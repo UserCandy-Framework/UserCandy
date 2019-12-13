@@ -17,14 +17,6 @@ use Helpers\{Assets,Url};
 /* Load Top Extender for Footer */
 Core\Extender::load_ext('adminFooter', 'top');
 ?>
-
-<?php
-if(isset($data['ownjs'])){
-	foreach($data['ownjs'] as $ownjs){
-		echo $ownjs;
-	}
-}
-?>
 <?=Assets::js([
 		Url::templatePath('AdminPanel').'js/jquery.min.js',
 		Url::templatePath('AdminPanel').'js/bootstrap.bundle.min.js',
@@ -36,10 +28,23 @@ if(isset($data['ownjs'])){
 		Url::templatePath().'js/loader.js'
 ]);
 ?>
+<?php
+if(isset($data['ownjs'])){
+	foreach($data['ownjs'] as $ownjs){
+		echo $ownjs;
+	}
+}
+?>
 <script>
 	$(document).ready(function(){
 		$('[data-toggle="popover"]').popover();
 	});
+</script>
+
+<script type='text/javascript'>
+		$(document).ready(function(){
+				$('#alertModal').modal('show');
+		});
 </script>
 
 <?php

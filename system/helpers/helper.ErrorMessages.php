@@ -27,14 +27,22 @@ class ErrorMessages
       // Get data from session then display it
   		$error_msg = $_SESSION['error_message'];
   		$display_msg = "
-        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-          <div class='alert alert-danger alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong>".Language::show('uc_error', 'Welcome')."!</strong> $error_msg
+        <div class='modal hide fade' id='alertModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header alert-danger'>
+                <h5 class='modal-title' id='DeleteLabel'><strong>".Language::show('uc_error', 'Welcome')."!</strong></h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div class='modal-body'>
+                <p>$error_msg</p>
+              </div>
+            </div>
           </div>
-        </div>";
+        </div>
+      ";
   		unset($_SESSION['error_message']);
       return $display_msg;
   	}
@@ -80,14 +88,22 @@ class ErrorMessages
       }
         // Not an array, display single error
         $display_msg = "
-          <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-            <div class='alert alert-danger alert-dismissible' role='alert'>
-              <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                <span aria-hidden='true'>&times;</span>
-              </button>
-              <strong>Error!</strong> $error_msg
+          <div class='modal hide fade' id='alertModal' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+              <div class='modal-content'>
+                <div class='modal-header alert-danger'>
+                  <h5 class='modal-title' id='DeleteLabel'><strong>Error!</strong></h5>
+                  <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                  </button>
+                </div>
+                <div class='modal-body'>
+                  <p>$error_msg</p>
+                </div>
+              </div>
             </div>
-          </div>";
+          </div>
+        ";
         return $display_msg;
     }
   }
