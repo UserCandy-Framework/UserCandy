@@ -67,4 +67,9 @@ return [
 	// Terms and Privacy
 	'terms_title' => "Terms and Conditions",
 	'privacy_title' => "Privacy Policy",
+
+	// Status Update
+	'status_update_success' => "Successfully created a status update.",
+	'status_update_error' => "Error creating a status update.",
+
 ];

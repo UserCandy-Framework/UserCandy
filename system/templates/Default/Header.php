@@ -86,6 +86,10 @@ use Helpers\{Assets,PageFunctions,Url,SuccessMessages,ErrorMessages,CurrentUserD
             </ul>
 
             <ul class="nav navbar-nav ml-auto">
+              <?php
+              /* Load Top Extender for Header */
+              Core\Extender::load_ext('defaultHeader', 'navRight');
+              ?>
               <?php if(!$isLoggedIn){ ?>
                 <li><a class='nav-link' href="<?=SITE_URL?>Login"><i class="fas fa-fw fa-sign-in-alt"></i> <?=Language::show('login_button', 'Auth');?></a></li>
                 <li><a class='nav-link' href="<?=SITE_URL?>Register"><i class="fas fa-fw fa-user-plus"></i> <?=Language::show('register_button', 'Auth');?></a></li>
