@@ -392,7 +392,8 @@ INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sit
 (44, 'AdminPanel-Dispenser-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Settings', NULL, 'false', 'true', 'AdminPanel'),
 (45, 'AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel'),
 (46, 'AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', NULL, 'false', 'true', 'AdminPanel'),
-(47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default');
+(47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default'),
+(48, 'AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel');
 
 -- --------------------------------------------------------
 
@@ -424,7 +425,7 @@ INSERT INTO `uc_pages_permissions` (`id`, `page_id`, `group_id`) VALUES
 (44, 17, 0),(45, 18, 0),(46, 9, 0),(47, 10, 1),(48, 10, 2),(49, 10, 3),(50, 10, 4),
 (51, 19, 0),(52, 20, 0),(53, 43, 0),(54, 15, 1),(55, 15, 2),(56, 15, 3),(57, 15, 4),
 (58, 21, 0),(59, 4, 0),(60, 8, 0),(61, 7, 0),(62, 41, 0),(63, 2, 0),(64, 42, 0),
-(65, 44, 4),(66, 45, 4),(67, 46, 4),(71, 47, 0);
+(65, 44, 4),(66, 45, 4),(67, 46, 4),(68, 47, 0),(69, 48, 4);
 
 -- --------------------------------------------------------
 
