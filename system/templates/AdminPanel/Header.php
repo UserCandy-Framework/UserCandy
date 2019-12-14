@@ -20,7 +20,7 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 
 	/** Checks to see if current page is in Dispenser **/
 	$current_page = $_SERVER['REQUEST_URI'];
-	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers'){
+	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers' || $current_page == '/AdminPanel-Dispenser-Framework'){
 		$show = "show";
 	}
 
@@ -90,6 +90,9 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 						</li>
 						<li>
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Helpers"><i class="fas fa-plus-square"></i> Helpers</a>
+						</li>
+						<li>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Framework"><i class="fas fa-wrench"></i> Framework</a>
 						</li>
 					</ul>
 				</li>
