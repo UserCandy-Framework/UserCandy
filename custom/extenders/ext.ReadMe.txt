@@ -22,6 +22,7 @@ Remember: Always make a backup before editing.
 ext.index.bottom.php
 ext.index.top.php
 ext.defaultHeader.top.php
+ext.defaultHeader.navRight.php
 ext.defautlHeader.bottom.php
 ext.defaultFooter.top.php
 ext.defautlFooter.bottom.php

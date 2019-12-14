@@ -68,4 +68,8 @@ return [
 	// Terms and Privacy
 	'terms_title' => "Termes",
 	'privacy_title' => "Intimité",
+
+	// Status Update
+	'status_update_success' => "Se creó con éxito una actualización de estado.",
+	'status_update_error' => "Error al crear una actualización de estado.",
 ];
