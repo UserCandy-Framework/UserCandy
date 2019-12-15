@@ -72,7 +72,8 @@ class Dispenser {
       if(is_writable(SYSTEMDIR."temp/")){
         if(isset($folder) && isset($type)){
           $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$type."/".$folder."/";
-          $filepath = SYSTEMDIR."temp/".$folder.".zip";
+          $filepath = SYSTEMDIR.'temp/'.$folder.'.zip';
+          $tofilepath = CUSTOMDIR.'/'.$type.'/'.$folder.'.zip';
           $fp = fopen($filepath, 'w+');
           $ch = curl_init($url);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
@@ -83,22 +84,8 @@ class Dispenser {
           curl_exec($ch);
           curl_close($ch);
           fclose($fp);
-          if(is_resource($zip = zip_open($filepath))){
-            zip_close($zip);
-            $zip = new \ZipArchive;
-            $res = $zip->open($filepath);
-            if ($res === TRUE) {
-              $zip->extractTo(CUSTOMDIR.'/'.$type.'/');
-              $zip->close();
-              unlink($filepath);
-              return true;
-            } else {
-              return false;
-            }
+          if(copy($filepath, $tofilepath)){
             return true;
-          }else{
-            unlink($filepath);
-            return false;
           }
         }
       }else{
@@ -156,22 +143,34 @@ class Dispenser {
       }
     }
 
-    /** Copies all files from one dir to another **/
-    public function copyAllFiles($src,$dst) {
-      $dir = opendir($src);
-      @mkdir($dst);
-      while(false !== ( $file = readdir($dir)) ) {
-        if (( $file != '.' ) && ( $file != '..' )) {
-          if ( is_dir($src . '/' . $file) ) {
-            recurse_copy($src . '/' . $file,$dst . '/' . $file);
-          }
-          else {
-            copy($src . '/' . $file,$dst . '/' . $file);
-          }
-        }
+    /** Open Zip File and Read the data of the info.xml file **/
+    public function read_zip_xml($type = null, $filename = null){
+      $handle = fopen('zip://'.CUSTOMDIR.'framework/'.$filename.'.zip#'.$filename.'/info.xml', 'r');
+      $result = '';
+      while (!feof($handle)) {
+        $result .= fread($handle, 8192);
       }
-      closedir($dir);
-      return true;
+      fclose($handle);
+      return simplexml_load_string($result);
+    }
+
+    /** Unzip Framework Files to ROOTDIR to update all files **/
+    public function updateFramework($filepath, $folder){
+      if(is_resource($zip = zip_open($filepath))){
+        zip_close($zip);
+        $zip = new \ZipArchive;
+        $res = $zip->open($filepath);
+        if ($res === TRUE) {
+          $zip->extractTo(ROOTDIR);
+          $zip->close();
+          return true;
+        } else {
+          return false;
+        }
+        return true;
+      }else{
+        return false;
+      }
     }
 
 }
