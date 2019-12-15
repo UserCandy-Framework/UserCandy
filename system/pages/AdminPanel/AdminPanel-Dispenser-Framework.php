@@ -41,31 +41,89 @@ $DispenserModel = new DispenserModel();
 $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 
 /** Check to see if Admin is installing or updating a Item **/
-if(($action == "Update" || $action == "Install") && !empty($folder)){
-  $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
-  if(file_exists($load_update_file)){
+if($action == "Install" && !empty($folder)){
+  /** Unzip the framework files to ROOTDIR **/
+  $fw_zip = CUSTOMDIR.'framework/'.$folder.'.zip';
+  if(file_exists($fw_zip)){
+    Dispenser::updateFramework($fw_zip, $folder);
+  }
+  $load_install_file = ROOTDIR."install.php";
+  if(file_exists($load_install_file)){
+    require_once($load_install_file);
     /** Get Data from info.xml file for DB **/
-    $load_info_file_u = CUSTOMDIR."$page_lowercase/$folder/info.xml";
+    $load_info_file_i = ROOTDIR."info.xml";
+    if(file_exists($load_info_file_i)){
+      /** Get list of Downloaded Items **/
+      $xmlinstall=simplexml_load_file($load_info_file_i);
+    }
+    /** Insert Item to Dispenser Database **/
+    if($DispenserModel->insertDispenser($xmlinstall->NAME, $xmlinstall->TYPE, $xmlinstall->FOLDER_LOCATION, $xmlinstall->VERSION)){
+      /** Send data to the Database **/
+      if(isset($install_db_data)){
+        if($db_install_status = $DispenserModel->updateDatabase($install_db_data)){
+          /** Run Updates to Make sure Item is up to date **/
+          $load_update_file = ROOTDIR."update.php";
+          if(file_exists($load_update_file)){
+            unset($install_db_data);
+            require_once($load_update_file);
+            /** Send data to the Database **/
+            if(isset($install_db_data)){
+              if($db_update_status = $DispenserModel->updateDatabase($install_db_data, '0.0.0', $xmlinstall->VERSION)){
+    					  $install_status = 'Success';
+              }
+            }else{
+              $install_status = 'Success';
+            }
+          }
+        }
+      }else{
+        $install_status = 'Success';
+      }
+    }
+  }
+  /** Format Data for Success Message */
+  if(!empty($db_install_status)){$db_install_status = implode(" ", $db_install_status);}else{$db_install_status = "";}
+  if(!empty($db_update_status)){$db_update_status = implode(" ", $db_update_status);}else{$db_update_status = "";}
+  if(!empty($new_pages)){$new_pages = implode(" ", $new_pages);}else{$new_pages = "";}
+  /** Check to see if the install was successful **/
+  if($install_status == 'Success'){
+    /** Success */
+    SuccessMessages::push('You Have Successfully Installed '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser-Framework');
+  }else{
+    /** Success */
+    ErrorMessages::push('There was an Error Installing '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser-Framework');
+  }
+}else if(($action == "Update") && !empty($folder)){
+  /** Unzip the framework files to ROOTDIR **/
+  $fw_zip = CUSTOMDIR.'framework/'.$folder.'.zip';
+  if(file_exists($fw_zip)){
+    Dispenser::updateFramework($fw_zip, $folder);
+  }
+  $load_update_file = ROOTDIR."update.php";
+  if(file_exists($load_update_file)){
+
+    /** Get Data from info.xml file for DB **/
+    $load_info_file_u = ROOTDIR."info.xml";
     if(file_exists($load_info_file_u)){
       /** Get list of Downloaded Items **/
       $xmlupdate=simplexml_load_file($load_info_file_u);
     }
+
     /** Get Item DB Data **/
     $dispenser_db_data = $DispenserModel->getDispenserByName($folder, $page_single_lowercase);
+
     /** Check to make sure there is an update **/
-    if($xmlupdate->VERSION > $dispenser_db_data[0]->version){
+    if($xmlupdate->VERSION > $dispenser_db_data[0]->version || empty($dispenser_db_data)){
       /** No DB Changes for this Widget - Update Version in DB only **/
       if($DispenserModel->updateDispenserVersion($dispenser_db_data[0]->id, $xmlupdate->VERSION)){
         if(file_exists($load_update_file)){
+
           /** Include Update File **/
           require_once($load_update_file);
           /** Send data to the Database **/
           if(isset($install_db_data)){
             if($db_update_status = $DispenserModel->updateDatabase($install_db_data, $dispenser_db_data[0]->version, $xmlupdate->VERSION)){
-              /** Copy update files to site root. **/
-              if(Dispenser::copyAllFiles(CUSTOMDIR."$page_lowercase/$folder/", ROOTDIR)){
-                $install_status = 'Success';
-              }
+              $install_status = 'Success';
             }
           }else{
             $install_status = 'Success';
@@ -81,10 +139,10 @@ if(($action == "Update" || $action == "Install") && !empty($folder)){
   /** Check to see if everything went well **/
   if($install_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Updated '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-'.$page);
+    SuccessMessages::push('You Have Successfully Updated '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-Framework');
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Updating '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-'.$page);
+    ErrorMessages::push('There was an Error Updating '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-Framework');
   }
 }else if($action == "Download" && !empty($folder) && !empty($type)){
   /** Get Settings Data */
@@ -97,10 +155,10 @@ if(($action == "Update" || $action == "Install") && !empty($folder)){
   }
   if($download_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Downloaded '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Downloaded '.$page_single, 'AdminPanel-Dispenser-Framework');
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Downloading '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Downloading '.$page_single, 'AdminPanel-Dispenser-Framework');
   }
 }
 
@@ -114,19 +172,14 @@ $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 /** Connect to UserCandy Dispensary **/
 $get_dd = $Dispenser->getDataFromDispensary($dispenser_api_key, $page_single_lowercase);
 
+/** Check for all frameworks zip files and pull xml files. **/
 $scan_dir = CUSTOMDIR.$page_lowercase;
-$get_dirs = array_filter(glob($scan_dir.'/*'), 'is_dir');
-
-if(isset($get_dirs)){
-  foreach ($get_dirs as $dir) {
-    $use_dir = explode('/', $dir);
-    $use_dir = array_values(array_slice($use_dir, -1))[0];
-    $load_info_file = CUSTOMDIR."$page_lowercase/$use_dir/info.xml";
-    if(file_exists($load_info_file)){
-      /** Get list of Downloaded Items **/
-      $xml[]=simplexml_load_file($load_info_file);
-    }
-  }
+$dir = $scan_dir.'/';
+$files = array_diff(scandir($dir), array('.', '..'));
+$folder_location = substr($dir, strrpos($dir, '/') + 1);
+foreach ($files as $file) {
+  $file_clean = str_replace(".zip", "", $file);
+  $xml[] = Dispenser::read_zip_xml($folder_location, $file_clean);
 }
 
 /** Check if Theme **/
@@ -170,7 +223,7 @@ height: 250px; /* only if you want fixed height */
                   $item_uninstall = "<a href='#UnInstallModal{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' class='btn btn-sm btn-danger trigger-btn float-right' data-toggle='modal'>UnInstall</a>";
                   if($xmldata->VERSION > $item_data[0]->version){
                     $item_update = " - <font color='red'>Update Available</font>";
-                    $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-$page/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
+                    $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
                   }else{
                     $item_update = "";
                     $item_update_btn = "";
@@ -182,7 +235,7 @@ height: 250px; /* only if you want fixed height */
                   $item_uninstall = "";
                 }
                 if($item_dispensary_version > $xmldata->VERSION){
-                  $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
+                  $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
                 }else{
                   $item_update_download = "";
                 }
@@ -207,58 +260,16 @@ height: 250px; /* only if you want fixed height */
                               echo "Status: $item_status";
                               echo "</p>";
                               if($item_installed == "true"){
-                                if($item_data[0]->enable == 'true'){
-                                  if($page == "Widgets"){
-                                    echo " <a href='".SITE_URL."AdminPanel-Dispenser-Widgets-Settings/{$item_data[0]->id}/' class='btn btn-primary btn-sm'>Settings</a> ";
-                                  }else if($page == "Themes"){
-                                    if($site_theme == $xmldata->FOLDER_LOCATION){
-                                      echo " <font color='green'>Active Theme</font> <Br>";
-                                    }else{
-                                      echo " <a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Activate</a> ";
-                                    }
-                                  }
-                                  echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Disable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-warning btn-sm'>Disable</a>";
-                                }else{
-                                  echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Enable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Enable</a>";
-                                }
                                 echo "$item_update_btn";
                               }else{
-                                echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm'>Install</a>";
+                                echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm'>Install</a>";
                               }
                               echo $item_update_download;
-                            }else{
-                              if($site_theme != 'default' && $page == "Themes"){
-                                echo "<a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Activate</a>";
-                              }else{
-                                echo "<font color='green'>Active Theme</font>";
-                              }
                             }
                         echo "</div>";
                     echo "</div>";
                   echo "</div>";
                 echo "</div>";
-                echo "
-                  <div class='modal fade' id='UnInstallModal{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
-                    <div class='modal-dialog' role='document'>
-                      <div class='modal-content'>
-                        <div class='modal-header'>
-                          <h5 class='modal-title' id='DeleteLabel'>UnInstall?</h5>
-                          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                          </button>
-                        </div>
-                        <div class='modal-body'>
-                          Do you want to UnInstall this?<br><br>
-                          {$xmldata->FOLDER_LOCATION} - {$xmldata->TYPE}
-                        </div>
-                        <div class='modal-footer'>
-                          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
-                          <a href='".SITE_URL."AdminPanel-Dispenser-$page/UnInstall/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-danger'>UnInstall</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ";
               }
             }
 
@@ -288,10 +299,10 @@ height: 250px; /* only if you want fixed height */
             if($get_dd){
               foreach ($get_dd as $dd_data) {
                 /** Check to see if the item is already downloaded **/
-                $check_if_downloaded = CUSTOMDIR."$page_lowercase/{$dd_data['folder_location']}/info.xml";
+                $check_if_downloaded = CUSTOMDIR."$page_lowercase/{$dd_data['folder_location']}.zip";
                 if(file_exists($check_if_downloaded)){
                   /** Get list of Downloaded Items **/
-                  $xmldownloaded=simplexml_load_file($check_if_downloaded);
+                  $xmldownloaded = true;
                 }else{
                   $xmldownloaded = false;
                   /** Get Item Data from Database if installed **/
@@ -301,7 +312,7 @@ height: 250px; /* only if you want fixed height */
                     $item_status = '<font color="green">Installed</font> '.$item_enable;
                     if($dd_data['version'] > $item_data[0]->version){
                       $item_update = " - <font color='red'>Update Available</font>";
-                      $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-$page/Update/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Update</a> ";
+                      $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Update</a> ";
                     }else{
                       $item_update = "";
                       $item_update_btn = "";
@@ -336,17 +347,12 @@ height: 250px; /* only if you want fixed height */
                                 echo "Status: $item_status";
                                 echo "</p>";
                                 if($item_installed == "true"){
-                                  if($item_data[0]->enable == 'true'){
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Disable/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Disable</a>";
-                                  }else{
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Enable/{$dd_data['folder_location']}/' class='btn btn-primary btn-sm'>Enable</a>";
-                                  }
                                   echo "$item_update_btn";
                                 }else{
                                   if($xmldownloaded){
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm'>Install</a>";
+                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm'>Install</a>";
                                   }else{
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm'>Download</a>";
+                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm'>Download</a>";
                                   }
                                 }
                               }
