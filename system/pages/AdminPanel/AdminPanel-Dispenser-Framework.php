@@ -41,54 +41,7 @@ $DispenserModel = new DispenserModel();
 $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 
 /** Check to see if Admin is installing or updating a Item **/
-if($action == "Install" && !empty($folder)){
-  $load_install_file = CUSTOMDIR."$page_lowercase/$folder/install.php";
-  if(file_exists($load_install_file)){
-    require_once($load_install_file);
-    /** Get Data from info.xml file for DB **/
-    $load_info_file_i = CUSTOMDIR."$page_lowercase/$folder/info.xml";
-    if(file_exists($load_info_file_i)){
-      /** Get list of Downloaded Items **/
-      $xmlinstall=simplexml_load_file($load_info_file_i);
-    }
-    /** Insert Item to Dispenser Database **/
-    if($DispenserModel->insertDispenser($xmlinstall->NAME, $xmlinstall->TYPE, $xmlinstall->FOLDER_LOCATION, $xmlinstall->VERSION)){
-      /** Send data to the Database **/
-      if(isset($install_db_data)){
-        if($db_install_status = $DispenserModel->updateDatabase($install_db_data)){
-          /** Run Updates to Make sure Item is up to date **/
-          $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
-          if(file_exists($load_update_file)){
-            unset($install_db_data);
-            require_once($load_update_file);
-            /** Send data to the Database **/
-            if(isset($install_db_data)){
-              if($db_update_status = $DispenserModel->updateDatabase($install_db_data, '0.0.0', $xmlinstall->VERSION)){
-                  $install_status = 'Success';
-              }
-            }else{
-              $install_status = 'Success';
-            }
-          }
-        }
-      }else{
-        $install_status = 'Success';
-      }
-    }
-  }
-  /** Format Data for Success Message */
-  if(!empty($db_install_status)){$db_install_status = implode(" ", $db_install_status);}else{$db_install_status = "";}
-  if(!empty($db_update_status)){$db_update_status = implode(" ", $db_update_status);}else{$db_update_status = "";}
-  if(!empty($new_pages)){$new_pages = implode(" ", $new_pages);}else{$new_pages = "";}
-  /** Check to see if the install was successful **/
-  if($install_status == 'Success'){
-    /** Success */
-    SuccessMessages::push('You Have Successfully Installed a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page);
-  }else{
-    /** Success */
-    ErrorMessages::push('There was an Error Installing a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page);
-  }
-}else if($action == "Update" && !empty($folder)){
+if(($action == "Update" || $action == "Install") && !empty($folder)){
   $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
   if(file_exists($load_update_file)){
     /** Get Data from info.xml file for DB **/
@@ -109,7 +62,10 @@ if($action == "Install" && !empty($folder)){
           /** Send data to the Database **/
           if(isset($install_db_data)){
             if($db_update_status = $DispenserModel->updateDatabase($install_db_data, $dispenser_db_data[0]->version, $xmlupdate->VERSION)){
+              /** Copy update files to site root. **/
+              if(Dispenser::copyAllFiles(CUSTOMDIR."$page_lowercase/$folder/", ROOTDIR)){
                 $install_status = 'Success';
+              }
             }
           }else{
             $install_status = 'Success';
@@ -125,13 +81,12 @@ if($action == "Install" && !empty($folder)){
   /** Check to see if everything went well **/
   if($install_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Updated a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Updated '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-'.$page);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Updating a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Updating '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-'.$page);
   }
 }else if($action == "Download" && !empty($folder) && !empty($type)){
-  $Dispenser = new Dispenser();
   /** Get Settings Data */
   $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
