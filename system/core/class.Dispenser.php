@@ -67,6 +67,45 @@ class Dispenser {
       }
     }
 
+    /** Function to download file by URL **/
+    public function downloadFrameworkFromDispensary($token, $folder, $type){
+      if(is_writable(SYSTEMDIR."temp/")){
+        if(isset($folder) && isset($type)){
+          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$type."/".$folder."/";
+          $filepath = SYSTEMDIR."temp/".$folder.".zip";
+          $fp = fopen($filepath, 'w+');
+          $ch = curl_init($url);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+          curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+          //curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+          curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+          curl_setopt($ch, CURLOPT_FILE, $fp);
+          curl_exec($ch);
+          curl_close($ch);
+          fclose($fp);
+          if(is_resource($zip = zip_open($filepath))){
+            zip_close($zip);
+            $zip = new \ZipArchive;
+            $res = $zip->open($filepath);
+            if ($res === TRUE) {
+              $zip->extractTo(CUSTOMDIR.'/'.$type.'/');
+              $zip->close();
+              unlink($filepath);
+              return true;
+            } else {
+              return false;
+            }
+            return true;
+          }else{
+            unlink($filepath);
+            return false;
+          }
+        }
+      }else{
+        return false;
+      }
+    }
+
     /** Function to get data from UserCandy Dispensary **/
     public function getDataFromDispensary($dispenser_api_key, $type){
       if(!empty($dispenser_api_key)){
