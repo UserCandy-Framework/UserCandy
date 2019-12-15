@@ -135,17 +135,17 @@ if($action == "Install" && !empty($folder)){
   /** Get Settings Data */
   $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
-  if($filedata = Dispenser::downloadFromDispensary($dispenser_api_key, $folder, $type)){
+  if($filedata = Dispenser::downloadFrameworkFromDispensary($dispenser_api_key, $folder, $type)){
     $download_status = $filedata;
   }else{
     $download_status = false;
   }
   if($download_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Downloaded a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Downloaded '.$page_single, 'AdminPanel-Dispenser/'.$page);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Downloading a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Downloading '.$page_single, 'AdminPanel-Dispenser/'.$page);
   }
 }
 
@@ -215,7 +215,7 @@ height: 250px; /* only if you want fixed height */
                   $item_uninstall = "<a href='#UnInstallModal{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' class='btn btn-sm btn-danger trigger-btn float-right' data-toggle='modal'>UnInstall</a>";
                   if($xmldata->VERSION > $item_data[0]->version){
                     $item_update = " - <font color='red'>Update Available</font>";
-                    $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser/$page/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
+                    $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-$page/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
                   }else{
                     $item_update = "";
                     $item_update_btn = "";
@@ -227,7 +227,7 @@ height: 250px; /* only if you want fixed height */
                   $item_uninstall = "";
                 }
                 if($item_dispensary_version > $xmldata->VERSION){
-                  $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
+                  $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
                 }else{
                   $item_update_download = "";
                 }
@@ -262,13 +262,13 @@ height: 250px; /* only if you want fixed height */
                                       echo " <a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Activate</a> ";
                                     }
                                   }
-                                  echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Disable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-warning btn-sm'>Disable</a>";
+                                  echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Disable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-warning btn-sm'>Disable</a>";
                                 }else{
-                                  echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Enable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Enable</a>";
+                                  echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Enable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm'>Enable</a>";
                                 }
                                 echo "$item_update_btn";
                               }else{
-                                echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm'>Install</a>";
+                                echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm'>Install</a>";
                               }
                               echo $item_update_download;
                             }else{
@@ -298,7 +298,7 @@ height: 250px; /* only if you want fixed height */
                         </div>
                         <div class='modal-footer'>
                           <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
-                          <a href='".SITE_URL."AdminPanel-Dispenser/$page/UnInstall/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-danger'>UnInstall</a>
+                          <a href='".SITE_URL."AdminPanel-Dispenser-$page/UnInstall/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-danger'>UnInstall</a>
                         </div>
                       </div>
                     </div>
@@ -346,7 +346,7 @@ height: 250px; /* only if you want fixed height */
                     $item_status = '<font color="green">Installed</font> '.$item_enable;
                     if($dd_data['version'] > $item_data[0]->version){
                       $item_update = " - <font color='red'>Update Available</font>";
-                      $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser/$page/Update/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Update</a> ";
+                      $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-$page/Update/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Update</a> ";
                     }else{
                       $item_update = "";
                       $item_update_btn = "";
@@ -382,16 +382,16 @@ height: 250px; /* only if you want fixed height */
                                 echo "</p>";
                                 if($item_installed == "true"){
                                   if($item_data[0]->enable == 'true'){
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Disable/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Disable</a>";
+                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Disable/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Disable</a>";
                                   }else{
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Enable/{$dd_data['folder_location']}/' class='btn btn-primary btn-sm'>Enable</a>";
+                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Enable/{$dd_data['folder_location']}/' class='btn btn-primary btn-sm'>Enable</a>";
                                   }
                                   echo "$item_update_btn";
                                 }else{
                                   if($xmldownloaded){
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm'>Install</a>";
+                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm'>Install</a>";
                                   }else{
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm'>Download</a>";
+                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-$page/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm'>Download</a>";
                                   }
                                 }
                               }
