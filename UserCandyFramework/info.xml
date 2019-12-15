@@ -5,11 +5,11 @@
   <!-- Small Description of the Plugin - What does it do? -->
   <DESCRIPTION>UserCandy is a Free Open Source User Management PHP Framework built from the ground up to be Easy and Powerful. </DESCRIPTION>
   <!-- Name of Plugin - This is how it is stored in the DB - No spaces or special characters -->
-  <NAME>UserCany-1.0.2</NAME>
+  <NAME>UserCanyFramework</NAME>
   <!-- Let UserCany Dispenser know that this is a Plugin -->
   <TYPE>framework</TYPE>
   <!-- Folder name where the Plugin is located - Normally same as Name -->
-  <FOLDER_LOCATION>UserCandy-1.0.2</FOLDER_LOCATION>
+  <FOLDER_LOCATION>UserCandyFramework</FOLDER_LOCATION>
   <!-- Let everyone know who created this Plugin -->
   <AUTHOR>DaVaR</AUTHOR>
   <!-- Current Release Version of this Plugin - Used to let others know when to update -->
