@@ -175,7 +175,7 @@ $data['title'] = "Widget Settings - ".$widget_data[0]->name;
 $data['csrfToken'] = Csrf::makeToken('settings');
 
 /** Setup Breadcrumbs */
-$data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel-Dispenser-Widgets'><i class='fa fa-fw fa-cog'></i> Dispenser Widgets</a></li><li class='breadcrumb-item active'><i class='fa fa-fw fa-cog'></i> ".$data['title']."</li>";
+$data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel-Dispenser/Widgets'><i class='fa fa-fw fa-cog'></i> Dispenser Widgets</a></li><li class='breadcrumb-item active'><i class='fa fa-fw fa-cog'></i> ".$data['title']."</li>";
 
 ?>
 <style>
