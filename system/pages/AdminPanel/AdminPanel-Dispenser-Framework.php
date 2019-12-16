@@ -47,11 +47,11 @@ if($action == "Install" && !empty($folder)){
   if(file_exists($fw_zip)){
     Dispenser::updateFramework($fw_zip, $folder);
   }
-  $load_install_file = ROOTDIR."install.php";
+  $load_install_file = ROOTDIR.$folder."/install.php";
   if(file_exists($load_install_file)){
     require_once($load_install_file);
     /** Get Data from info.xml file for DB **/
-    $load_info_file_i = ROOTDIR."info.xml";
+    $load_info_file_i = ROOTDIR.$folder."/info.xml";
     if(file_exists($load_info_file_i)){
       /** Get list of Downloaded Items **/
       $xmlinstall=simplexml_load_file($load_info_file_i);
@@ -62,7 +62,7 @@ if($action == "Install" && !empty($folder)){
       if(isset($install_db_data)){
         if($db_install_status = $DispenserModel->updateDatabase($install_db_data)){
           /** Run Updates to Make sure Item is up to date **/
-          $load_update_file = ROOTDIR."update.php";
+          $load_update_file = ROOTDIR.$folder."/update.php";
           if(file_exists($load_update_file)){
             unset($install_db_data);
             require_once($load_update_file);
@@ -99,11 +99,11 @@ if($action == "Install" && !empty($folder)){
   if(file_exists($fw_zip)){
     Dispenser::updateFramework($fw_zip, $folder);
   }
-  $load_update_file = ROOTDIR."update.php";
+  $load_update_file = ROOTDIR.$folder."/update.php";
   if(file_exists($load_update_file)){
 
     /** Get Data from info.xml file for DB **/
-    $load_info_file_u = ROOTDIR."info.xml";
+    $load_info_file_u = ROOTDIR.$folder."/info.xml";
     if(file_exists($load_info_file_u)){
       /** Get list of Downloaded Items **/
       $xmlupdate=simplexml_load_file($load_info_file_u);
@@ -220,7 +220,6 @@ height: 250px; /* only if you want fixed height */
                 if(!empty($item_data)){
                   if($item_data[0]->enable == "true"){$item_enable = " - <font color='green'>Enabled</font>";}else{$item_enable = " - <font color='red'>Disabled</font>";}
                   $item_status = '<font color="green">Installed</font> '.$item_enable;
-                  $item_uninstall = "<a href='#UnInstallModal{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' class='btn btn-sm btn-danger trigger-btn float-right' data-toggle='modal'>UnInstall</a>";
                   if($xmldata->VERSION > $item_data[0]->version){
                     $item_update = " - <font color='red'>Update Available</font>";
                     $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
@@ -232,7 +231,6 @@ height: 250px; /* only if you want fixed height */
                 }else{
                   $item_status = '<font color="red">Downloaded but Not Installed</font>';
                   $item_installed = "false";
-                  $item_uninstall = "";
                 }
                 if($item_dispensary_version > $xmldata->VERSION){
                   $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
@@ -242,7 +240,6 @@ height: 250px; /* only if you want fixed height */
                 echo "<div class='card mb-3 border-dark'>";
                   echo "<div class='card-header h4'>";
                     echo "{$xmldata->TITLE}";
-                    echo $item_uninstall;
                   echo "</div>";
                   echo "<div class='row no-gutters'>";
                     echo "<div class='col-auto border-right'>";
