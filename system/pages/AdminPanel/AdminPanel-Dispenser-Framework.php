@@ -42,6 +42,11 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 
 /** Check to see if Admin is installing or updating a Item **/
 if($action == "Install" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Installs Disabled', 'AdminPanel-Dispenser-Framework');
+  }
   /** Unzip the framework files to ROOTDIR **/
   $fw_zip = CUSTOMDIR.'framework/'.$folder.'.zip';
   if(file_exists($fw_zip)){
@@ -94,6 +99,11 @@ if($action == "Install" && !empty($folder)){
     ErrorMessages::push('There was an Error Installing '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser-Framework');
   }
 }else if(($action == "Update") && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Updates Disabled', 'AdminPanel-Dispenser-Framework');
+  }
   /** Unzip the framework files to ROOTDIR **/
   $fw_zip = CUSTOMDIR.'framework/'.$folder.'.zip';
   if(file_exists($fw_zip)){
@@ -145,6 +155,11 @@ if($action == "Install" && !empty($folder)){
     ErrorMessages::push('There was an Error Updating '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser-Framework');
   }
 }else if($action == "Download" && !empty($folder) && !empty($type)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Downloads Disabled', 'AdminPanel-Dispenser-Framework');
+  }
   /** Get Settings Data */
   $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
@@ -222,7 +237,7 @@ height: 250px; /* only if you want fixed height */
                   $item_status = '<font color="green">Installed</font> '.$item_enable;
                   if($xmldata->VERSION > $item_data[0]->version){
                     $item_update = " - <font color='red'>Update Available</font>";
-                    $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
+                    $item_update_btn = " <a href='#UpdateModal' class='btn btn-info btn-sm float-right trigger-btn' data-toggle='modal'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
                   }else{
                     $item_update = "";
                     $item_update_btn = "";
@@ -259,7 +274,7 @@ height: 250px; /* only if you want fixed height */
                               if($item_installed == "true"){
                                 echo "$item_update_btn";
                               }else{
-                                echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm'>Install</a>";
+                                echo "<a href='#InstallModal' class='btn btn-sm btn-success trigger-btn' data-toggle='modal'>Install</a>";
                               }
                               echo $item_update_download;
                             }
@@ -279,6 +294,53 @@ height: 250px; /* only if you want fixed height */
 
   </div>
 </div>
+
+<?php
+echo "
+  <div class='modal fade' id='InstallModal' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+    <div class='modal-dialog' role='document'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h5 class='modal-title' id='InstallLabel'>Install UserCandy Framework Update?</h5>
+          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+        </div>
+        <div class='modal-body'>
+          Are you sure you would like to Install {$xmldata->FOLDER_LOCATION} {$xmldata->VERSION}?<br><br>
+          Note: Make sure to create a full backup as this install will replace any stock UserCandy Framework file.
+        </div>
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+          <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-danger'>Install</a>
+        </div>
+      </div>
+    </div>
+  </div>
+";
+echo "
+  <div class='modal fade' id='UpdateModal' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+    <div class='modal-dialog' role='document'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h5 class='modal-title' id='InstallLabel'>Update UserCandy Framework?</h5>
+          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+        </div>
+        <div class='modal-body'>
+          Are you sure you would like to Update to {$xmldata->FOLDER_LOCATION} {$xmldata->VERSION}?<br><br>
+          Note: Make sure to create a full backup as this udpate will replace any stock UserCandy Framework file.
+        </div>
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+          <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+";
+?>
 
 <!-- Remote Files -->
 <div class='col-lg-12 col-md-12 col-sm-12'>

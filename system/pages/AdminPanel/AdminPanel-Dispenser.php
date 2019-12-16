@@ -42,6 +42,11 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 
 /** Check to see if Admin is installing or updating a Item **/
 if($action == "Install" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Installs Disabled', 'AdminPanel-Dispenser/'.$page);
+  }
   $load_install_file = CUSTOMDIR."$page_lowercase/$folder/install.php";
   if(file_exists($load_install_file)){
     require_once($load_install_file);
@@ -83,12 +88,17 @@ if($action == "Install" && !empty($folder)){
   /** Check to see if the install was successful **/
   if($install_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Installed a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Installed a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Installing a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Installing a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }
 }else if($action == "UnInstall" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser UnInstalls Disabled', 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
+  }
   $load_uninstall_file = CUSTOMDIR."$page_lowercase/$folder/uninstall.php";
   if(file_exists($load_uninstall_file)){
     require_once($load_uninstall_file);
@@ -117,12 +127,17 @@ if($action == "Install" && !empty($folder)){
   /** Check to see if the uninstall was successful **/
   if($uninstall_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully UnInstalled a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully UnInstalled a '.$page_single.'<Br><br>'.$db_install_status.$db_update_status.$new_pages , 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error UnInstalling a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error UnInstalling a '.$page_single.'<Br><br>'.$db_update_status.$new_pages, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }
 }else if($action == "Update" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Updates Disabled', 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
+  }
   $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
   if(file_exists($load_update_file)){
     /** Get Data from info.xml file for DB **/
@@ -159,12 +174,17 @@ if($action == "Install" && !empty($folder)){
   /** Check to see if everything went well **/
   if($install_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Updated a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Updated a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Updating a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Updating a '.$page_single.'<Br><br>'.$db_update_status, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }
 }else if($action == "Disable" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Disables Disabled', 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
+  }
   $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
   if(file_exists($load_update_file)){
     /** Get Data from info.xml file for DB **/
@@ -180,12 +200,17 @@ if($action == "Install" && !empty($folder)){
   }
   if($update_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Disabled a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Disabled a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Disabled a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Disabled a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }
 }else if($action == "Enable" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Enables Disabled', 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
+  }
   $load_update_file = CUSTOMDIR."$page_lowercase/$folder/update.php";
   if(file_exists($load_update_file)){
     /** Get Data from info.xml file for DB **/
@@ -201,12 +226,17 @@ if($action == "Install" && !empty($folder)){
   }
   if($update_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Enabled a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Enabled a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Enabled a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Enabled a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }
 }else if($action == "Download" && !empty($folder) && !empty($type)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Downloads Disabled', 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
+  }
   $Dispenser = new Dispenser();
   /** Get Settings Data */
   $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
@@ -218,12 +248,17 @@ if($action == "Install" && !empty($folder)){
   }
   if($download_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Downloaded a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    SuccessMessages::push('You Have Successfully Downloaded a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Downloading a '.$page_single, 'AdminPanel-Dispenser/'.$page);
+    ErrorMessages::push('There was an Error Downloading a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$folder);
   }
 }else if($action == "Activate" && !empty($folder)){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Activations Disabled', 'AdminPanel-Dispenser/Themes/#'.$folder);
+  }
   $load_update_file = CUSTOMDIR."themes/$folder/update.php";
   if(file_exists($load_update_file)){
     /** Get Data from info.xml file for DB **/
@@ -237,10 +272,10 @@ if($action == "Install" && !empty($folder)){
   }
   if($update_status == 'Success'){
     /** Success */
-    SuccessMessages::push('You Have Successfully Updated a Theme', 'AdminPanel-Dispenser/Themes');
+    SuccessMessages::push('You Have Successfully Updated a Theme', 'AdminPanel-Dispenser/Themes/#'.$folder);
   }else{
     /** Success */
-    ErrorMessages::push('There was an Error Updating a Theme', 'AdminPanel-Dispenser/Themes');
+    ErrorMessages::push('There was an Error Updating a Theme', 'AdminPanel-Dispenser/Themes/#'.$folder);
   }
 }
 
@@ -326,6 +361,7 @@ height: 250px; /* only if you want fixed height */
                 }else{
                   $item_update_download = "";
                 }
+                echo "<a name='{$xmldata->FOLDER_LOCATION}' class='anchor'></a>";
                 echo "<div class='card mb-3 border-dark'>";
                   echo "<div class='card-header h4'>";
                     echo "{$xmldata->TITLE}";
@@ -389,7 +425,8 @@ height: 250px; /* only if you want fixed height */
                         </div>
                         <div class='modal-body'>
                           Do you want to UnInstall this?<br><br>
-                          {$xmldata->FOLDER_LOCATION} - {$xmldata->TYPE}
+                          {$xmldata->FOLDER_LOCATION} - {$xmldata->TYPE}<Br><Br>
+                          Note: Files are not deleted, however related database items will be deleted, and CAN NOT be recovered.  
                         </div>
                         <div class='modal-footer'>
                           <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
