@@ -393,7 +393,7 @@ INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sit
 (45, 'AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel'),
 (46, 'AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', NULL, 'false', 'true', 'AdminPanel'),
 (47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default'),
-(48, 'AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel');
+(48, 'AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser-Framework', NULL, 'false', 'true', 'AdminPanel');
 
 -- --------------------------------------------------------
 

@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version 1.0.0
+* @version 1.0.3
 */
 
 class Config {
