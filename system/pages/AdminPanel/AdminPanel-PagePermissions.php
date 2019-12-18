@@ -142,7 +142,7 @@ if(isset($_POST['submit'])){
     }
   }else{
       /** Error Message Display */
-      ErrorMessages::push('Demo Limit - Pages Settings Disabled', 'AdminPanel-PagePermissions');
+      ErrorMessages::push('Demo Limit - Pages Settings Disabled', 'AdminPanel-PagesPermissions');
   }
 }
 

@@ -14,21 +14,21 @@ return [
 	'homeText' => "Bienvenido",
 	'homeMessage' => "
 		Hola, bienvenido desde el controlador principal! <br/>
-		Este contenido se puede cambiar en <code>/system/pages/Home/Home.php</code>
+		Este contenido se puede cambiar en <code>/custom/pages/Home.php</code>
 	",
 
 	// Contact method
 	'contactText' => "Contacto",
 	'contactMessage' => "
 		Hola, bienvenido desde el controlador principal y el método de contacto! <br/>
-		Este contenido se puede cambiar en <code>/system/pages/Home/Contact.php</code>
+		Este contenido se puede cambiar en <code>/custom/pages/Contact.php</code>
 	",
 
 	// About method
 	'aboutText' => "Acerca de",
 	'aboutMessage' => "
 		Hola, bienvenido desde el controlador principal y Acerca método! <br/>
-		Este contenido se puede cambiar en <code>/system/pages/Home/About.php</code>
+		Este contenido se puede cambiar en <code>/custom/pages/About.php</code>
 	",
 
 	// Buttons

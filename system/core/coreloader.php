@@ -11,6 +11,17 @@ use Core\{Router,Language};
 use Helpers\{AuthHelper,PageFunctions,SiteStats,CurrentUserData};
 use Models\UsersModel;
 
+/** Check to see if Home, About, and Contact pages exist in custom/pages folder **/
+if(!file_exists(CUSTOMDIR.'pages/Home.php')){
+  copy(SYSTEMDIR.'pages/Home/Home.php', CUSTOMDIR.'pages/Home.php');
+}
+if(!file_exists(CUSTOMDIR.'pages/About.php')){
+  copy(SYSTEMDIR.'pages/Home/About.php', CUSTOMDIR.'pages/About.php');
+}
+if(!file_exists(CUSTOMDIR.'pages/Contact.php')){
+  copy(SYSTEMDIR.'pages/Home/Contact.php', CUSTOMDIR.'pages/Contact.php');
+}
+
 /** Initialise the Router object **/
 $routes = Router::extendedRoutes();
 /** initialise the AuthHelper object */

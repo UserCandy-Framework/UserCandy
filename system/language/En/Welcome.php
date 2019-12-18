@@ -14,21 +14,21 @@ return [
 	'homeText' => "Home",
 	'homeMessage' => "
 		Hello, Welcome from the Home controller! <br/>
-		This content can be changed in <code>/system/pages/Home/Home.php</code>
+		This content can be changed in <code>/custom/pages/Home.php</code>
 	",
 
 	// Contact method
 	'contactText' => "Contact",
 	'contactMessage' => "
 		Hello, Welcome from the Home controller and Contact method! <br/>
-		This content can be changed in <code>/system/pages/Home/Contact.php</code>
+		This content can be changed in <code>/custom/pages/Contact.php</code>
 	",
 
 	// About method
 	'aboutText' => "About",
 	'aboutMessage' => "
 		Hello, Welcome from the Home controller and About method! <br/>
-		This content can be changed in <code>/system/pages/Home/About.php</code>
+		This content can be changed in <code>/custom/pages/About.php</code>
 	",
 
 	// Buttons

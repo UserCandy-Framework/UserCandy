@@ -15,21 +15,21 @@ return [
 	'homeText' => "Home",
 	'homeMessage' => "
 		Bonjour, Bienvenue depuis le contrôleur Home! <br/>
-		Ce contenu peut être modifié dans <code>/system/pages/Home/Home.php</code>
+		Ce contenu peut être modifié dans <code>/custom/pages/Home.php</code>
 	",
 
 	// Contact method
 	'contactText' => "Contact",
 	'contactMessage' => "
 		Bonjour, Bienvenue depuis le contrôleur Home et la méthode contact! <br/>
-		Ce contenu peut être modifié dans <code>/system/pages/Home/Contact.php</code>
+		Ce contenu peut être modifié dans <code>/custom/pages/Contact.php</code>
 	",
 
 	// About method
 	'aboutText' => "About",
 	'aboutMessage' => "
 		Bonjour, Bienvenue depuis le contrôleur Home et la méthode About! <br/>
-		Ce contenu peut être modifié dans <code>/system/pages/Home/About.php</code>
+		Ce contenu peut être modifié dans <code>/custom/pages/About.php</code>
 	",
 
 	// Buttons
