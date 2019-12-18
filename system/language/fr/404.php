@@ -7,7 +7,7 @@
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
 * @translator Eddy Beaupré <eddy@beaupre.biz>
-* @version 1.0.0
+* @version uc 1.0.3
 */
 
   return [

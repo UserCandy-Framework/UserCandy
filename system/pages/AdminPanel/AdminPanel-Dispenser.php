@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version 1.0.0
+* @version uc 1.0.3
 */
 
 use Core\Dispenser;
@@ -409,6 +409,26 @@ height: 250px; /* only if you want fixed height */
                                 echo "<font color='green'>Active Theme</font>";
                               }
                             }
+                            if(!empty($item_dispensary_data[0]['changelog'])){
+                              echo "<a href='#ViewChangeLog{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' class='btn btn-sm btn-info trigger-btn mx-2' data-toggle='modal'>ChangeLog</a>
+                                    <div class='modal fade' id='ViewChangeLog{$xmldata->FOLDER_LOCATION}{$xmldata->TYPE}' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+                                      <div class='modal-dialog modal-lg' role='document'>
+                                        <div class='modal-content'>
+                                          <div class='modal-header'>
+                                            <h5 class='modal-title' id='ChangeLogLabel'>{$xmldata->FOLDER_LOCATION} ChangeLog</h5>
+                                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                              <span aria-hidden='true'>&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class='modal-body'><pre>{$item_dispensary_data[0]['changelog']}</pre></div>
+                                          <div class='modal-footer'>
+                                            <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                              ";
+                            }
                         echo "</div>";
                     echo "</div>";
                   echo "</div>";
@@ -426,7 +446,7 @@ height: 250px; /* only if you want fixed height */
                         <div class='modal-body'>
                           Do you want to UnInstall this?<br><br>
                           {$xmldata->FOLDER_LOCATION} - {$xmldata->TYPE}<Br><Br>
-                          Note: Files are not deleted, however related database items will be deleted, and CAN NOT be recovered.  
+                          Note: Files are not deleted, however related database items will be deleted, and CAN NOT be recovered.
                         </div>
                         <div class='modal-footer'>
                           <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
@@ -526,6 +546,27 @@ height: 250px; /* only if you want fixed height */
                                     echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm'>Download</a>";
                                   }
                                 }
+                              }
+
+                              if(!empty($dd_data['changelog'])){
+                                echo "<a href='#ViewChangeLogNew{$dd_data['folder_location']}{$dd_data['type']}' class='btn btn-sm btn-info trigger-btn mx-2' data-toggle='modal'>ChangeLog</a>
+                                      <div class='modal fade' id='ViewChangeLogNew{$dd_data['folder_location']}{$dd_data['type']}' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+                                        <div class='modal-dialog modal-lg' role='document'>
+                                          <div class='modal-content'>
+                                            <div class='modal-header'>
+                                              <h5 class='modal-title' id='ChangeLogLabel'>{$dd_data['folder_location']} ChangeLog</h5>
+                                              <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                                <span aria-hidden='true'>&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class='modal-body'><pre>{$dd_data['changelog']}</pre></div>
+                                            <div class='modal-footer'>
+                                              <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                ";
                               }
                           echo "</div>";
                       echo "</div>";

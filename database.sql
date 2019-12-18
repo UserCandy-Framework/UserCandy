@@ -346,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `uc_pages` (
 --
 
 INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sitemap`, `stock`, `template`) VALUES
-(1, 'Home', 'Home', 'Home', NULL, 'true', 'true', 'Default'),
+(1, 'Home', 'custompages', 'Home', NULL, 'true', 'true', 'Default'),
 (2, 'Templates', 'Home', 'Templates', NULL, 'false', 'true', 'Default'),
 (3, 'assets', 'Home', 'assets', NULL, 'false', 'true', 'Default'),
 (4, 'Register', 'Auth', 'Register', NULL, 'false', 'true', 'Default'),
@@ -384,8 +384,8 @@ INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sit
 (36, 'AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', NULL, 'false', 'true', 'AdminPanel'),
 (37, 'AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy', NULL, 'false', 'true', 'AdminPanel'),
 (38, 'ChangeLang', 'Home', 'ChangeLang', NULL, 'false', 'true', 'Default'),
-(39, 'About', 'Home', 'About', NULL, 'true', 'true', 'Default'),
-(40, 'Contact', 'Home', 'Contact', NULL, 'true', 'true', 'Default'),
+(39, 'About', 'custompages', 'About', NULL, 'true', 'true', 'Default'),
+(40, 'Contact', 'custompages', 'Contact', NULL, 'true', 'true', 'Default'),
 (41, 'sitemap', 'Home', 'sitemap', NULL, 'false', 'true', 'Default'),
 (42, 'Terms', 'Home', 'Terms', NULL, 'false', 'true', 'Default'),
 (43, 'Privacy', 'Home', 'Privacy', NULL, 'false', 'true', 'Default'),
@@ -393,7 +393,7 @@ INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sit
 (45, 'AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel'),
 (46, 'AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', NULL, 'false', 'true', 'AdminPanel'),
 (47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default'),
-(48, 'AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel');
+(48, 'AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser-Framework', NULL, 'false', 'true', 'AdminPanel');
 
 -- --------------------------------------------------------
 

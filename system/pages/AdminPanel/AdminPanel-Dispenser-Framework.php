@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version 1.0.0
+* @version uc 1.0.3
 */
 
 use Core\Dispenser;
@@ -39,6 +39,12 @@ $page_single_lowercase = $page_lowercase;
 $AdminPanelModel = new AdminPanelModel();
 $DispenserModel = new DispenserModel();
 $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
+
+/** Create Framework Folder if not exist **/
+$framework_dir = ROOTDIR.'custom/framework';
+if (!file_exists($framework_dir)) {
+    mkdir($framework_dir, 0777, true);
+}
 
 /** Check to see if Admin is installing or updating a Item **/
 if($action == "Install" && !empty($folder)){

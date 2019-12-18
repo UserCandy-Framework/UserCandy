@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version 1.0.0
+* @version uc 1.0.3
 */
 
 use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form,CurrentUserData};
@@ -142,7 +142,7 @@ if(isset($_POST['submit'])){
     }
   }else{
       /** Error Message Display */
-      ErrorMessages::push('Demo Limit - Pages Settings Disabled', 'AdminPanel-PagePermissions');
+      ErrorMessages::push('Demo Limit - Pages Settings Disabled', 'AdminPanel-PagesPermissions');
   }
 }
 

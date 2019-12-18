@@ -5,7 +5,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version 1.0.0
+* @version uc 1.0.3
 */
 
 /*
@@ -25,14 +25,14 @@ class Routes {
         $routes = array();
 
         /* Default Routing */
-        $routes[] = self::add('Home', 'Home', 'Home', '(:any)/(:num)');
+        $routes[] = self::add('Home', 'custompages', 'Home', '(:any)/(:num)');
         $routes[] = self::add('Terms', 'Home', 'Terms');
         $routes[] = self::add('Privacy', 'Home', 'Privacy');
         $routes[] = self::add('Templates', 'Home', 'Templates');
         $routes[] = self::add('assets', 'Home', 'assets');
         $routes[] = self::add('themes', 'Home', 'themes');
-        $routes[] = self::add('About', 'Home', 'About');
-        $routes[] = self::add('Contact', 'Home', 'Contact');
+        $routes[] = self::add('About', 'custompages', 'About');
+        $routes[] = self::add('Contact', 'custompages', 'Contact');
         /* End default routes */
 
         /* Auth Routing */
