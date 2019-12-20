@@ -229,214 +229,172 @@ height: 250px; /* only if you want fixed height */
     			<?php echo $data['title'];  ?>
           <?php echo PageFunctions::displayPopover('Dispenser '.$page, 'Displays list of UserCandy '.$page.'.', false, 'btn btn-sm btn-light'); ?>
     		</div>
-    		<div class='card-body'>
-    			<h4>Downloaded <?=$page?></h4>
-          <?php
-            if(isset($xml)){
-              foreach ($xml as $xmldata) {
-                /** Get Item Data from Database if installed **/
-                $item_data = $DispenserModel->getDispenserByName($xmldata->FOLDER_LOCATION, $xmldata->TYPE);
-                $item_dispensary_data = $Dispenser->getItemDataFromDispensary($dispenser_api_key, $xmldata->TYPE, $xmldata->FOLDER_LOCATION);
-                $item_dispensary_version = $item_dispensary_data[0]['version'];
-                if(!empty($item_data)){
-                  if($item_data[0]->enable == "true"){$item_enable = " - <font color='green'>Enabled</font>";}else{$item_enable = " - <font color='red'>Disabled</font>";}
-                  $item_status = '<font color="green">Installed</font> '.$item_enable;
-                  if($xmldata->VERSION > $item_data[0]->version){
-                    $item_update = " - <font color='red'>Update Available</font>";
-                    $item_update_btn = " <a href='#UpdateModal' class='btn btn-info btn-sm float-right trigger-btn' data-toggle='modal'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
-                  }else{
-                    $item_update = "";
-                    $item_update_btn = "";
+    	</div>
+    </div>
+    <div class='card-deck'>
+      <?php
+        if(isset($xml)){
+          foreach ($xml as $xmldata) {
+            /** Get Item Data from Database if installed **/
+            $item_data = $DispenserModel->getDispenserByName($xmldata->FOLDER_LOCATION, $xmldata->TYPE);
+            $item_dispensary_data = $Dispenser->getItemDataFromDispensary($dispenser_api_key, $xmldata->TYPE, $xmldata->FOLDER_LOCATION);
+            $item_dispensary_version = $item_dispensary_data[0]['version'];
+            if(!empty($item_data)){
+              if($item_data[0]->enable == "true"){$item_enable = " - <font color='green'>Enabled</font>";}else{$item_enable = " - <font color='red'>Disabled</font>";}
+              $item_status = '<font color="green">Installed</font> '.$item_enable;
+              if($xmldata->VERSION > $item_data[0]->version){
+                $item_update = " - <font color='red'>Update Available</font>";
+                $item_update_btn = " <a href='#UpdateModal' class='btn btn-info btn-sm float-right trigger-btn m-2' data-toggle='modal'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a> ";
+              }else{
+                $item_update = "";
+                $item_update_btn = "";
+              }
+              $item_installed = "true";
+            }else{
+              $item_status = '<font color="red">Downloaded but Not Installed</font>';
+              $item_installed = "false";
+            }
+            if($item_dispensary_version > $xmldata->VERSION){
+              $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right m-2'>Download Latest Version ($item_dispensary_version)</a>";
+            }else{
+              $item_update_download = "";
+            }
+            echo "<div class='col-lg-4 col-md-6 col-sm-12 mb-3'>";
+              echo "<div class='card border-dark'>";
+                echo "<img src='{$xmldata->IMAGE}' class='card-img-top border-bottom' alt='{$xmldata->TITLE}'>";
+                echo "<div class='card-body px-2'>";
+                  echo "<p class='card-text border-bottom'>{$xmldata->DESCRIPTION}</p>";
+                  echo "<p class='card-text border-bottom'>";
+                  echo "Author: {$xmldata->AUTHOR} <Br>";
+                  if($xmldata->FOLDER_LOCATION != 'default'){
+                    echo "Files Version: {$xmldata->VERSION} <br>";
+                    echo "Release Date: {$xmldata->RELEASE_DATE}<br>";
+                    if($item_installed == "true"){ echo "Installed Version: {$item_data[0]->version} $item_update<Br>"; }
+                    echo "Status: $item_status";
+                    echo "</p>";
+                    if($item_installed == "true"){
+                      echo "$item_update_btn";
+                    }else{
+                      echo "<a href='#InstallModal' class='btn btn-sm btn-success trigger-btn m-2' data-toggle='modal'>Install</a>";
+                    }
+                    echo $item_update_download;
                   }
-                  $item_installed = "true";
+                echo "</div>";
+              echo "</div>";
+            echo "</div>";
+          }
+        }
+
+        echo "
+          <div class='modal fade' id='InstallModal' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+            <div class='modal-dialog' role='document'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='InstallLabel'>Install UserCandy Framework Update?</h5>
+                  <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                  </button>
+                </div>
+                <div class='modal-body'>
+                  Are you sure you would like to Install {$xmldata->FOLDER_LOCATION} {$xmldata->VERSION}?<br><br>
+                  Note: Make sure to create a full backup as this install will replace any stock UserCandy Framework file.
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                  <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-danger'>Install</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ";
+        echo "
+          <div class='modal fade' id='UpdateModal' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
+            <div class='modal-dialog' role='document'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='InstallLabel'>Update UserCandy Framework?</h5>
+                  <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                  </button>
+                </div>
+                <div class='modal-body'>
+                  Are you sure you would like to Update to {$xmldata->FOLDER_LOCATION} {$xmldata->VERSION}?<br><br>
+                  Note: Make sure to create a full backup as this udpate will replace any stock UserCandy Framework file.
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                  <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ";
+
+        if($get_dd){
+          foreach ($get_dd as $dd_data) {
+            /** Check to see if the item is already downloaded **/
+            $check_if_downloaded = CUSTOMDIR."$page_lowercase/{$dd_data['folder_location']}.zip";
+            if(file_exists($check_if_downloaded)){
+              /** Get list of Downloaded Items **/
+              $xmldownloaded = true;
+            }else{
+              $xmldownloaded = false;
+              /** Get Item Data from Database if installed **/
+              $item_data = $DispenserModel->getDispenserByName($dd_data['folder_location'], $dd_data['type']);
+              if(!empty($item_data)){
+                if($item_data[0]->enable == "true"){$item_enable = " - <font color='green'>Enabled</font>";}else{$item_enable = " - <font color='red'>Disabled</font>";}
+                $item_status = '<font color="green">Installed</font> '.$item_enable;
+                if($dd_data['version'] > $item_data[0]->version){
+                  $item_update = " - <font color='red'>Update Available</font>";
+                  $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm m-2'>Update</a> ";
                 }else{
+                  $item_update = "";
+                  $item_update_btn = "";
+                }
+                $item_installed = "true";
+              }else{
+                if($xmldownloaded){
                   $item_status = '<font color="red">Downloaded but Not Installed</font>';
                   $item_installed = "false";
-                }
-                if($item_dispensary_version > $xmldata->VERSION){
-                  $item_update_download = "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-info btn-sm float-right'>Download Latest Version ($item_dispensary_version)</a>";
                 }else{
-                  $item_update_download = "";
+                  $item_status = '<font color="red">Available for Download</font>';
+                  $item_installed = "false";
                 }
-                echo "<div class='card mb-3 border-dark'>";
-                  echo "<div class='card-header h4'>";
-                    echo "{$xmldata->TITLE}";
-                  echo "</div>";
-                  echo "<div class='row no-gutters'>";
-                    echo "<div class='col-auto border-right'>";
-                      echo "<img src='{$xmldata->IMAGE}' class='img-responsive fit-image' alt=''>";
-                    echo "</div>";
-                    echo "<div class='col'>";
-                        echo "<div class='card-block px-2'>";
-                            echo "<p class='card-text'>{$xmldata->DESCRIPTION}</p>";
-                            echo "<p class='card-text'>";
-                            echo "Author: {$xmldata->AUTHOR} <Br>";
-                            if($xmldata->FOLDER_LOCATION != 'default'){
-                              echo "Files Version: {$xmldata->VERSION} <br>";
-                              echo "Release Date: {$xmldata->RELEASE_DATE}<br>";
-                              if($item_installed == "true"){ echo "Installed Version: {$item_data[0]->version} $item_update<Br>"; }
-                              echo "Status: $item_status";
-                              echo "</p>";
-                              if($item_installed == "true"){
-                                echo "$item_update_btn";
-                              }else{
-                                echo "<a href='#InstallModal' class='btn btn-sm btn-success trigger-btn' data-toggle='modal'>Install</a>";
-                              }
-                              echo $item_update_download;
-                            }
-                        echo "</div>";
-                    echo "</div>";
+              }
+              echo "<div class='col-lg-4 col-md-6 col-sm-12 mb-3'>";
+                echo "<div class='card border-dark'>";
+                  echo "<img src='{$dd_data['image']}' class='card-img-top border-bottom' alt='{$dd_data['title']}'>";
+                  echo "<div class='card-body px-2'>";
+                    echo "<p class='card-text border-bottom'>{$dd_data['description']}</p>";
+                    echo "<p class='card-text border-bottom'>";
+                    echo "Author: {$dd_data['author']} <Br>";
+                    if($dd_data['folder_location'] != 'default'){
+                      echo "Files Version: {$dd_data['version']} <br>";
+                      echo "Release Date: {$dd_data['release_date']}<br>";
+                      if($item_installed == "true"){ echo "Installed Version: {$item_data[0]->version} $item_update<Br>"; }
+                      echo "Status: $item_status";
+                      echo "</p>";
+                      if($item_installed == "true"){
+                        echo "$item_update_btn";
+                      }else{
+                        if($xmldownloaded){
+                          echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm m-2'>Install</a>";
+                        }else{
+                          echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm m-2'>Download</a>";
+                        }
+                      }
+                    }
                   echo "</div>";
                 echo "</div>";
-              }
+              echo "</div>";
             }
+          }
+        }else{
+          echo "No Downloadable Items Available or There is a Connection Issue.<br>";
+          echo "<a href='".SITE_URL."AdminPanel-Dispenser-Settings/' class='btn btn-warning btn-sm m-2'>Check Connections Settings</a>";
+        }
+      ?>
 
-          ?>
-
-        </div>
-    	</div>
     </div>
-
-
-  </div>
-</div>
-
-<?php
-echo "
-  <div class='modal fade' id='InstallModal' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
-    <div class='modal-dialog' role='document'>
-      <div class='modal-content'>
-        <div class='modal-header'>
-          <h5 class='modal-title' id='InstallLabel'>Install UserCandy Framework Update?</h5>
-          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-            <span aria-hidden='true'>&times;</span>
-          </button>
-        </div>
-        <div class='modal-body'>
-          Are you sure you would like to Install {$xmldata->FOLDER_LOCATION} {$xmldata->VERSION}?<br><br>
-          Note: Make sure to create a full backup as this install will replace any stock UserCandy Framework file.
-        </div>
-        <div class='modal-footer'>
-          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
-          <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-danger'>Install</a>
-        </div>
-      </div>
-    </div>
-  </div>
-";
-echo "
-  <div class='modal fade' id='UpdateModal' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
-    <div class='modal-dialog' role='document'>
-      <div class='modal-content'>
-        <div class='modal-header'>
-          <h5 class='modal-title' id='InstallLabel'>Update UserCandy Framework?</h5>
-          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-            <span aria-hidden='true'>&times;</span>
-          </button>
-        </div>
-        <div class='modal-body'>
-          Are you sure you would like to Update to {$xmldata->FOLDER_LOCATION} {$xmldata->VERSION}?<br><br>
-          Note: Make sure to create a full backup as this udpate will replace any stock UserCandy Framework file.
-        </div>
-        <div class='modal-footer'>
-          <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
-          <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info btn-sm float-right'>Update from version {$item_data[0]->version} to {$xmldata->VERSION}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-";
-?>
-
-<!-- Remote Files -->
-<div class='col-lg-12 col-md-12 col-sm-12'>
-  <div class='row'>
-    <div class='col-lg-12 col-md-12 col-sm-12'>
-    	<div class='card mb-3'>
-    		<div class='card-header h4'>
-    			UserCandy Dispensary <?=$page?>
-          <?php echo PageFunctions::displayPopover('UserCandy Dispensary '.$page, 'Displays list of UserCandy '.$page.' from UserCandy.com Dispensary.', false, 'btn btn-sm btn-light'); ?>
-    		</div>
-    		<div class='card-body'>
-    			<h4>Available <?=$page?></h4>
-
-          <?php
-            if($get_dd){
-              foreach ($get_dd as $dd_data) {
-                /** Check to see if the item is already downloaded **/
-                $check_if_downloaded = CUSTOMDIR."$page_lowercase/{$dd_data['folder_location']}.zip";
-                if(file_exists($check_if_downloaded)){
-                  /** Get list of Downloaded Items **/
-                  $xmldownloaded = true;
-                }else{
-                  $xmldownloaded = false;
-                  /** Get Item Data from Database if installed **/
-                  $item_data = $DispenserModel->getDispenserByName($dd_data['folder_location'], $dd_data['type']);
-                  if(!empty($item_data)){
-                    if($item_data[0]->enable == "true"){$item_enable = " - <font color='green'>Enabled</font>";}else{$item_enable = " - <font color='red'>Disabled</font>";}
-                    $item_status = '<font color="green">Installed</font> '.$item_enable;
-                    if($dd_data['version'] > $item_data[0]->version){
-                      $item_update = " - <font color='red'>Update Available</font>";
-                      $item_update_btn = " <a href='".SITE_URL."AdminPanel-Dispenser-Framework/Update/{$dd_data['folder_location']}/' class='btn btn-warning btn-sm'>Update</a> ";
-                    }else{
-                      $item_update = "";
-                      $item_update_btn = "";
-                    }
-                    $item_installed = "true";
-                  }else{
-                    if($xmldownloaded){
-                      $item_status = '<font color="red">Downloaded but Not Installed</font>';
-                      $item_installed = "false";
-                    }else{
-                      $item_status = '<font color="red">Available for Download</font>';
-                      $item_installed = "false";
-                    }
-                  }
-                  echo "<div class='card mb-3 border-dark'>";
-                    echo "<div class='card-header h4'>";
-                      echo "{$dd_data['title']}";
-                    echo "</div>";
-                    echo "<div class='row no-gutters'>";
-                      echo "<div class='col-auto border-right'>";
-                        echo "<img src='{$dd_data['image']}' class='img-responsive fit-image' alt=''>";
-                      echo "</div>";
-                      echo "<div class='col'>";
-                          echo "<div class='card-block px-2'>";
-                              echo "<p class='card-text'>{$dd_data['description']}</p>";
-                              echo "<p class='card-text'>";
-                              echo "Author: {$dd_data['author']} <Br>";
-                              if($dd_data['folder_location'] != 'default'){
-                                echo "Files Version: {$dd_data['version']} <br>";
-                                echo "Release Date: {$dd_data['release_date']}<br>";
-                                if($item_installed == "true"){ echo "Installed Version: {$item_data[0]->version} $item_update<Br>"; }
-                                echo "Status: $item_status";
-                                echo "</p>";
-                                if($item_installed == "true"){
-                                  echo "$item_update_btn";
-                                }else{
-                                  if($xmldownloaded){
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm'>Install</a>";
-                                  }else{
-                                    echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm'>Download</a>";
-                                  }
-                                }
-                              }
-                          echo "</div>";
-                      echo "</div>";
-                    echo "</div>";
-                  echo "</div>";
-                }
-              }
-            }else{
-              echo "No Items Available or There is a Connection Issue.<br>";
-              echo "<a href='".SITE_URL."AdminPanel-Dispenser-Settings/' class='btn btn-warning btn-sm'>Check Connections Settings</a>";
-            }
-          ?>
-
-        </div>
-    	</div>
-    </div>
-
-
-  </div>
+	</div>
 </div>
