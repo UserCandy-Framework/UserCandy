@@ -23,9 +23,9 @@ ext.index.bottom.php
 ext.index.top.php
 ext.defaultHeader.top.php
 ext.defaultHeader.navRight.php
-ext.defautlHeader.bottom.php
+ext.defaultHeader.bottom.php
 ext.defaultFooter.top.php
-ext.defautlFooter.bottom.php
+ext.defaultFooter.bottom.php
 ext.adminHeader.top.php
 ext.adminHeader.bottom.php
 ext.adminFooter.top.php
