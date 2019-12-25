@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Core;
@@ -131,8 +131,20 @@ class Load {
             $templateHeader = "";
             $templateFooter = "";
         }else if($useHeadFoot === true){
+          /** Check to see if is Custom Template **/
+          if($template == "Default" || $template == "AdminPanel"){
             $templateHeader = SYSTEMDIR."templates/".$template."/Header.php";
             $templateFooter = SYSTEMDIR."templates/".$template."/Footer.php";
+          }else{
+            /** Make sure Custom Template is enabled, if not then use default **/
+            if($DispenserModel->checkDispenserEnabled($template)){
+              $templateHeader = CUSTOMDIR."templates/".$template."/Header.php";
+              $templateFooter = CUSTOMDIR."templates/".$template."/Footer.php";
+            }else{
+              $templateHeader = CUSTOMDIR."templates/".DEFAULT_TEMPLATE."/Header.php";
+              $templateFooter = CUSTOMDIR."templates/".DEFAULT_TEMPLATE."/Footer.php";
+            }
+          }
         }else{
             $templateHeader = "";
             $templateFooter = "";

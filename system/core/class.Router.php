@@ -7,7 +7,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Core;
@@ -189,13 +189,15 @@ class Router {
                   "url" => "",
                   "pagefolder" => $page_data[0]->pagefolder,
                   "pagefile" => $page_data[0]->pagefile,
+                  "template" => $page_data[0]->template,
                   "headfoot" => $headfoot,
               );
             }else{
               $route = array(
                   "url" => "",
-                  "pagefolder" => "Home",
+                  "pagefolder" => "custompages",
                   "pagefile" => "Home",
+                  "template" => "Default",
                   "headfoot" => true,
               );
             }

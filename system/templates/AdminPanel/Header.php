@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
@@ -20,7 +20,7 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 
 	/** Checks to see if current page is in Dispenser **/
 	$current_page = $_SERVER['REQUEST_URI'];
-	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers' || $current_page == '/AdminPanel-Dispenser-Framework'){
+	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers' || $current_page == '/AdminPanel-Dispenser/Templates' || $current_page == '/AdminPanel-Dispenser-Framework'){
 		$show = "show";
 	}
 
@@ -86,10 +86,13 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Plugins"><i class="fa fa-fw fa-plug"></i> Plug-Ins</a>
 						</li>
 						<li>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Helpers"><i class="fas fa-plus-square"></i> Helpers</a>
+						</li>
+						<li>
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Themes"><i class="fas fa-folder-plus"></i> Themes</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Helpers"><i class="fas fa-plus-square"></i> Helpers</a>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Templates"><i class="fas fa-mountain"></i> Templates</a>
 						</li>
 						<li>
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Framework"><i class="fas fa-wrench"></i> Framework</a>

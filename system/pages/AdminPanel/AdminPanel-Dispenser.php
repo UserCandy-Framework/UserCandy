@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Dispenser;
@@ -551,8 +551,12 @@ height: 250px; /* only if you want fixed height */
           }
         }
       }else{
-        echo "No Downloadable Items Available or There is a Connection Issue.<br>";
-        echo "<a href='".SITE_URL."AdminPanel-Dispenser-Settings/' class='btn btn-warning btn-sm'>Check Connections Settings</a>";
+        echo "<div class='col-lg-3 col-md-6 col-sm-12 mb-4'>";
+          echo "<div class='card border-dark' style='max-width:362px'>";
+            echo "No Downloadable Items Available or There is a Connection Issue.<br>";
+            echo "<a href='".SITE_URL."AdminPanel-Dispenser-Settings/' class='btn btn-warning btn-sm'>Check Connections Settings</a>";
+          echo "</div>";
+        echo "</div>";
       }
     ?>
     </div>
