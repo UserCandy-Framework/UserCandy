@@ -249,6 +249,9 @@ if($action == "Install" && !empty($folder)){
     $download_status = false;
   }
   if($download_status == 'Success'){
+    /** Delete the zip file **/
+    $dl_filepath = SYSTEMDIR."temp/".$dl_folder.".zip";
+    if(file_exists($dl_filepath)){ unlink($dl_filepath); }
     /** Success */
     SuccessMessages::push('You Have Successfully Downloaded a '.$page_single, 'AdminPanel-Dispenser/'.$page.'/#'.$dl_folder);
   }else{

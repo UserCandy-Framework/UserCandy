@@ -61,11 +61,6 @@ if(isset($getRoutes)){
 /** Search Common Directories for new Pages/Files **/
 $custom_pages_dir = ROOTDIR.'custom/pages';
 
-/** Create Pages Folder if not exist **/
-if (!file_exists($custom_pages_dir)) {
-    mkdir($custom_pages_dir, 0777, true);
-}
-
 /** Scan Pages folder for files and folders **/
 $scan_custom_pages_dir = array_diff(scandir($custom_pages_dir), array('..', '.'));
 

@@ -11,6 +11,10 @@ use Core\{Router,Language};
 use Helpers\{AuthHelper,PageFunctions,SiteStats,CurrentUserData};
 use Models\UsersModel;
 
+/** Create Pages Folder if not exist **/
+if (!file_exists(ROOTDIR.'custom/pages')) {
+    mkdir(ROOTDIR.'custom/pages', 0777, true);
+}
 /** Check to see if Home, About, and Contact pages exist in custom/pages folder **/
 if(!file_exists(CUSTOMDIR.'pages/Home.php')){
   copy(SYSTEMDIR.'pages/Home/Home.php', CUSTOMDIR.'pages/Home.php');

@@ -56,13 +56,13 @@ class Dispenser {
               $res = $zip_check->open($filepath, \ZipArchive::CHECKCONS);
               if ($res !== TRUE) {
                 switch($res) {
-                  case ZipArchive::ER_NOZIP:
+                  case \ZipArchive::ER_NOZIP:
                     unlink($filepath);
                     return false;
-                  case ZipArchive::ER_INCONS :
+                  case \ZipArchive::ER_INCONS :
                     unlink($filepath);
                     return false;
-                  case ZipArchive::ER_CRC :
+                  case \ZipArchive::ER_CRC :
                     unlink($filepath);
                     return false;
                   default:
@@ -78,7 +78,6 @@ class Dispenser {
                   if ($res === TRUE) {
                     $zip->extractTo(CUSTOMDIR.'/'.$fun_parts[0].'/');
                     $zip->close();
-                    unlink($filepath);
                     return true;
                   } else {
                     unlink($filepath);
@@ -106,12 +105,12 @@ class Dispenser {
     }
 
     /** Function to download file by URL **/
-    public function downloadFrameworkFromDispensary($token, $folder, $type){
+    public function downloadFrameworkFromDispensary($token, $file_unique_name, $file_size, $folder){
       if(is_writable(SYSTEMDIR."temp/")){
-        if(isset($folder) && isset($type)){
-          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$type."/".$folder."/";
+        if(isset($token) && isset($file_unique_name) && isset($file_size) && isset($folder)){
+          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$file_unique_name."/";
           $filepath = SYSTEMDIR.'temp/'.$folder.'.zip';
-          $tofilepath = CUSTOMDIR.'/'.$type.'/'.$folder.'.zip';
+          $tofilepath = CUSTOMDIR.'/framework/'.$folder.'.zip';
           $fp = fopen($filepath, 'w+');
           $ch = curl_init($url);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
@@ -122,9 +121,49 @@ class Dispenser {
           curl_exec($ch);
           curl_close($ch);
           fclose($fp);
-          if(copy($filepath, $tofilepath)){
-            return true;
+          /** Check to see if file was downloaded to temp folder **/
+          if(file_exists($filepath)){
+            $fun_parts = explode("-", $file_unique_name);
+            $filesize = filesize($filepath);
+            /** Check the file Hash and Size and compair to remote before unzipping **/
+            if (($fun_parts[2] == sha1_file($filepath)) && $file_size == $filesize){
+              /** Validate the ZIP file **/
+              $zip_check = new \ZipArchive();
+              $res = $zip_check->open($filepath, \ZipArchive::CHECKCONS);
+              if ($res !== TRUE) {
+                switch($res) {
+                  case \ZipArchive::ER_NOZIP:
+                    unlink($filepath);
+                    return false;
+                  case \ZipArchive::ER_INCONS :
+                    unlink($filepath);
+                    return false;
+                  case \ZipArchive::ER_CRC :
+                    unlink($filepath);
+                    return false;
+                  default:
+                    unlink($filepath);
+                    return false;
+                }
+              }else{
+                /** File Good - Copy to Framework Folder **/
+                if(copy($filepath, $tofilepath)){
+                  return true;
+                }else{
+                  unlink($filepath);
+                  return false;
+                }
+              }
+            }else{
+              /** File Bad - Delete the file **/
+              unlink($filepath);
+              return false;
+            }
+          }else{
+            return false;
           }
+        }else{
+          return false;
         }
       }else{
         return false;

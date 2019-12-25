@@ -168,13 +168,18 @@ if($action == "Install" && !empty($folder)){
   }
   /** Get Settings Data */
   $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
-
-  if($filedata = Dispenser::downloadFrameworkFromDispensary($dispenser_api_key, $folder, $type)){
+  /** Get File Name from file_unique_name **/
+  $fun_parts = explode("-", $viewVars[1]);
+  $dl_folder = $fun_parts[1];
+  if($filedata = Dispenser::downloadFrameworkFromDispensary($dispenser_api_key, $viewVars[1], $viewVars[2], $dl_folder)){
     $download_status = $filedata;
   }else{
     $download_status = false;
   }
   if($download_status == 'Success'){
+    /** Delete the zip file **/
+    $dl_filepath = SYSTEMDIR."temp/".$dl_folder.".zip";
+    if(file_exists($dl_filepath)){ unlink($dl_filepath); }
     /** Success */
     SuccessMessages::push('You Have Successfully Downloaded '.$page_single, 'AdminPanel-Dispenser-Framework');
   }else{
@@ -380,7 +385,7 @@ height: 250px; /* only if you want fixed height */
                         if($xmldownloaded){
                           echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Install/{$dd_data['folder_location']}/' class='btn btn-success btn-sm m-2'>Install</a>";
                         }else{
-                          echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$dd_data['folder_location']}/{$dd_data['type']}/' class='btn btn-info btn-sm m-2'>Download</a>";
+                          echo "<a href='".SITE_URL."AdminPanel-Dispenser-Framework/Download/{$dd_data['file_unique_name']}/{$dd_data['file_size']}/' class='btn btn-info btn-sm m-2'>Download</a>";
                         }
                       }
                     }
