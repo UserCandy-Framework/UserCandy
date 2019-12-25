@@ -49,7 +49,7 @@ if (!file_exists($framework_dir)) {
 /** Check to see if Admin is installing or updating a Item **/
 if($action == "Install" && !empty($folder)){
   /** Check to see if site is a demo site */
-  if(DEMO_SITE == "TRUE"){
+  if(DEMO_SITE == "TRUE" || $_SERVER['HTTP_HOST'] == "demo.usercandy.com" || $_SERVER['HTTP_HOST'] == "demo.usercandy.com"){
     /** Error Message Display */
     ErrorMessages::push('Demo Limit - Dispenser Installs Disabled', 'AdminPanel-Dispenser-Framework');
   }
@@ -106,7 +106,7 @@ if($action == "Install" && !empty($folder)){
   }
 }else if(($action == "Update") && !empty($folder)){
   /** Check to see if site is a demo site */
-  if(DEMO_SITE == "TRUE"){
+  if(DEMO_SITE == "TRUE" || $_SERVER['HTTP_HOST'] == "demo.usercandy.com"){
     /** Error Message Display */
     ErrorMessages::push('Demo Limit - Dispenser Updates Disabled', 'AdminPanel-Dispenser-Framework');
   }
@@ -162,7 +162,7 @@ if($action == "Install" && !empty($folder)){
   }
 }else if($action == "Download" && !empty($folder) && !empty($type)){
   /** Check to see if site is a demo site */
-  if(DEMO_SITE == "TRUE"){
+  if(DEMO_SITE == "TRUE" || $_SERVER['HTTP_HOST'] == "demo.usercandy.com"){
     /** Error Message Display */
     ErrorMessages::push('Demo Limit - Dispenser Downloads Disabled', 'AdminPanel-Dispenser-Framework');
   }

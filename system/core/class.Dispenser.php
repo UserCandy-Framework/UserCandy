@@ -29,10 +29,10 @@ class Dispenser {
     }
 
     /** Function to download file by URL **/
-    public function downloadFromDispensary($token, $folder, $type){
+    public function downloadFromDispensary($token, $file_unique_name, $file_size, $folder){
       if(is_writable(SYSTEMDIR."temp/")){
-        if(isset($folder) && isset($type)){
-          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$type."s/".$folder."/";
+        if(isset($token) && isset($file_unique_name) && isset($file_size) && isset($folder)){
+          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$file_unique_name."/";
           $filepath = SYSTEMDIR."temp/".$folder.".zip";
           $fp = fopen($filepath, 'w+');
           $ch = curl_init($url);
@@ -44,23 +44,61 @@ class Dispenser {
           curl_exec($ch);
           curl_close($ch);
           fclose($fp);
-          if(is_resource($zip = zip_open($filepath))){
-            zip_close($zip);
-            $zip = new \ZipArchive;
-            $res = $zip->open($filepath);
-            if ($res === TRUE) {
-              $zip->extractTo(CUSTOMDIR.'/'.$type.'s/');
-              $zip->close();
-              unlink($filepath);
-              return true;
-            } else {
+          /** Check to see if file was downloaded to temp folder **/
+          if(file_exists($filepath)){
+            echo "$filepath";
+            $fun_parts = explode("-", $file_unique_name);
+            $filesize = filesize($filepath);
+            /** Check the file Hash and Size and compair to remote before unzipping **/
+            if (($fun_parts[2] == sha1_file($filepath)) && $file_size == $filesize){
+              /** Validate the ZIP file **/
+              $zip_check = new \ZipArchive();
+              $res = $zip_check->open($filepath, \ZipArchive::CHECKCONS);
+              if ($res !== TRUE) {
+                switch($res) {
+                  case ZipArchive::ER_NOZIP:
+                    unlink($filepath);
+                    return false;
+                  case ZipArchive::ER_INCONS :
+                    unlink($filepath);
+                    return false;
+                  case ZipArchive::ER_CRC :
+                    unlink($filepath);
+                    return false;
+                  default:
+                    unlink($filepath);
+                    return false;
+                }
+              }else{
+            	  /** File Good - Unzip the file to custom folder **/
+                if(is_resource($zip = zip_open($filepath))){
+                  zip_close($zip);
+                  $zip = new \ZipArchive;
+                  $res = $zip->open($filepath);
+                  if ($res === TRUE) {
+                    $zip->extractTo(CUSTOMDIR.'/'.$fun_parts[0].'/');
+                    $zip->close();
+                    unlink($filepath);
+                    return true;
+                  } else {
+                    unlink($filepath);
+                    return false;
+                  }
+                }else{
+                  unlink($filepath);
+                  return false;
+                }
+              }
+            }else{
+            	/** File Bad - Delete the file **/
+            	unlink($filepath);
               return false;
             }
-            return true;
           }else{
-            unlink($filepath);
             return false;
           }
+        }else{
+          return false;
         }
       }else{
         return false;

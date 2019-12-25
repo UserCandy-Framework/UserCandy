@@ -1218,8 +1218,8 @@ class AdminPanelModel extends Models {
     * @param string $url
     * @return int inserted ID
     */
-    public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)', $sitemap = 'true', $template = 'Default'){
-      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'sitemap' => $sitemap, 'template' => $template));
+    public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)', $sitemap = 'true', $template = 'Default', $headfoot = "1"){
+      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'sitemap' => $sitemap, 'template' => $template, 'headfoot' => $headfoot));
       if($data > 0){
         return $data;
       }else{
