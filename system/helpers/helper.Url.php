@@ -79,6 +79,16 @@ class Url
         return SITE_URL .'Templates/' .$custom .$folder;
     }
     /**
+     * Created the absolute address to the dispenser item folder.
+     *  <?=SITE_URL?>Custom/Default/Assets/
+     * @param  boolean $dispenser_type
+     * @return string url to custom assets folder
+     */
+    public static function customPath($dispenser_type = null, $folder = null)
+    {
+        return SITE_URL .'custom/'.$dispenser_type.'/'.$folder.'/assets/';
+    }
+    /**
      * Created the relative address to the template folder.
      *
      * @param  boolean $custom

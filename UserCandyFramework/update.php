@@ -8,3 +8,7 @@
 */
 
 /** Add Data needed to Database - Oldest Top**/
+$install_db_data[]['1.0.4'] = "
+INSERT INTO `uc_pages` (url`, `pagefolder`, `pagefile`, `arguments`, `sitemap`, `stock`, `template`) VALUES
+('custom', 'Home', 'custom', NULL, 'false', 'true', 'Default');
+";

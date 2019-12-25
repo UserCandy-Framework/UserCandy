@@ -31,6 +31,7 @@ class Routes {
         $routes[] = self::add('Templates', 'Home', 'Templates');
         $routes[] = self::add('assets', 'Home', 'assets');
         $routes[] = self::add('themes', 'Home', 'themes');
+        $routes[] = self::add('custom', 'Home', 'custom');
         $routes[] = self::add('About', 'custompages', 'About');
         $routes[] = self::add('Contact', 'custompages', 'Contact');
         /* End default routes */

@@ -65,6 +65,13 @@ class Assets {
                     $file = CUSTOMDIR.'themes/'.$extRoutes[0].'/assets/'.$filename;
                 }
                 $file = preg_replace('{/$}', '', $file);
+            }else if($location == 'custom'){
+              if(isset($extRoutes[3])){
+                  $file = CUSTOMDIR.$extRoutes[0].'/'.$extRoutes[1].'/assets/'.$extRoutes[3].'/'.$filename;
+              }else{
+                  $file = CUSTOMDIR.$extRoutes[0].'/'.$extRoutes[1].'/assets/'.$filename;
+                }
+                $file = preg_replace('{/$}', '', $file);
             }else if(isset($location)){
                 if(isset($extRoutes[3])){
                     $file = ROOTDIR.'assets/'.$extRoutes[0].'/'.$extRoutes[1].'/'.$extRoutes[2].'/'.$filename;

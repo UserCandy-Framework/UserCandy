@@ -43,6 +43,9 @@ class Router {
         }else if($route['url'] == "themes"){
           $params = array_slice(SELF::extendedRoutes(), 1);
           Assets::loadFile($params, 'themes');
+        }else if($route['url'] == "custom"){
+          $params = array_slice(SELF::extendedRoutes(), 1);
+          Assets::loadFile($params, 'custom');
         }else if($route['url'] == "LiveCheckEmail"){
           echo self::LiveCheckEmail();
         }else if($route['url'] == "LiveCheckUserName"){
