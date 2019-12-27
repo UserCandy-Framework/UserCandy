@@ -136,12 +136,6 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 					</a>
 				</li>
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-MassEmail">
-						<i class="fas fa-fw fa-mail-bulk"></i>
-						<span class="nav-link-text">Mass Email</span>
-					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
 					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-TermsPrivacy">
 						<i class="fas fa-fw fa-info-circle"></i>
 						<span class="nav-link-text">Terms and Privacy</span>
