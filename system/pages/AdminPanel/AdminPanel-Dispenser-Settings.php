@@ -115,9 +115,10 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
     			<?php echo Form::open(array('method' => 'post')); ?>
 
     			<!-- Dispenser API Key -->
+          <label>UserCandy Dispensary API Key</label>
     			<div class='input-group mb-3' style='margin-bottom: 25px'>
             <div class="input-group-prepend">
-    				  <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> UserCandy Dispensary API Key</span>
+    				  <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i></span>
             </div>
     				<?php echo Form::input(array('type' => 'text', 'name' => 'dispenser_api_key', 'class' => 'form-control', 'value' => $dispenser_api_key, 'placeholder' => 'UserCandy Dispensary API Key', 'maxlength' => '255')); ?>
             <?php echo PageFunctions::displayPopover('UserCandy Dispenser API Key', 'UserCandy.com Dispensary API Key is required to connect to UserCandy.com Dispensary to View and Download Files.', true, 'input-group-text'); ?>

@@ -1046,38 +1046,6 @@ class AdminPanelModel extends Models {
   	}
 
     /**
-    * Get Site UC Database Version From Database
-    * @return string data
-    */
-    public function getDatabaseVersion(){
-        $check = $this->db->select("
-          SELECT
-          IF( EXISTS
-              (SELECT * FROM information_schema.COLUMNS
-                  WHERE TABLE_SCHEMA = '".DB_NAME."'
-                  AND TABLE_NAME = '".PREFIX."version'
-                  LIMIT 1),
-          1, 0)
-          AS if_exists
-        ");
-        $ver_db_check = $check[0]->if_exists == 1;
-
-        if($ver_db_check){
-          $data = $this->db->select("
-              SELECT
-                  version
-              FROM
-                  ".PREFIX."version
-              WHERE
-                  id = 1
-          ");
-          return $data[0]->version;
-        }else{
-          return "4.2.1";
-        }
-    }
-
-    /**
     * Get the top referer URLs from site logs
     * @param int $days
     * @return array dataset

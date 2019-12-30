@@ -104,72 +104,6 @@ class Dispenser {
       }
     }
 
-    /** Function to download file by URL **/
-    public function downloadFrameworkFromDispensary($token, $file_unique_name, $file_size, $folder){
-      if(is_writable(SYSTEMDIR."temp/")){
-        if(isset($token) && isset($file_unique_name) && isset($file_size) && isset($folder)){
-          $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$file_unique_name."/";
-          $filepath = SYSTEMDIR.'temp/'.$folder.'.zip';
-          $tofilepath = CUSTOMDIR.'/framework/'.$folder.'.zip';
-          $fp = fopen($filepath, 'w+');
-          $ch = curl_init($url);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-          curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
-          //curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-          curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-          curl_setopt($ch, CURLOPT_FILE, $fp);
-          curl_exec($ch);
-          curl_close($ch);
-          fclose($fp);
-          /** Check to see if file was downloaded to temp folder **/
-          if(file_exists($filepath)){
-            $fun_parts = explode("-", $file_unique_name);
-            $filesize = filesize($filepath);
-            /** Check the file Hash and Size and compair to remote before unzipping **/
-            if (($fun_parts[2] == sha1_file($filepath)) && $file_size == $filesize){
-              /** Validate the ZIP file **/
-              $zip_check = new \ZipArchive();
-              $res = $zip_check->open($filepath, \ZipArchive::CHECKCONS);
-              if ($res !== TRUE) {
-                switch($res) {
-                  case \ZipArchive::ER_NOZIP:
-                    unlink($filepath);
-                    return false;
-                  case \ZipArchive::ER_INCONS :
-                    unlink($filepath);
-                    return false;
-                  case \ZipArchive::ER_CRC :
-                    unlink($filepath);
-                    return false;
-                  default:
-                    unlink($filepath);
-                    return false;
-                }
-              }else{
-                /** File Good - Copy to Framework Folder **/
-                if(copy($filepath, $tofilepath)){
-                  return true;
-                }else{
-                  unlink($filepath);
-                  return false;
-                }
-              }
-            }else{
-              /** File Bad - Delete the file **/
-              unlink($filepath);
-              return false;
-            }
-          }else{
-            return false;
-          }
-        }else{
-          return false;
-        }
-      }else{
-        return false;
-      }
-    }
-
     /** Function to get data from UserCandy Dispensary **/
     public function getDataFromDispensary($dispenser_api_key, $type){
       if(!empty($dispenser_api_key)){
@@ -231,20 +165,52 @@ class Dispenser {
       return simplexml_load_string($result);
     }
 
-    /** Unzip Framework Files to ROOTDIR to update all files **/
-    public function updateFramework($filepath, $folder){
-      if(is_resource($zip = zip_open($filepath))){
-        zip_close($zip);
-        $zip = new \ZipArchive;
-        $res = $zip->open($filepath);
-        if ($res === TRUE) {
-          $zip->extractTo(ROOTDIR);
-          $zip->close();
+    /** Function that creates a backup, copys, and deltes temp file **/
+    public function updateFrameworkFile($dl_location=null,$cp_location=null,$bu_location=null,$file_name=null){
+      if(isset($dl_location) && isset($cp_location) && isset($bu_location)){
+        /** Check if copy to folder exist - create if not **/
+        if (!file_exists($cp_location)) {
+            mkdir($cp_location, 0777, true);
+        }
+        /** Check if backup folder exist - create if not **/
+        if (!file_exists($bu_location)) {
+            mkdir($bu_location, 0777, true);
+        }
+        /** Make sure file is downloaded **/
+        if(file_exists($dl_location.$file_name)){
+          /** If File is not new then create a backup **/
+          if(file_exists($cp_location.$file_name)){
+            copy($cp_location.$file_name, $bu_location.$file_name);
+          }
+          /** Copy file to Final Location **/
+          copy($dl_location.$file_name, $cp_location.$file_name);
           return true;
-        } else {
+        }else{
           return false;
         }
+      }else{
+        return false;
+      }
+    }
+
+
+    /** Function to get the total difference between version numbers **/
+    public function checkVersionDiff($new_version, $old_version){
+      /** Split up the Version Data **/
+      $new_versions = explode(".", $new_version);
+      $old_versions = explode(".", $old_version);
+      /** Put everything after the first period together #.## **/
+      $new_short = $new_versions[0].".".$new_versions[1].$new_versions[2];
+      $old_short = $old_versions[0].".".$old_versions[1].$old_versions[2];
+      /** Get the Version Difference **/
+      $ver_diff = $new_short - $old_short;
+      $zero_dif = strval(0.00);
+      $one_dif = strval(0.01);
+      /** Check to see if within 0.01 version of last **/
+      if(strval($ver_diff) == $one_dif){
         return true;
+      }else if(strval($ver_diff) == $zero_dif){
+        return false;
       }else{
         return false;
       }

@@ -15,32 +15,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- Database: `uc4`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `uc_version`
---
-
-CREATE TABLE IF NOT EXISTS `uc_version` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `version` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Dumping data for table `uc_users_groups`
--- Sets first user as Admin
---
-
-INSERT INTO `uc_version` (`version`) VALUES
-('1.0.0');
-
 -- --------------------------------------------------------
 
 --
@@ -262,7 +236,8 @@ INSERT INTO `uc_settings` (`setting_id`, `setting_title`, `setting_data`) VALUES
 (34, 'image_max_size', '800,600'),
 (35, 'site_message', 'Welcome to your UserCandy Install.  Make sure to be the first to Register for this site to be Admin.  You can delete this message in the Admin Panel under Main Settings.  Savor the Sweetness!'),
 (36, 'online_bubble', 'true'),
-(37, 'site_profile_notifi_check', 'true');
+(37, 'site_profile_notifi_check', 'true'),
+(38, 'uc_version', '1.0.4');
 
 -- --------------------------------------------------------
 
@@ -345,56 +320,55 @@ CREATE TABLE IF NOT EXISTS `uc_pages` (
 -- Dumping data for table `uc_pages`
 --
 
-INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sitemap`, `stock`, `template`) VALUES
-(1, 'Home', 'custompages', 'Home', NULL, 'true', 'true', 'Default'),
-(2, 'Templates', 'Home', 'Templates', NULL, 'false', 'true', 'Default'),
-(3, 'assets', 'Home', 'assets', NULL, 'false', 'true', 'Default'),
-(4, 'Register', 'Auth', 'Register', NULL, 'false', 'true', 'Default'),
-(5, 'Activate', 'Auth', 'Activate', NULL, 'false', 'true', 'Default'),
-(6, 'Forgot-Password', 'Auth', 'Forgot-Password', NULL, 'false', 'true', 'Default'),
-(7, 'Reset-Password', 'Auth', 'Reset-Password', NULL, 'false', 'true', 'Default'),
-(8, 'Resend-Activation-Email', 'Auth', 'Resend-Activation-Email', NULL, 'false', 'true', 'Default'),
-(9, 'Login', 'Auth', 'Login', NULL, 'false', 'true', 'Default'),
-(10, 'Logout', 'Auth', 'Logout', NULL, 'false', 'true', 'Default'),
-(11, 'Change-Email', 'Members', 'Change-Email', NULL, 'false', 'true', 'Default'),
-(12, 'Change-Password', 'Members', 'Change-Password', NULL, 'false', 'true', 'Default'),
-(13, 'Edit-Profile', 'Members', 'Edit-Profile', NULL, 'false', 'true', 'Default'),
-(14, 'Edit-Profile-Images', 'Members', 'Edit-Profile-Images', NULL, 'false', 'true', 'Default'),
-(15, 'Privacy-Settings', 'Members', 'Privacy-Settings', NULL, 'false', 'true', 'Default'),
-(16, 'Account-Settings', 'Members', 'Account-Settings', NULL, 'false', 'true', 'Default'),
-(17, 'LiveCheckEmail', 'Members', 'LiveCheckEmail', NULL, 'false', 'true', 'Default'),
-(18, 'LiveCheckUserName', 'Members', 'LiveCheckUserName', NULL, 'false', 'true', 'Default'),
-(19, 'Members', 'Members', 'Members', NULL, 'true', 'true', 'Default'),
-(20, 'Online-Members', 'Members', 'Online-Members', NULL, 'true', 'true', 'Default'),
-(21, 'Profile', 'Members', 'Profile', NULL, 'false', 'true', 'Default'),
-(22, 'AdminPanel', 'AdminPanel', 'AdminPanel', NULL, 'false', 'true', 'AdminPanel'),
-(23, 'AdminPanel-Settings', 'AdminPanel', 'AdminPanel-Settings', NULL, 'false', 'true', 'AdminPanel'),
-(24, 'AdminPanel-AdvancedSettings', 'AdminPanel', 'AdminPanel-AdvancedSettings', NULL, 'false', 'true', 'AdminPanel'),
-(25, 'AdminPanel-EmailSettings', 'AdminPanel', 'AdminPanel-EmailSettings', NULL, 'false', 'true', 'AdminPanel'),
-(26, 'AdminPanel-Users', 'AdminPanel', 'AdminPanel-Users', NULL, 'false', 'true', 'AdminPanel'),
-(27, 'AdminPanel-User', 'AdminPanel', 'AdminPanel-User', NULL, 'false', 'true', 'AdminPanel'),
-(28, 'AdminPanel-Groups', 'AdminPanel', 'AdminPanel-Groups', NULL, 'false', 'true', 'AdminPanel'),
-(29, 'AdminPanel-Group', 'AdminPanel', 'AdminPanel-Group', NULL, 'false', 'true', 'AdminPanel'),
-(30, 'AdminPanel-MassEmail', 'AdminPanel', 'AdminPanel-MassEmail', NULL, 'false', 'true', 'AdminPanel'),
-(31, 'AdminPanel-AuthLogs', 'AdminPanel', 'AdminPanel-AuthLogs', NULL, 'false', 'true', 'AdminPanel'),
-(32, 'AdminPanel-SiteLinks', 'AdminPanel', 'AdminPanel-SiteLinks', NULL, 'false', 'true', 'AdminPanel'),
-(33, 'AdminPanel-SiteLink', 'AdminPanel', 'AdminPanel-SiteLink', NULL, 'false', 'true', 'AdminPanel'),
-(34, 'AdminPanel-Upgrade', 'AdminPanel', 'AdminPanel-Upgrade', NULL, 'false', 'true', 'AdminPanel'),
-(35, 'AdminPanel-PagesPermissions', 'AdminPanel', 'AdminPanel-PagesPermissions', NULL, 'false', 'true', 'AdminPanel'),
-(36, 'AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', NULL, 'false', 'true', 'AdminPanel'),
-(37, 'AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy', NULL, 'false', 'true', 'AdminPanel'),
-(38, 'ChangeLang', 'Home', 'ChangeLang', NULL, 'false', 'true', 'Default'),
-(39, 'About', 'custompages', 'About', NULL, 'true', 'true', 'Default'),
-(40, 'Contact', 'custompages', 'Contact', NULL, 'true', 'true', 'Default'),
-(41, 'sitemap', 'Home', 'sitemap', NULL, 'false', 'true', 'Default'),
-(42, 'Terms', 'Home', 'Terms', NULL, 'false', 'true', 'Default'),
-(43, 'Privacy', 'Home', 'Privacy', NULL, 'false', 'true', 'Default'),
-(44, 'AdminPanel-Dispenser-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Settings', NULL, 'false', 'true', 'AdminPanel'),
-(45, 'AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel'),
-(46, 'AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', NULL, 'false', 'true', 'AdminPanel'),
-(47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default'),
-(48, 'AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser-Framework', NULL, 'false', 'true', 'AdminPanel'),
-(49, 'custom', 'Home', 'custom', NULL, 'false', 'true', 'Default');
+INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sitemap`, `stock`, `template`, `headfoot`) VALUES
+(1, 'Home', 'custompages', 'Home', NULL, 'true', 'true', 'Default', '1'),
+(2, 'Templates', 'Home', 'Templates', NULL, 'false', 'true', 'Default', '0'),
+(3, 'assets', 'Home', 'assets', NULL, 'false', 'true', 'Default', '0'),
+(4, 'Register', 'Auth', 'Register', NULL, 'false', 'true', 'Default', '1'),
+(5, 'Activate', 'Auth', 'Activate', NULL, 'false', 'true', 'Default', '1'),
+(6, 'Forgot-Password', 'Auth', 'Forgot-Password', NULL, 'false', 'true', 'Default', '1'),
+(7, 'Reset-Password', 'Auth', 'Reset-Password', NULL, 'false', 'true', 'Default', '1'),
+(8, 'Resend-Activation-Email', 'Auth', 'Resend-Activation-Email', NULL, 'false', 'true', 'Default', '1'),
+(9, 'Login', 'Auth', 'Login', NULL, 'false', 'true', 'Default', '1'),
+(10, 'Logout', 'Auth', 'Logout', NULL, 'false', 'true', 'Default', '1'),
+(11, 'Change-Email', 'Members', 'Change-Email', NULL, 'false', 'true', 'Default', '1'),
+(12, 'Change-Password', 'Members', 'Change-Password', NULL, 'false', 'true', 'Default', '1'),
+(13, 'Edit-Profile', 'Members', 'Edit-Profile', NULL, 'false', 'true', 'Default', '1'),
+(14, 'Edit-Profile-Images', 'Members', 'Edit-Profile-Images', NULL, 'false', 'true', 'Default', '1'),
+(15, 'Privacy-Settings', 'Members', 'Privacy-Settings', NULL, 'false', 'true', 'Default', '1'),
+(16, 'Account-Settings', 'Members', 'Account-Settings', NULL, 'false', 'true', 'Default', '1'),
+(17, 'LiveCheckEmail', 'Members', 'LiveCheckEmail', NULL, 'false', 'true', 'Default', '0'),
+(18, 'LiveCheckUserName', 'Members', 'LiveCheckUserName', NULL, 'false', 'true', 'Default', '0'),
+(19, 'Members', 'Members', 'Members', NULL, 'true', 'true', 'Default', '1'),
+(20, 'Online-Members', 'Members', 'Online-Members', NULL, 'true', 'true', 'Default', '1'),
+(21, 'Profile', 'Members', 'Profile', NULL, 'false', 'true', 'Default', '1'),
+(22, 'AdminPanel', 'AdminPanel', 'AdminPanel', NULL, 'false', 'true', 'AdminPanel', '1'),
+(23, 'AdminPanel-Settings', 'AdminPanel', 'AdminPanel-Settings', NULL, 'false', 'true', 'AdminPanel', '1'),
+(24, 'AdminPanel-AdvancedSettings', 'AdminPanel', 'AdminPanel-AdvancedSettings', NULL, 'false', 'true', 'AdminPanel', '1'),
+(25, 'AdminPanel-EmailSettings', 'AdminPanel', 'AdminPanel-EmailSettings', NULL, 'false', 'true', 'AdminPanel', '1'),
+(26, 'AdminPanel-Users', 'AdminPanel', 'AdminPanel-Users', NULL, 'false', 'true', 'AdminPanel', '1'),
+(27, 'AdminPanel-User', 'AdminPanel', 'AdminPanel-User', NULL, 'false', 'true', 'AdminPanel', '1'),
+(28, 'AdminPanel-Groups', 'AdminPanel', 'AdminPanel-Groups', NULL, 'false', 'true', 'AdminPanel', '1'),
+(29, 'AdminPanel-Group', 'AdminPanel', 'AdminPanel-Group', NULL, 'false', 'true', 'AdminPanel', '1'),
+(30, 'AdminPanel-MassEmail', 'AdminPanel', 'AdminPanel-MassEmail', NULL, 'false', 'true', 'AdminPanel', '1'),
+(31, 'AdminPanel-AuthLogs', 'AdminPanel', 'AdminPanel-AuthLogs', NULL, 'false', 'true', 'AdminPanel', '1'),
+(32, 'AdminPanel-SiteLinks', 'AdminPanel', 'AdminPanel-SiteLinks', NULL, 'false', 'true', 'AdminPanel', '1'),
+(33, 'AdminPanel-SiteLink', 'AdminPanel', 'AdminPanel-SiteLink', NULL, 'false', 'true', 'AdminPanel', '1'),
+(34, 'AdminPanel-FrameworkProcess', 'AdminPanel', 'AdminPanel-FrameworkProcess', NULL, 'false', 'true', 'AdminPanel', '0'),
+(35, 'AdminPanel-PagesPermissions', 'AdminPanel', 'AdminPanel-PagesPermissions', NULL, 'false', 'true', 'AdminPanel', '1'),
+(36, 'AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', NULL, 'false', 'true', 'AdminPanel', '1'),
+(37, 'AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy', NULL, 'false', 'true', 'AdminPanel', '1'),
+(38, 'ChangeLang', 'Home', 'ChangeLang', NULL, 'false', 'true', 'Default', '1'),
+(39, 'About', 'custompages', 'About', NULL, 'true', 'true', 'Default', '1'),
+(40, 'Contact', 'custompages', 'Contact', NULL, 'true', 'true', 'Default', '1'),
+(41, 'sitemap', 'Home', 'sitemap', NULL, 'false', 'true', 'Default', '0'),
+(42, 'Terms', 'Home', 'Terms', NULL, 'false', 'true', 'Default', '1'),
+(43, 'Privacy', 'Home', 'Privacy', NULL, 'false', 'true', 'Default', '1'),
+(44, 'AdminPanel-Dispenser-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Settings', NULL, 'false', 'true', 'AdminPanel', '1'),
+(45, 'AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', NULL, 'false', 'true', 'AdminPanel', '1'),
+(46, 'AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', NULL, 'false', 'true', 'AdminPanel', '1'),
+(47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default', '0'),
+(48, 'custom', 'Home', 'custom', NULL, 'false', 'true', 'Default', '0');
 
 -- --------------------------------------------------------
 
@@ -426,7 +400,7 @@ INSERT INTO `uc_pages_permissions` (`id`, `page_id`, `group_id`) VALUES
 (44, 17, 0),(45, 18, 0),(46, 9, 0),(47, 10, 1),(48, 10, 2),(49, 10, 3),(50, 10, 4),
 (51, 19, 0),(52, 20, 0),(53, 43, 0),(54, 15, 1),(55, 15, 2),(56, 15, 3),(57, 15, 4),
 (58, 21, 0),(59, 4, 0),(60, 8, 0),(61, 7, 0),(62, 41, 0),(63, 2, 0),(64, 42, 0),
-(65, 44, 4),(66, 45, 4),(67, 46, 4),(68, 47, 0),(69, 48, 4),(70, 49, 0);
+(65, 44, 4),(66, 45, 4),(67, 46, 4),(68, 47, 0),(69, 49, 0);
 
 -- --------------------------------------------------------
 
@@ -453,7 +427,8 @@ CREATE TABLE IF NOT EXISTS `uc_dispenser` (
 
 INSERT INTO `uc_dispenser` (`id`, `name`, `type`, `folder_location`, `version`, `enable`) VALUES
 (1, 'MembersSidebar', 'widget', 'MembersSidebar', '1.0.0', 'true'),
-(2, 'AccountSidebar', 'widget', 'AccountSidebar', '1.0.0', 'true');
+(2, 'AccountSidebar', 'widget', 'AccountSidebar', '1.0.0', 'true'),
+(3, 'UserCandyFramework-4.0.4', 'framework', 'UserCandyFramework-4.0.4', '1.0.4', 'true');
 
 -- --------------------------------------------------------
 

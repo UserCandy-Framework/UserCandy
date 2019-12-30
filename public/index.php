@@ -12,9 +12,6 @@ define('ROOTDIR', realpath(__DIR__.'/../').'/');
 define('SYSTEMDIR', realpath(__DIR__.'/../system/').'/');
 define('CUSTOMDIR', realpath(__DIR__.'/../custom/').'/');
 
-/** Define Current Version of UC **/
-define('UCVersion', '1.0.0');
-
 /* load UC Autoloader */
 if (file_exists(SYSTEMDIR.'core/autoloader.php')) {
     require SYSTEMDIR.'core/autoloader.php';

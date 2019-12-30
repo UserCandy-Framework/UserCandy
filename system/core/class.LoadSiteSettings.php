@@ -46,6 +46,9 @@ class LoadSiteSettings {
         /** Define Default Home Page and Folder **/
         define('DEFAULT_HOME_PAGE_LOGIN', $this->model->getSettings('default_home_page_login'));
 
+        /** Define Current Version of UC **/
+        define('UCVersion', $this->model->getSettings('uc_version'));
+
         /********************
          *                  *
          *      EMAIL       *

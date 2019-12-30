@@ -66,6 +66,8 @@ $scan_custom_pages_dir = array_diff(scandir($custom_pages_dir), array('..', '.')
 
 /** Extract the methods from the classes */
 foreach ($scan_custom_pages_dir as $filename) {
+  /** Check to make sure file is .php **/
+  if(strpos($filename, ".php") !== false){
     /** Remove the .php from the files */
     $dir_pagefile = str_replace('.php', '', $filename);
     $dir_pagefolder = 'custompages';
@@ -93,6 +95,7 @@ foreach ($scan_custom_pages_dir as $filename) {
         }
       }
     }
+  }
 }
 
 /** Search for New Plugin Display Page **/

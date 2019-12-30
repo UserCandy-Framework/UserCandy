@@ -78,11 +78,6 @@ if(UR_exists($check_url)){
 	}
 }
 
-/** Check to see if UC Files are Newer than Database Version */
-$uc_files_version = UCVersion;
-$uc_database_version = $AdminPanelModel->getDatabaseVersion();
-if(empty($uc_database_version)){ $uc_database_version = "1.0.0"; }
-
 // Setup Breadcrumbs
 $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item active'><i class='fas fa-fw fa-tachometer-alt'></i> ".$data['title']."</li>";
 
@@ -94,17 +89,7 @@ if(isset($data['cur_uc_version'])){
 			echo "New Version:</b> {$data['cur_uc_version']} <br>";
 			echo "<b>Current Version:</b> ".UCVersion."<br>";
 		}
-		echo "<hr>Visit <a href='http://www.usercandy.com' target='_blank'>www.UserCandy.com</a> For Updates";
-	echo "</div>";
-	echo "</div>";
-}
-if($uc_files_version > $uc_database_version){
-	echo "<div class='col-lg-12 col-md-12 col-sm-12'>";
-	echo "<div class='alert alert-danger'>";
-		echo "<b>UC Database is out of Date. <br>";
-		echo "New Version:</b> $uc_files_version <br>";
-		echo "<b>Current Version:</b> $uc_database_version <br>";
-		echo "<a href='".SITE_URL."AdminPanel-Upgrade'>Click Here to Upgrade</a>";
+		echo "<hr>Check <a href='".SITE_URL."AdminPanel-Dispenser/Framework'>Dispenser Framework</a> For Updates";
 	echo "</div>";
 	echo "</div>";
 }
