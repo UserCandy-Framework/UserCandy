@@ -84,9 +84,9 @@ class Routes {
         $routes[] = self::add('AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', '(:num)');
         $routes[] = self::add('AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy');
         $routes[] = self::add('AdminPanel-Dispenser-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Settings');
-        $routes[] = self::add('AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', '(:any)/(:any)/(:any)/(:any)');
+        $routes[] = self::add('AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', '(:any)');
         $routes[] = self::add('AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', '(:num)/(:num)');
-        $routes[] = self::add('AdminPanel-FrameworkProcess', 'AdminPanel', 'AdminPanel-FrameworkProcess', '(:any)', 'false');
+        $routes[] = self::add('AdminPanel-FrameworkProcess', 'AdminPanel', 'AdminPanel-FrameworkProcess', NULL, 'false');
         /* End Admin Panel Routing */
 
         /* Language Code Change */

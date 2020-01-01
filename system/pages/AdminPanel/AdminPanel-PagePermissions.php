@@ -58,8 +58,6 @@ if(isset($_POST['submit'])){
         $template = Request::post('template');
         $enable = Request::post('enable');
 
-        var_dump($headfoot);
-
         /** Updated Sitemap Setting **/
         if($AdminPanelModel->updatePageSiteMap($page_id, $sitemap, $pagefolder, $pagefile, $url, $arguments, $enable, $headfoot, $template)){
           $success[] = " - Changed Settings for page: ".$page_name[0]->url;
