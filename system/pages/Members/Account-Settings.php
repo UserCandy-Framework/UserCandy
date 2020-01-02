@@ -8,7 +8,7 @@
 */
 
 use Core\Language;
-use Helpers\ErrorMessages;
+use Helpers\{SuccessMessages,ErrorMessages};
 
 if (!$auth->isLogged())
   /** User Not logged in - kick them out **/

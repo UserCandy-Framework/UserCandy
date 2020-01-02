@@ -79,7 +79,6 @@ class Routes {
         $routes[] = self::add('AdminPanel-AuthLogs', 'AdminPanel', 'AdminPanel-AuthLogs', '(:any)');
         $routes[] = self::add('AdminPanel-SiteLinks', 'AdminPanel', 'AdminPanel-SiteLinks', '(:any)/(:any)/(:any)');
         $routes[] = self::add('AdminPanel-SiteLink', 'AdminPanel', 'AdminPanel-SiteLink', '(:any)/(:any)/(:any)');
-        $routes[] = self::add('AdminPanel-Upgrade', 'AdminPanel', 'AdminPanel-Upgrade');
         $routes[] = self::add('AdminPanel-PagesPermissions', 'AdminPanel', 'AdminPanel-PagesPermissions', '(:any)');
         $routes[] = self::add('AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', '(:num)');
         $routes[] = self::add('AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy');

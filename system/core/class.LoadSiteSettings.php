@@ -40,7 +40,7 @@ class LoadSiteSettings {
         if(!empty($default_home_page)){
           define('DEFAULT_HOME_PAGE', $default_home_page);
         }else{
-          define('DEFAULT_HOME_PAGE', "");
+          define('DEFAULT_HOME_PAGE', "1");
         }
 
         /** Define Default Home Page and Folder **/
