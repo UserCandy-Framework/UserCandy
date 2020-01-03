@@ -13,20 +13,16 @@
  * At the top of the controller where the other "use" statements are, place:
  * use Libs\Csrf;
  *
- * Just prior to rendering the view for adding or editing data, create the CSRF token:
+ * Just prior to creating a form, create the CSRF token:
  * $data['csrfToken'] = Csrf::makeToken();
- * $this->view->renderTemplate('header', $data);
- * $this->view->render('pet/edit', $data, $error); // as an example
- * $this->view->renderTemplate('footer', $data);
  *
  * At the bottom of your form, before the submit button put:
  * <input type="hidden" name="csrfToken" value="<?= $data['csrfToken']; ?>" />
  *
  * These lines need to be placed in the controller action to validate CSRF token submitted with the form:
  * if (!Csrf::isTokenValid()) {
- *      Url::redirect('admin/login'); // or wherever you want to redirect to.
- *    }
- * And that's all.
+ *   // Error Action
+ * }
  */
 
 namespace Helpers;
@@ -40,13 +36,17 @@ class Csrf {
      * @return string
      */
     public static function makeToken($name = 'csrfToken') {
-        $max_time = 60 * 60 * 24; // token is valid for 1 day.
+        $max_time = 60 * 60; // token is valid for 1 hour.
         $csrfToken = Session::get($name);
         $stored_time = Session::get($name . '_time');
 
         if ($max_time + $stored_time <= time() || empty($csrfToken)) {
-            $hash = hash('sha512', self::genRandomNumber());
-            Session::set($name, $hash);
+          if (function_exists('mcrypt_create_iv')) {
+            $token_hash = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+          } else {
+            $token_hash = bin2hex(openssl_random_pseudo_bytes(32));
+          }
+            Session::set($name, $token_hash);
             Session::set($name . '_time', time());
         }
 
@@ -61,12 +61,13 @@ class Csrf {
      * @return bool
      */
     public static function isTokenValid($name = 'csrfToken') {
+      ($name == 'csrfToken') ? $post_name = $name : $post_name = 'token_'.$name;
       if ((isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']))) {
         if (strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) != strtolower($_SERVER['HTTP_HOST'])) {
           /* referer not from the same domain */
           return false;
         }else{
-          return Request::post('token_'.$name) === Session::get($name);
+          return hash_equals(Request::post($post_name), Session::get($name));
         }
       }else{
         return false;
