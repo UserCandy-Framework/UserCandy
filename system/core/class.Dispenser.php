@@ -46,11 +46,16 @@ class Dispenser {
           fclose($fp);
           /** Check to see if file was downloaded to temp folder **/
           if(file_exists($filepath)){
-            echo "$filepath";
             $fun_parts = explode("-", $file_unique_name);
             $filesize = filesize($filepath);
+            /** Check if Framework and check has based on that **/
+            if($fun_parts[0] == "framework"){
+              $check_file_hash = $fun_parts[3];
+            }else{
+              $check_file_hash = $fun_parts[2];
+            }
             /** Check the file Hash and Size and compair to remote before unzipping **/
-            if (($fun_parts[2] == sha1_file($filepath)) && $file_size == $filesize){
+            if (($check_file_hash == sha1_file($filepath)) && $file_size == $filesize){
               /** Validate the ZIP file **/
               $zip_check = new \ZipArchive();
               $res = $zip_check->open($filepath, \ZipArchive::CHECKCONS);
@@ -69,24 +74,23 @@ class Dispenser {
                     unlink($filepath);
                     return false;
                 }
-              }else{
-            	  /** File Good - Unzip the file to custom folder **/
-                if(is_resource($zip = zip_open($filepath))){
-                  zip_close($zip);
-                  $zip = new \ZipArchive;
-                  $res = $zip->open($filepath);
-                  if ($res === TRUE) {
-                    $zip->extractTo(CUSTOMDIR.'/'.$fun_parts[0].'/');
-                    $zip->close();
-                    return true;
-                  } else {
-                    unlink($filepath);
-                    return false;
-                  }
-                }else{
+              }
+          	  /** File Good - Unzip the file to custom folder **/
+              if(is_resource($zip = zip_open($filepath))){
+                zip_close($zip);
+                $zip = new \ZipArchive;
+                $res = $zip->open($filepath);
+                if ($res === TRUE) {
+                  $zip->extractTo(CUSTOMDIR.'/'.$fun_parts[0].'/');
+                  $zip->close();
+                  return true;
+                } else {
                   unlink($filepath);
                   return false;
                 }
+              }else{
+                unlink($filepath);
+                return false;
               }
             }else{
             	/** File Bad - Delete the file **/
@@ -133,7 +137,6 @@ class Dispenser {
     public function getItemDataFromDispensary($dispenser_api_key, $type, $folder_location){
       if(!empty($dispenser_api_key)){
         $url = "https://www.usercandy.com/Dispensary/currentversion/".$dispenser_api_key."/".$type."/".$folder_location;
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL,$url);
@@ -188,29 +191,6 @@ class Dispenser {
         }else{
           return false;
         }
-      }else{
-        return false;
-      }
-    }
-
-
-    /** Function to get the total difference between version numbers **/
-    public function checkVersionDiff($new_version, $old_version){
-      /** Split up the Version Data **/
-      $new_versions = explode(".", $new_version);
-      $old_versions = explode(".", $old_version);
-      /** Put everything after the first period together #.## **/
-      $new_short = $new_versions[0].".".$new_versions[1].$new_versions[2];
-      $old_short = $old_versions[0].".".$old_versions[1].$old_versions[2];
-      /** Get the Version Difference **/
-      $ver_diff = $new_short - $old_short;
-      $zero_dif = strval(0.00);
-      $one_dif = strval(0.01);
-      /** Check to see if within 0.01 version of last **/
-      if(strval($ver_diff) == $one_dif){
-        return true;
-      }else if(strval($ver_diff) == $zero_dif){
-        return false;
       }else{
         return false;
       }

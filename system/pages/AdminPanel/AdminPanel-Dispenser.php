@@ -47,8 +47,6 @@ if(isset($_POST['submit'])){
 $data['csrfToken'] = Csrf::makeToken('dispenser');
 
 $page_lowercase = strtolower($page);
-$page_single = substr($page, 0, -1);
-$page_single_lowercase = substr($page_lowercase, 0, -1);
 
 /** Load Models **/
 $AdminPanelModel = new AdminPanelModel();
@@ -57,10 +55,14 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 
 /** Check to see if Dispenser Framework Page is open then set vars for it **/
 if($page_lowercase == "framework"){
-
   /** Get Currently installed framework version **/
   $cur_framework_version = UCVersion;
-
+  $page_single = $page;
+  $page_single_lowercase = $page_lowercase;
+}else{
+  /** Remove "s" from pagename **/
+  $page_single = substr($page, 0, -1);
+  $page_single_lowercase = substr($page_lowercase, 0, -1);
 }
 
 /** Check to see if Admin is installing or updating a Item **/
@@ -265,7 +267,11 @@ if($action == "Install" && !empty($folder)){
   $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
   /** Get File Name from file_unique_name **/
   $fun_parts = explode("-", $folder);
-  $dl_folder = $fun_parts[1];
+  if($fun_parts[0] == "framework"){
+    $dl_folder = $fun_parts[1]."-".$fun_parts[2];
+  }else{
+    $dl_folder = $fun_parts[1];
+  }
   if($filedata = Dispenser::downloadFromDispensary($dispenser_api_key, $folder, $type, $dl_folder)){
     $download_status = $filedata;
   }else{
@@ -321,7 +327,6 @@ $dispenser_api_key = $AdminPanelModel->getSettings('dispenser_api_key');
 
 /** Connect to UserCandy Dispensary **/
 $get_dd = $Dispenser->getDataFromDispensary($dispenser_api_key, $page_single_lowercase);
-
 $scan_dir = CUSTOMDIR.$page_lowercase;
 $get_dirs = array_filter(glob($scan_dir.'/*'), 'is_dir');
 
@@ -344,6 +349,8 @@ if($page == "Themes"){
 
 /** Setup Breadcrumbs */
 $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item active'><i class='fa fa-fw fa-cog'></i> ".$data['title']."</li>";
+
+$item_displayed = false;
 
 ?>
 <style>
@@ -369,17 +376,15 @@ height: 250px; /* only if you want fixed height */
     <div class='card-deck col-12'>
     <?php
       if(isset($xml)){
+        $xdn = 0;
         foreach ($xml as $xmldata) {
           /** Check to see if Framework update **/
           if($page == "Framework"){
-            /** Make sure Downloaded version is newer than installed version **/
-            if($cur_framework_version < $xmldata->VERSION){
-              /** Check to see if version is within 0.0.1 of eachother **/
-              if(Dispenser::checkVersionDiff($xmldata->VERSION, $cur_framework_version)){
-                $display_items = true;
-              }else{
-                $display_items = false;
-              }
+            /** Downloadable framework upgrade is older than the one installed. **/
+            $ver_comp_x = version_compare($cur_framework_version, $xmldata->VERSION);
+            if($ver_comp_x == -1 && $xdn == 0){
+              $xdn++;
+              $display_items = true;
             }else{
               $display_items = false;
             }
@@ -437,14 +442,11 @@ height: 250px; /* only if you want fixed height */
                             echo " <font color='green'>Active Theme</font> <Br>";
                           }else{
                             echo Form::buttonForm(null, [['name'=>'action','value'=>'Activate'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-primary btn-sm m-2','name'=>'submit','type'=>'submit','value'=>'Activate']);
-                            //echo " <a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm m-2'>Activate</a> ";
                           }
                         }
                         echo Form::buttonForm(null, [['name'=>'action','value'=>'Disable'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-warning btn-sm m-2','name'=>'submit','type'=>'submit','value'=>'Disable']);
-                        //echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Disable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-warning btn-sm m-2'>Disable</a>";
                       }else{
                         echo Form::buttonForm(null, [['name'=>'action','value'=>'Enable'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-primary btn-sm m-2','name'=>'submit','type'=>'submit','value'=>'Enable']);
-                        //echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Enable/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm m-2'>Enable</a>";
                       }
                       echo "$item_update_btn";
                     }else{
@@ -452,14 +454,12 @@ height: 250px; /* only if you want fixed height */
                         echo " <a href='#UpdateModal' class='btn btn-info btn-sm float-right trigger-btn m-2' data-toggle='modal'>Upgrade from version $cur_framework_version to {$xmldata->VERSION}</a> ";
                       }else{
                         echo Form::buttonForm(null, [['name'=>'action','value'=>'Install'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-success btn-sm m-2','name'=>'submit','type'=>'submit','value'=>'Install']);
-                        //echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Install/{$xmldata->FOLDER_LOCATION}/' class='btn btn-success btn-sm m-2'>Install</a>";
                       }
                     }
                     echo $item_update_download;
                   }else{
                     if($site_theme != 'default' && $page == "Themes"){
                       echo Form::buttonForm(null, [['name'=>'action','value'=>'Activate'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-primary btn-sm m-2','name'=>'submit','type'=>'submit','value'=>'Activate']);
-                      //echo "<a href='".SITE_URL."AdminPanel-Dispenser/Themes/Activate/{$xmldata->FOLDER_LOCATION}/' class='btn btn-primary btn-sm m-2'>Activate</a>";
                     }else{
                       echo "<font color='green'>Active Theme</font>";
                     }
@@ -503,7 +503,6 @@ height: 250px; /* only if you want fixed height */
                           <div class='modal-footer'>
                             <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>";
                             echo Form::buttonForm(null, [['name'=>'action','value'=>'UnInstall'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'type','value'=>$xmldata->TYPE],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-danger','name'=>'submit','type'=>'submit','value'=>'UnInstall']);
-                            //<a href='".SITE_URL."AdminPanel-Dispenser/$page/UnInstall/{$xmldata->FOLDER_LOCATION}/{$xmldata->TYPE}/' class='btn btn-danger'>UnInstall</a>
                             echo "
                           </div>
                         </div>
@@ -527,7 +526,6 @@ height: 250px; /* only if you want fixed height */
                           <div class='modal-footer'>
                             <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>";
                             echo Form::buttonForm(null, [['name'=>'action','value'=>'Upgrade'],['name'=>'folder','value'=>$xmldata->FOLDER_LOCATION],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-info float-right','name'=>'submit','type'=>'submit','value'=>'Update from version '.$cur_framework_version.' to '.$xmldata->VERSION]);
-                            //<a href='".SITE_URL."AdminPanel-Dispenser/Framework/Upgrade/{$xmldata->FOLDER_LOCATION}/' class='btn btn-info float-right'>Update from version $cur_framework_version to {$xmldata->VERSION}</a>
                             echo "
                           </div>
                         </div>
@@ -537,6 +535,7 @@ height: 250px; /* only if you want fixed height */
                 echo "</div>";
               echo "</div>";
             echo "</div>";
+            $item_displayed = true;
           }
         }
       }
@@ -544,16 +543,32 @@ height: 250px; /* only if you want fixed height */
     ?>
 
     <?php
+      /** Get all downloadable data from the Dispensary **/
+      $gddn = 0;
       if($get_dd){
         foreach ($get_dd as $dd_data) {
           /** Check to see if the item is already downloaded **/
           $check_if_downloaded = CUSTOMDIR."$page_lowercase/{$dd_data['folder_location']}/info.xml";
           if(file_exists($check_if_downloaded)){
             /** Get list of Downloaded Items **/
-            $xmldownloaded=simplexml_load_file($check_if_downloaded);
-            $xmldownloaded = true;
+            $xmldownloadedfile=simplexml_load_file($check_if_downloaded);
+            if(isset($xmldownloadedfile)){
+              $xmldownloaded = true;
+            }
+          }else if($page_lowercase == "framework"){
+            /** Downloadable framework upgrade is older than the one installed. **/
+            $ver_comp = version_compare($cur_framework_version, $dd_data['version']);
+            if($ver_comp == -1 && $gddn == 0){
+              $gddn++;
+              $xmldownloaded = false;
+            }else{
+              $xmldownloaded = true;
+            }
           }else{
             $xmldownloaded = false;
+          }
+          /** Check to see if Item should be shown **/
+          if($xmldownloaded == false){
             /** Get Item Data from Database if installed **/
             $item_data = $DispenserModel->getDispenserByName($dd_data['folder_location'], $dd_data['type']);
             if(empty($item_data)){
@@ -578,7 +593,6 @@ height: 250px; /* only if you want fixed height */
                     if($item_installed == "false"){
                       if(!$xmldownloaded){
                         echo Form::buttonForm(null, [['name'=>'action','value'=>'Download'],['name'=>'folder','value'=>$dd_data['file_unique_name']],['name'=>'type','value'=>$dd_data['file_size']],['name'=>'token_dispenser','value'=>$data['csrfToken']]], ['class'=>'btn btn-info btn-sm m-2','name'=>'submit','type'=>'submit','value'=>'Download']);
-                        //echo "<a href='".SITE_URL."AdminPanel-Dispenser/$page/Download/{$dd_data['file_unique_name']}/{$dd_data['file_size']}/{$dd_data['folder_location']}/' class='btn btn-info btn-sm m-2'>Download</a>";
                       }
                     }
                   }
@@ -607,6 +621,7 @@ height: 250px; /* only if you want fixed height */
                 echo "</div>";
               echo "</div>";
             echo "</div>";
+            $item_displayed = true;
           }
         }
       }else{
@@ -618,6 +633,20 @@ height: 250px; /* only if you want fixed height */
 </div>
 
 <?php
+/** Display Message if Framework is up to date **/
+if($page == "Framework" && $item_displayed == false){
+  echo "<div class='col-lg-12 col-md-12 col-sm-12 mb-4'>";
+    echo "<div class='card'>";
+      echo "<div class='card-footer text-center'>";
+        echo "<h4>Your UserCandy Framework is up to date.</h4>";
+        echo "No downloads available at this time.<br>";
+        echo "Visit <a href='https://www.usercandy.com' target='_blank'>www.UserCandy.com</a> for more information.<br>";
+        echo "Currently Installed UserCandy Framework Version: ".$cur_framework_version;
+      echo "</div>";
+    echo "</div>";
+  echo "</div>";
+}
+
 if($dcon_error == true){
   echo "<div class='col-lg-12 col-md-12 col-sm-12 mb-4'>";
     echo "<div class='card'>";

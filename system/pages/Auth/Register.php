@@ -146,16 +146,13 @@ $js .= "<script src='".Url::templatePath()."js/live_email.js'></script>";
 $js .= "<script src='".Url::templatePath()."js/live_username_check.js'></script>";
 $js .= "<script src='".Url::templatePath()."js/password_strength_match.js'></script>";
 
-/** Setup Breadcrumbs **/
-$data['breadcrumbs'] = "<li class='breadcrumb-item active'>".$data['title']."</li>";
-
 /** Display Error Messages **/
 if(isset($data['error'])) { echo ErrorMessages::display_raw($data['error']); }
 
 ?>
 
-<div class="col-lg-12 col-md-12 col-sm-12">
-	<div class="card mb-3">
+<div class="form-signin col-sm-12">
+	<div class="card my-3 text-center">
 		<div class="card-header h4">
 			<?=$data['title'];?>
 		</div>
@@ -243,18 +240,17 @@ if(isset($data['error'])) { echo ErrorMessages::display_raw($data['error']); }
 				<span class='label' id='passwordStrength'></span>
 				<span id='resultemail2' class='label'></span>
 
-				<hr>
-
 				<?php
 					/** Check to see if Terms and Privacy are enabled **/
 					if(!empty($site_terms) || !empty($site_privacy)){
 				?>
-				<input type="checkbox" name="agree_terms_policy" value="true"> <?php echo Language::show('agree_terms_policy', 'Auth'); ?>
-				<hr>
+				<label class="control-label">
+					<input type="checkbox" name="agree_terms_policy" value="true"> <?php echo Language::show('agree_terms_policy', 'Auth'); ?>
+				</label>
 				<?php } ?>
 
-				<button class="btn btn-md btn-success" name="submit" type="submit">
-					<?php echo Language::show('register_button', 'Auth'); ?>
+				<button class="btn btn-lg btn-success btn-block" name="submit" type="submit">
+					<i class="fas fa-user-plus"></i> <?php echo Language::show('register_button', 'Auth'); ?>
 				</button>
 			<?php echo Form::close(); ?>
 

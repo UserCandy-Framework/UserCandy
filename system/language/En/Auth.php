@@ -202,6 +202,7 @@ return [
 	'new_password_label' => "New Password",
 	'confirm_new_password_label' => "Confirm New Password",
 	'change_my_password_button' => "Change my Password",
+	'dont_have_an_account' => "Don't have an account?",
 
 	/** Terms and Privacy **/
 	'terms_updated' => SITE_TITLE." Terms and Conditions has been updated.  Please review and agree.  <a href='".SITE_URL."Terms'>View Updated Terms and Conditions</a>",

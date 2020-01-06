@@ -201,4 +201,5 @@ return [
 	'new_password_label' => "Nueva contraseña",
 	'confirm_new_password_label' => "Confirmar nueva contraseña",
 	'change_my_password_button' => "Cambiar mi contraseña",
+	'dont_have_an_account' => "¿No tienes una cuenta?",
 ];
