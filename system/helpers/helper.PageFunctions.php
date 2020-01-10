@@ -101,9 +101,9 @@ class PageFunctions {
 						if($link->location == "nav_admin"){
 							$set_class = "nav-link";
 							if($link->drop_down == "1"){
-								$links_output .= "<li class='nav-item dropdown'>";
-								$links_output .= "<a href='#' title='".$link->alt_text."' class='nav-link dropdown-toggle' data-toggle='dropdown' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
-								$links_output .= SELF::getDropDownLinks($link->id, $userID);
+								$links_output .= "<li class='nav-item' data-toggle='tooltip' data-placement='right'>";
+								$links_output .= "<a href='#".$link->id."' title='".$link->alt_text."' class='nav-link nav-link-collapse collapsed' data-toggle='collapse' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
+								$links_output .= SELF::getDropDownLinks($link->id, $userID, $link->location);
 								$links_output .= "</li>";
 							}else{
 								$links_output .= "<li class='nav-item' data-toggle='tooltip' data-placement='right' title='Tables'><a class='$set_class' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a></li>";
@@ -117,7 +117,7 @@ class PageFunctions {
 	}
 
 	/* Function that gets urls for dropdown menus */
-	public static function getDropDownLinks($drop_down_for, $userID){
+	public static function getDropDownLinks($drop_down_for, $userID, $location = null){
 		self::$db = Database::get();
 		$data = self::$db->select("
 				SELECT
@@ -131,7 +131,12 @@ class PageFunctions {
 			array(':drop_down_for' => $drop_down_for));
 			$links_output = "";
 			if(isset($data)){
-				$links_output .= "<div class='dropdown-menu' aria-labelledby='links_".$drop_down_for."'>";
+				if($location == "nav_admin"){
+					$links_output .=  "<ul class='sidenav-second-level collapse rounded ml-2 mr-2' id='".$drop_down_for."'>";
+					$links_output .=  "<li class='nav-item' data-toggle='tooltip' data-placement='right' title='Tables'>";
+				}else{
+					$links_output .= "<div class='dropdown-menu' aria-labelledby='links_".$drop_down_for."'>";
+				}
 				foreach ($data as $link) {
 					/* Check to see if is a plugin link and if that plugin exists */
 					if(isset($link->require_plugin)){
@@ -162,10 +167,19 @@ class PageFunctions {
 						$link_enable = false;
 					}
 					if($link_enable == true){
+						if($location == "nav_admin"){
+							$links_output .= "<a class='nav-link' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a>";
+						}else{
 							$links_output .= "<a class='dropdown-item' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a>";
+						}
 					}
 				}
-				$links_output .= "</div>";
+				if($location == "nav_admin"){
+					$links_output .= "</li>";
+					$links_output .= "</ul>";
+				}else{
+					$links_output .= "</div>";
+				}
 			}
 			(isset($links_output)) ? $links_output = $links_output : $links_output = "";
 		return $links_output;

@@ -25,6 +25,7 @@ UC v1.0.4
  - Fixed error with sitemap
  - Added Framework Upgrade Logs
  - Fixed issue that did not allow wigets to load properly on custom pages
+ - Added Log File reader to AdminPanel
 
 ### UC 1.0.3
  - Multiple Bug Fixes
