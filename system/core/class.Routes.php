@@ -86,6 +86,7 @@ class Routes {
         $routes[] = self::add('AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', '(:any)');
         $routes[] = self::add('AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', '(:num)/(:num)');
         $routes[] = self::add('AdminPanel-FrameworkProcess', 'AdminPanel', 'AdminPanel-FrameworkProcess', NULL, 'false');
+        $routes[] = self::add('AdminPanel-Logs', 'AdminPanel', 'AdminPanel-Logs', '(:any)');
         /* End Admin Panel Routing */
 
         /* Language Code Change */

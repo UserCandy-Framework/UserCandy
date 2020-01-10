@@ -24,7 +24,7 @@ Core\Extender::load_ext('adminFooter', 'top');
 		Url::templatePath('AdminPanel').'js/sb-admin.min.js',
 		Url::templatePath('AdminPanel').'js/lumino.glyphs.js',
 		Url::templatePath('AdminPanel').'js/chart.min.js',
-		'https://use.fontawesome.com/releases/v5.9.0/js/all.js',
+		'https://use.fontawesome.com/releases/v5.12.0/js/all.js',
 		Url::templatePath().'js/loader.js'
 ]);
 ?>

@@ -31,9 +31,14 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 		$show_d = "show";
 	}
 
-	/** Checks to see if current page is in Framework Settings **/
+	/** Checks to see if current page is in Users or Groups **/
 	if($current_page == '/AdminPanel-Users' || $current_page == '/AdminPanel-User' || $current_page == '/AdminPanel-Groups' || $current_page == '/AdminPanel-Group'){
 		$show_ug = "show";
+	}
+
+	/** Checks to see if current page is in Logs **/
+	if($current_page == '/AdminPanel-AuthLogs' || $current_page == '/AdminPanel-Logs'){
+		$show_logs = "show";
 	}
 
 	$meta_output = PageFunctions::getPageMetaData();
@@ -172,11 +177,32 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 						<span class="nav-link-text">Terms and Privacy</span>
 					</a>
 				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-AuthLogs">
+				<!-- Framework Logs Drop-Down -->
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Framework Logs">
+					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLogs" data-parent="#exampleAccordion">
 						<i class="fa fa-fw fa-server"></i>
-						<span class="nav-link-text">Auth Logs</span>
+						<span class="nav-link-text">Logs</span>
 					</a>
+					<ul class="sidenav-second-level collapse rounded ml-2 mr-2 <?=$show_logs?>" id="collapseLogs">
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-AuthLogs">
+								<i class="fa fa-fw fa-server"></i>
+								<span class="nav-link-text">Auth Logs</span>
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Logs/Error">
+								<i class="fa fa-fw fa-server"></i>
+								<span class="nav-link-text">Error Logs</span>
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Logs/Upgrade">
+								<i class="fa fa-fw fa-server"></i>
+								<span class="nav-link-text">Upgrade Logs</span>
+							</a>
+						</li>
+					</ul>
 				</li>
 				<?php echo PageFunctions::getLinks('nav_admin', $currentUserData[0]->userID); ?>
 			</ul>
