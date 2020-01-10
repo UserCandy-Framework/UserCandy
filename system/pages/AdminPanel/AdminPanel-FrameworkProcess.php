@@ -50,11 +50,31 @@ if(isset($_POST['submit']) && $_POST['submit'] == "true"){
       $_SESSION['update_num'] = $update_num + 1;
     }
     else {
-      echo json_encode(array("update_num" => null, "percent" => null, "message" => 'file issue', "post" => $_POST));
+      echo json_encode(array("update_num" => null, "percent" => null, "message" => 'file issue'));
     }
   }else{
-    echo json_encode(array("update_num" => null, "percent" => null, "message" => 'token issue', "post" => $_POST));
+    echo json_encode(array("update_num" => null, "percent" => null, "message" => 'token issue'));
   }
 }else{
-  echo json_encode(array("update_num" => null, "percent" => null, "message" => 'no submit', "post" => $_POST));
+  echo json_encode(array("update_num" => null, "percent" => null, "message" => 'no submit'));
 }
+
+/** Format the Framework Upgrade status data to send to log file **/
+$fw_upgrade_date = date("Y-m-d H:i:s");
+$FWU_logMessage = "({$folder_location}) Upgrade information:\n
+  Order Number: {$obj['update_num']}\n
+  Date: {$fw_upgrade_date}\n
+  Message: {$obj['message']}\n
+  Action: {$obj['details']}\n
+  Status: {$obj['status']}\n
+------------------------------------\n\n";
+
+/** Send Data to Log File **/
+$fw_upgrade_file = ROOTDIR."system/logs/framework-upgrade.log";
+/** Create file is not exists **/
+if (is_file($fw_upgrade_file) === false) {
+    file_put_contents($fw_upgrade_file, '');
+}
+/** Add Framework Upgrade data to log file **/
+if(isset($FWU_logMessage))
+file_put_contents($fw_upgrade_file, $FWU_logMessage, FILE_APPEND);

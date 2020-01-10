@@ -22,6 +22,9 @@ UC v1.0.4
  - Fixed issue in Account-Settings with SuccessMessages class.
  - Updated security in the Csrf class.
  - Updated styles in the Login and Register pages to look cleaner.
+ - Fixed error with sitemap
+ - Added Framework Upgrade Logs
+ - Fixed issue that did not allow wigets to load properly on custom pages
 
 ### UC 1.0.3
  - Multiple Bug Fixes

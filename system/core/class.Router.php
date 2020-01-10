@@ -13,7 +13,7 @@
 namespace Core;
 
 use Helpers\{Assets,Request,AuthHelper,Database};
-use Models\AdminPanelModel;
+use Models\{AdminPanelModel,HomeModel};
 
 class Router {
 
