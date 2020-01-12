@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version 1.0.0
+* @version uc 1.0.4
 */
 
 //No Extra Settings Needed Here

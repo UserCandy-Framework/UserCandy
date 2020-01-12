@@ -37,7 +37,7 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 	}
 
 	/** Checks to see if current page is in Logs **/
-	if($current_page == '/AdminPanel-AuthLogs' || $current_page == '/AdminPanel-Logs'){
+	if($current_page == '/AdminPanel-AuthLogs' || $current_page == '/AdminPanel-Logs' || $current_page == '/AdminPanel-Logs/Error' || $current_page == '/AdminPanel-Logs/Upgrade'){
 		$show_logs = "show";
 	}
 

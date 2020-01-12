@@ -84,4 +84,149 @@ class SiteStats
 	}
 
 
+  /**
+  * Get Current User's Browser Type
+  */
+  public static function getDeviceInformation(){
+    /** Get User's IP **/
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    /** Get User's OS **/
+    $os_platform    = "Unknown OS Platform";
+    $os_array       = array(
+                          '/windows nt 10/i'      =>  'Windows 10',
+                          '/windows phone 8/i'    =>  'Windows Phone 8',
+                          '/windows phone os 7/i' =>  'Windows Phone 7',
+                          '/windows nt 6.3/i'     =>  'Windows 8.1',
+                          '/windows nt 6.2/i'     =>  'Windows 8',
+                          '/windows nt 6.1/i'     =>  'Windows 7',
+                          '/windows nt 6.0/i'     =>  'Windows Vista',
+                          '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
+                          '/windows nt 5.1/i'     =>  'Windows XP',
+                          '/windows xp/i'         =>  'Windows XP',
+                          '/windows nt 5.0/i'     =>  'Windows 2000',
+                          '/windows me/i'         =>  'Windows ME',
+                          '/win98/i'              =>  'Windows 98',
+                          '/win95/i'              =>  'Windows 95',
+                          '/win16/i'              =>  'Windows 3.11',
+                          '/macintosh|mac os x/i' =>  'Mac OS X',
+                          '/mac_powerpc/i'        =>  'Mac OS 9',
+                          '/linux/i'              =>  'Linux',
+                          '/ubuntu/i'             =>  'Ubuntu',
+                          '/iphone/i'             =>  'iPhone',
+                          '/ipod/i'               =>  'iPod',
+                          '/ipad/i'               =>  'iPad',
+                          '/android/i'            =>  'Android',
+                          '/blackberry/i'         =>  'BlackBerry',
+                          '/webos/i'              =>  'Mobile');
+    $found = false;
+    $device = '';
+    foreach ($os_array as $regex => $value)
+    {
+        if($found)
+         break;
+        else if (preg_match($regex, $user_agent))
+        {
+            $os_platform    =   $value;
+            $device = !preg_match('/(windows|mac|linux|ubuntu)/i',$os_platform)
+                      ?'MOBILE':(preg_match('/phone/i', $os_platform)?'MOBILE':'SYSTEM');
+        }
+    }
+    $device = !$device? 'SYSTEM':$device;
+    /** Get Browser Type **/
+    $browser        =   "Unknown Browser";
+    $browser_array  = array('/msie/i'       =>  'Internet Explorer',
+                            '/firefox/i'    =>  'Firefox',
+                            '/safari/i'     =>  'Safari',
+                            '/chrome/i'     =>  'Chrome',
+                            '/edge/i'       =>  'Edge',
+                            '/opera/i'      =>  'Opera',
+                            '/netscape/i'   =>  'Netscape',
+                            '/maxthon/i'    =>  'Maxthon',
+                            '/konqueror/i'  =>  'Konqueror',
+                            '/mobile/i'     =>  'Handheld Browser');
+    foreach ($browser_array as $regex => $value)
+    {
+        if($found)
+         break;
+        else if (preg_match($regex, $user_agent,$result))
+        {
+            $browser    =   $value;
+        }
+    }
+    return array('os'=>$os_platform,'device'=>$device,'browser'=>$browser);
+  }
+
+  /**
+  * Use API to get User's Device Location
+  */
+  public static function getDeviceLocation(){
+    $deviceIP = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+        $deviceIP = $_SERVER['HTTP_CLIENT_IP'];
+    } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $deviceIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else if (isset($_SERVER['HTTP_X_FORWARDED'])) {
+        $deviceIP = $_SERVER['HTTP_X_FORWARDED'];
+    } else if (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+        $deviceIP = $_SERVER['HTTP_FORWARDED_FOR'];
+    } else if (isset($_SERVER['HTTP_FORWARDED'])) {
+        $deviceIP = $_SERVER['HTTP_FORWARDED'];
+    } else if (isset($_SERVER['REMOTE_ADDR'])) {
+        $deviceIP = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $deviceIP = 'UNKNOWN';
+    }
+    $device_location_data = file_get_contents("http://ipinfo.io/$deviceIP/geo");
+    $device_location_data = json_decode($device_location_data, true);
+    return $device_location_data;
+  }
+
+  /**
+  * Update or Add User's device to the database.
+  * If device data match then change new to 0.
+  */
+  public static function updateUserDeviceInfo($userId){
+    /** Ready the Auth Model **/
+    $authModel = new \Models\AuthModel();
+    /** Get Current Device Information **/
+    $user_devise = Self::getDeviceInformation();
+    $user_location = Self::getDeviceLocation();
+    $os = $user_devise['os'];
+    $device = $user_devise['device'];
+    $browser = $user_devise['browser'];
+    $city = $user_location['city'];
+    $state = $user_location['region'];
+    $country = $user_location['country'];
+    $useragent = $_SERVER['HTTP_USER_AGENT'];
+    $ip = (isset($user_location['ip'])) ? $user_location['ip'] : $_SERVER['REMOTE_ADDR'];
+    /** Update device from new in database if new is 1 **/
+    $authModel->updateInDB('users_devices',array('new'=>'0'),array('userID'=>$userId,'os'=>$os,'device'=>$device,'browser'=>$browser,'city'=>$city,'state'=>$state,'country'=>$country,'useragent'=>$useragent));
+    /** Check to see if device information exists **/
+    if(!$authModel->getDeviceExists($userId,$os,$device,$browser,$city,$state,$country,$useragent)){
+      /** If not exists then add to database **/
+      if($authModel->addIntoDB('users_devices',array('userID'=>$userId,'os'=>$os,'device'=>$device,'browser'=>$browser,'city'=>$city,'state'=>$state,'country'=>$country,'useragent'=>$useragent,'ip'=>$ip))){
+        /** User has new device or location information - Send Email **/
+        $email = \Helpers\CurrentUserData::getUserEmail($userId);
+        $username = \Helpers\CurrentUserData::getUserName($userId);
+        $mail = new \Helpers\Mail();
+        $mail->addAddress($email);
+        $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
+        $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
+        $body = \Helpers\PageFunctions::displayEmailHeader();
+        $body .= sprintf(\Core\Language::show('login_new_device_email', 'Auth'), $username);
+        $body .= "<hr><b>".\Core\Language::show('device_device', 'Members')."</b>";
+        $body .= "<br>".$browser." - ".$os;
+        $body .= "<hr><b>".\Core\Language::show('device_location', 'Members')."</b>";
+        $body .= "<br>".$city.", ".$state.", ".$country;
+        $body .= \Core\Language::show('login_device_footer_email', 'Auth');
+        $body .= \Helpers\PageFunctions::displayEmailFooter();
+        $mail->body($body);
+        $mail->send();
+      }
+    }
+    /** Check if device is enabled and return the status **/
+    return $authModel->getDeviceStatus($userId,$os,$device,$browser,$city,$state,$country,$useragent);
+
+  }
+
 }

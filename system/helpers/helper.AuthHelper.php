@@ -431,13 +431,15 @@ class AuthHelper {
                 $mail = new Mail();
                 $mail->addAddress($email);
 								$mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
-                $mail->subject(SITE_TITLE. " - EMAIL VERIFICATION");
-                $body = $this->language->show('regi_email_hello', 'Auth')." {$username}<br/><br/>";
-                $body .= $this->language->show('regi_email_recently_registered', 'Auth')." ".SITE_TITLE."<br/>";
-                $body .= $this->language->show('regi_email_to_activate', 'Auth')."<br/><br/>";
-                $body .= "<b><a href='".SITE_URL.ACTIVATION_ROUTE."/username/{$username}/key/{$activekey}'>".$this->language->show('regi_email_act_my_acc', 'Auth')."</a></b>";
-                $body .= "<br><br> ".$this->language->show('regi_email_you_may_copy', 'Auth').": <br>";
+                $mail->subject(SITE_TITLE." - ".$this->language->show('activate_title', 'Auth'));
+                $body = \Helpers\PageFunctions::displayEmailHeader();
+                $body .= "<h1>".$this->language->show('regi_email_hello', 'Auth')." {$username}</h1>";
+                $body .= $this->language->show('regi_email_recently_registered', 'Auth')." ".SITE_TITLE.".<hr/>";
+                $body .= $this->language->show('regi_email_to_activate', 'Auth')."<hr/>";
+                $body .= "<a href='".SITE_URL.ACTIVATION_ROUTE."/username/{$username}/key/{$activekey}' class='btn btn-primary'>".$this->language->show('regi_email_act_my_acc', 'Auth')."</a>";
+                $body .= "<hr> ".$this->language->show('regi_email_you_may_copy', 'Auth').": <br>";
                 $body .= SITE_URL.ACTIVATION_ROUTE."/username/{$username}/key/{$activekey}";
+                $body .= \Helpers\PageFunctions::displayEmailFooter();
                 $mail->body($body);
                 $mail->send();
 							}else{
@@ -783,13 +785,16 @@ class AuthHelper {
                     $this->authorize->updateInDB("users",$info , $where);
 
                     //EMAIL MESSAGE USING PHPMAILER
-                    $mail = new Helpers\Mail();
+                    $mail = new \Helpers\Mail();
                     $mail->addAddress($email);
-                    $mail->subject(SITE_TITLE . " - Password reset request !");
-                    $body = "Hello {$username}<br/><br/>";
-                    $body .= "You recently requested a password reset on " . SITE_TITLE . "<br/>";
-                    $body .= "To proceed with the password reset, please click the following link :<br/><br/>";
-                    $body .= "<b><a href='".SITE_URL.RESET_PASSWORD_ROUTE."/username/{$username}/key/{$resetkey}'>Reset My Password</a></b>";
+                    $mail->subject(SITE_TITLE." - ".$this->language->show('resetpass_title', 'Auth'));
+                    $body = \Helpers\PageFunctions::displayEmailHeader($this->language->show('resetpass_title', 'Auth'));
+                    $body .= "<h1>".$this->language->show('regi_email_hello', 'Auth')." {$username}</h1>";
+                    $body .= $this->language->show('resetpass_email_pw_reset', 'Auth')." " . SITE_TITLE . ".<hr/>";
+                    $body .= $this->language->show('resetpass_email_pw_follow', 'Auth')."<br/><br/>";
+                    $body .= "<b><a href='".SITE_URL.RESET_PASSWORD_ROUTE."/username/{$username}/key/{$resetkey}' class='btn btn-primary'>".$this->language->show('resetpass_email_pw_rmp', 'Auth')."</a></b>";
+                    $body .= "<hr>".$this->language->show('resetpass_email_pw_warn', 'Auth');
+                    $body .= \Helpers\PageFunctions::displayEmailFooter();
                     $mail->body($body);
                     $mail->send();
                     $this->logActivity($username, "AUTH_RESETPASS_SUCCESS", "Reset pass request sent to {$email} ( Key : {$resetkey} )");
@@ -1002,16 +1007,17 @@ class AuthHelper {
                     $where = array('username' => $username);
                     $this->authorize->updateInDB('users',$info,$where);
                     //EMAIL MESSAGE USING PHPMAILER
-                    $mail = new Helpers\Mail();
+                    $mail = new \Helpers\Mail();
                     $mail->addAddress($email);
-                    $mail->subject(SITE_TITLE . " - Account Activation Link");
-                    $body = "Hello {$username}<br/><br/>";
-                    $body .= "You recently registered a new account on " . SITE_TITLE . "<br/>";
-                    $body .= "To activate your account please click the following link<br/><br/>";
-                    $body .= "<b><a href='".SITE_URL.ACTIVATION_ROUTE."/username/{$username}/key/{$activekey}'>Activate my account</a></b>";
-                    $body .= "<br><br> You May Copy and Paste this URL in your Browser Address Bar: <br>";
+                    $mail->subject(SITE_TITLE." - ".$this->language->show('activate_title', 'Auth'));
+                    $body = \Helpers\PageFunctions::displayEmailHeader();
+                    $body .= "<h1>".$this->language->show('regi_email_hello', 'Auth')." {$username}</h1>";
+                    $body .= $this->language->show('regi_email_recently_registered', 'Auth')." " . SITE_TITLE . ".<hr/>";
+                    $body .= $this->language->show('regi_email_to_activate', 'Auth')."<br/><br/>";
+                    $body .= "<b><a href='".SITE_URL.ACTIVATION_ROUTE."/username/{$username}/key/{$activekey}' class='btn btn-primary'>Activate my account</a></b>";
+                    $body .= "<hr>".$this->language->show('regi_email_you_may_copy', 'Auth');
                     $body .= SITE_URL.ACTIVATION_ROUTE."/username/{$username}/key/{$activekey}";
-                    $body .= "<br><br> You Requested to have this email resent to your email.";
+                    $body .= \Helpers\PageFunctions::displayEmailFooter();
                     $mail->body($body);
                     $mail->send();
                     $this->logActivity($username, "AUTH_REGISTER_SUCCESS", "Account created and activation email sent");

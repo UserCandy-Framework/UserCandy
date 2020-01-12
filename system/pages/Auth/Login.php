@@ -8,7 +8,7 @@
 */
 
 use Core\Language;
-use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
+use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf,SiteStats};
 
 /* Check to see if user is already logged in */
         if ($auth->isLogged())
@@ -30,11 +30,40 @@ use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
             if ($auth->login($username, $password, $rememberMe)) {
                 $userId = $auth->currentSessionInfo()['uid'];
 
+                /** Update the last login timestamp for user to now **/
                 $info = array('LastLogin' => date('Y-m-d G:i:s'));
                 $where = array('userID' => $userId);
                 $auth->updateUser($info,$where);
 
                 $usersModel->update($userId);
+
+                /** Check if user is on new device, if so then add to database **/
+                $device_data = SiteStats::updateUserDeviceInfo($userId);
+
+                /** Check if Device is enabled for user **/
+                if($device_data[0]->allow == "0"){
+                  /** Send Email letting user know someone that was blocked tried to access their account **/
+                  $email = \Helpers\CurrentUserData::getUserEmail($userId);
+                  $mail = new \Helpers\Mail();
+                  $mail->addAddress($email);
+                  $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
+                  $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
+                  $body = \Helpers\PageFunctions::displayEmailHeader();
+                  $body .= sprintf(Language::show('login_blocked_device_email', 'Auth'), $username);
+                  $body .= "<hr><b>".Language::show('device_device', 'Members')."</b>";
+                  $body .= "<br>".$device_data[0]->browser." - ".$device_data[0]->os;
+                  $body .= "<hr><b>".Language::show('device_location', 'Members')."</b>";
+                  $body .= "<br>".$device_data[0]->city.", ".$device_data[0]->state.", ".$device_data[0]->country;
+                  $body .= Language::show('login_device_footer_email', 'Auth');
+                  $body .= \Helpers\PageFunctions::displayEmailFooter();
+                  $mail->body($body);
+                  $mail->send();
+                  /** Device is disabled.  Kick user out and show error **/
+                  $usersModel->remove($u_id);
+                  $auth->logout();
+                  /* Error Message Display */
+                  ErrorMessages::push(Language::show('login_lockedout', 'Auth'), 'Login');
+                }
 
                 /**
                 * Login Success

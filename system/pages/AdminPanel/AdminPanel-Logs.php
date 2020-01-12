@@ -54,6 +54,11 @@ if(file_exists($log_file)){
 /** Check if Admin is clearing log file **/
 /** Check to see if Admin is using POST */
 if(isset($_POST['submit'])){
+  /** Check to see if site is a demo site */
+  if(DEMO_SITE == "TRUE"){
+    /** Error Message Display */
+    ErrorMessages::push('Demo Limit - Dispenser Installs Disabled', 'AdminPanel-Logs/'.$log_type);
+  }
   /** Check to make sure the csrf token is good */
   if (Csrf::isTokenValid('logs')) {
     /** Get Data from POST **/

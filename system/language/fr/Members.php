@@ -129,4 +129,19 @@ return [
 	'members_profile_user_no_posts' => "L'utilisateur n'a pas encore posté dans le forum.",
 	'user_profile_forum_recent_posts' => "Messages récents dans le forum",
 	'edit_profile_first_name_not_set' => "Le prénom n'a pas été défini.",
+
+	 /** New for 1.0.4 **/
+ 	 'mem_act_devices' => "Dispositivos",
+ 	 'devices_welcomemessage' => "Los siguientes son sus dispositivos con los que ha iniciado sesión en este sitio. Si no eres tú, puedes desactivarlo y el sitio bloqueará ese dispositivo.",
+ 	 'devices_title' => "Dispositivos",
+ 	 'device_browser' => "Navegadora",
+ 	 'device_os' => "Sistema operativo",
+ 	 'device_location' => "Ubicación",
+ 	 'device_device' => "Dispositivo",
+ 	 'mem_act_devices_description' => "Dispositivos le permite administrar qué dispositivos pueden acceder a su cuenta.",
+ 	 'device_enable' => 'Habilitar',
+ 	 'device_disable' => 'Inhabilitar',
+	 'device_success' => "Appareil mis à jour avec succès.",
+	 'device_error' => "Erreur lors de la mise à jour du périphérique.",
+
 ];

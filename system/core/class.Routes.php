@@ -53,6 +53,7 @@ class Routes {
         $routes[] = self::add('Edit-Profile-Images','Members', 'Edit-Profile-Images', '(:any)/(:num)');
         $routes[] = self::add('Privacy-Settings','Members', 'Privacy-Settings');
         $routes[] = self::add('Account-Settings','Members', 'Account-Settings');
+        $routes[] = self::add('Devices','Members', 'Devices');
         /* End Members Routing */
 
         /* Live Checks */

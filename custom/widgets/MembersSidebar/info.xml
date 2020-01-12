@@ -13,9 +13,11 @@
   <!-- Let everyone know who created this Widget -->
   <AUTHOR>DaVaR</AUTHOR>
   <!-- Current Release Version of this Widget - Used to let others know when to update -->
-  <VERSION>1.0.0</VERSION>
+  <VERSION>1.0.3</VERSION>
+  <!-- Current Version of UserCandy this item works with -->
+  <UCVERSION>1.0.3</UCVERSION>
   <!-- Current Release Date of this Widget -->
-  <RELEASE_DATE>9/2/2019</RELEASE_DATE>
+  <RELEASE_DATE>12/16/2019</RELEASE_DATE>
   <!-- Widget Image URL to display with the Widget in the Dispenser -->
   <IMAGE>https://www.usercandy.com/assets/images/dispensary-pics/widget-memberssidebar.png</IMAGE>
 </DOCUMENT>

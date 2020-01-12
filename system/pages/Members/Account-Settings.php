@@ -49,7 +49,9 @@ Core\Extender::load_ext('Account-Settings', 'top');
 			<hr>
 			<a href='<?=SITE_URL?>Privacy-Settings' rel='nofollow'><?=Language::show('mem_act_privacy_settings', 'Members'); ?></a><br>
 			<?=Language::show('mem_act_privacy_settings_description', 'Members'); ?>
-
+      <hr>
+			<a href='<?=SITE_URL?>Devices' rel='nofollow'><?=Language::show('mem_act_devices', 'Members'); ?></a><br>
+			<?=Language::show('mem_act_devices_description', 'Members'); ?>
     </div>
   </div>
 </div>

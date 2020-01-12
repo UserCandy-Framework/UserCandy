@@ -369,7 +369,8 @@ INSERT INTO `uc_pages` (`id`, `url`, `pagefolder`, `pagefile`, `arguments`, `sit
 (46, 'AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', NULL, 'false', 'true', 'AdminPanel', '1'),
 (47, 'themes', 'Home', 'themes', NULL, 'false', 'true', 'Default', '0'),
 (48, 'custom', 'Home', 'custom', NULL, 'false', 'true', 'Default', '0'),
-(49, 'AdminPanel-Logs', 'AdminPanel', 'AdminPanel-Logs', NULL, 'false', 'true', 'AdminPanel', '1');
+(49, 'AdminPanel-Logs', 'AdminPanel', 'AdminPanel-Logs', NULL, 'false', 'true', 'AdminPanel', '1'),
+(50, 'Devices', 'Members', 'Devices', NULL, 'false', 'true', 'Default', '1');
 
 -- --------------------------------------------------------
 
@@ -401,7 +402,8 @@ INSERT INTO `uc_pages_permissions` (`id`, `page_id`, `group_id`) VALUES
 (44, 17, 0),(45, 18, 0),(46, 9, 0),(47, 10, 1),(48, 10, 2),(49, 10, 3),(50, 10, 4),
 (51, 19, 0),(52, 20, 0),(53, 43, 0),(54, 15, 1),(55, 15, 2),(56, 15, 3),(57, 15, 4),
 (58, 21, 0),(59, 4, 0),(60, 8, 0),(61, 7, 0),(62, 41, 0),(63, 2, 0),(64, 42, 0),
-(65, 44, 4),(66, 45, 4),(67, 46, 4),(68, 47, 0),(69, 49, 0),(70, 49, 4);
+(65, 44, 4),(66, 45, 4),(67, 46, 4),(68, 47, 0),(69, 49, 0),(70, 49, 4),(71, 50, 1),
+(72, 50, 2),(73, 50, 3),(74, 50, 4);
 
 -- --------------------------------------------------------
 
@@ -464,7 +466,8 @@ INSERT INTO `uc_dispenser_widgets` (`id`, `widget_id`, `display_type`, `display_
 (8, 2, 'sidebar', 'sidebar_left', 12),
 (9, 2, 'sidebar', 'sidebar_left', 15),
 (10, 1, 'sidebar', 'sidebar_right', 19),
-(11, 1, 'sidebar', 'sidebar_right', 20);
+(11, 1, 'sidebar', 'sidebar_right', 20),
+(12, 2, 'sidebar', 'sidebar_left', 50);
 
 -- --------------------------------------------------------
 
@@ -483,5 +486,28 @@ CREATE TABLE IF NOT EXISTS `uc_metadata` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uc_users_devices`
+--
+
+CREATE TABLE IF NOT EXISTS `uc_users_devices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userID` int(11) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `browser` varchar(255) DEFAULT NULL,
+  `os` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `device` varchar(255) DEFAULT NULL,
+  `new` int(11) NOT NULL DEFAULT '1',
+  `useragent` varchar(255) DEFAULT NULL,
+  `allow` int(11) NOT NULL DEFAULT '1',
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
