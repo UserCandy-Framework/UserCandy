@@ -26,6 +26,9 @@ UC v1.0.4
  - Added Framework Upgrade Logs
  - Fixed issue that did not allow wigets to load properly on custom pages
  - Added Log File reader to AdminPanel
+ - Added New User Device Management system with email notifications
+ - Added Missing Language data for Auth Emails
+ - Added Email template settings
 
 ### UC 1.0.3
  - Multiple Bug Fixes
