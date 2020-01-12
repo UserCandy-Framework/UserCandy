@@ -428,7 +428,7 @@ class AuthHelper {
               $account_activation = ACCOUNT_ACTIVATION;
 							if($account_activation == "true"){
                 /** Check if Email Settings are set **/
-                $site_mail_setting = SITEEMAIL;
+                $site_mail_setting = EMAIL_FROM_NAME;
                 if(!empty($site_mail_setting)){
                   /** Activation Enabled - Send Email to the new user **/
                   $mail = new Mail();
@@ -789,7 +789,7 @@ class AuthHelper {
                     $this->authorize->updateInDB("users",$info , $where);
 
                     /** Check if Email Settings are set **/
-                    $site_mail_setting = SITEEMAIL;
+                    $site_mail_setting = EMAIL_FROM_NAME;
                     if(!empty($site_mail_setting)){
                       //EMAIL MESSAGE USING PHPMAILER
                       $mail = new \Helpers\Mail();
@@ -1017,7 +1017,7 @@ class AuthHelper {
                     $where = array('username' => $username);
                     $this->authorize->updateInDB('users',$info,$where);
                     /** Check if Email Settings are set **/
-                    $site_mail_setting = SITEEMAIL;
+                    $site_mail_setting = EMAIL_FROM_NAME;
                     if(!empty($site_mail_setting)){
                       //EMAIL MESSAGE USING PHPMAILER
                       $mail = new \Helpers\Mail();

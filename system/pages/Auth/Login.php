@@ -43,7 +43,7 @@ use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf,SiteStats};
                 /** Check if Device is enabled for user **/
                 if($device_data[0]->allow == "0"){
                   /** Check if Email Settings are set **/
-                  $site_mail_setting = SITEEMAIL;
+                  $site_mail_setting = EMAIL_FROM_NAME;
                   if(!empty($site_mail_setting)){
                     /** Send Email letting user know someone that was blocked tried to access their account **/
                     $email = \Helpers\CurrentUserData::getUserEmail($userId);

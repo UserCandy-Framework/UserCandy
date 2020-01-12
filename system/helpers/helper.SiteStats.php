@@ -206,7 +206,7 @@ class SiteStats
       /** If not exists then add to database **/
       if($authModel->addIntoDB('users_devices',array('userID'=>$userId,'os'=>$os,'device'=>$device,'browser'=>$browser,'city'=>$city,'state'=>$state,'country'=>$country,'useragent'=>$useragent,'ip'=>$ip))){
         /** Check if Email Settings are set **/
-        $site_mail_setting = SITEEMAIL;
+        $site_mail_setting = EMAIL_FROM_NAME;
         if(!empty($site_mail_setting)){
           /** User has new device or location information - Send Email **/
           $email = \Helpers\CurrentUserData::getUserEmail($userId);
