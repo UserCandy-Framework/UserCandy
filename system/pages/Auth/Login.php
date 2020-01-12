@@ -42,22 +42,26 @@ use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf,SiteStats};
 
                 /** Check if Device is enabled for user **/
                 if($device_data[0]->allow == "0"){
-                  /** Send Email letting user know someone that was blocked tried to access their account **/
-                  $email = \Helpers\CurrentUserData::getUserEmail($userId);
-                  $mail = new \Helpers\Mail();
-                  $mail->addAddress($email);
-                  $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
-                  $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
-                  $body = \Helpers\PageFunctions::displayEmailHeader();
-                  $body .= sprintf(Language::show('login_blocked_device_email', 'Auth'), $username);
-                  $body .= "<hr><b>".Language::show('device_device', 'Members')."</b>";
-                  $body .= "<br>".$device_data[0]->browser." - ".$device_data[0]->os;
-                  $body .= "<hr><b>".Language::show('device_location', 'Members')."</b>";
-                  $body .= "<br>".$device_data[0]->city.", ".$device_data[0]->state.", ".$device_data[0]->country;
-                  $body .= Language::show('login_device_footer_email', 'Auth');
-                  $body .= \Helpers\PageFunctions::displayEmailFooter();
-                  $mail->body($body);
-                  $mail->send();
+                  /** Check if Email Settings are set **/
+                  $site_mail_setting = SITEEMAIL;
+                  if(!empty($site_mail_setting)){
+                    /** Send Email letting user know someone that was blocked tried to access their account **/
+                    $email = \Helpers\CurrentUserData::getUserEmail($userId);
+                    $mail = new \Helpers\Mail();
+                    $mail->addAddress($email);
+                    $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
+                    $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
+                    $body = \Helpers\PageFunctions::displayEmailHeader();
+                    $body .= sprintf(Language::show('login_blocked_device_email', 'Auth'), $username);
+                    $body .= "<hr><b>".Language::show('device_device', 'Members')."</b>";
+                    $body .= "<br>".$device_data[0]->browser." - ".$device_data[0]->os;
+                    $body .= "<hr><b>".Language::show('device_location', 'Members')."</b>";
+                    $body .= "<br>".$device_data[0]->city.", ".$device_data[0]->state.", ".$device_data[0]->country;
+                    $body .= Language::show('login_device_footer_email', 'Auth');
+                    $body .= \Helpers\PageFunctions::displayEmailFooter();
+                    $mail->body($body);
+                    $mail->send();
+                  }
                   /** Device is disabled.  Kick user out and show error **/
                   $usersModel->remove($u_id);
                   $auth->logout();

@@ -77,7 +77,13 @@ if(isset($_POST['submit'])){
             $site_profile_notifi_check = Request::post('site_profile_notifi_check');
             if($site_profile_notifi_check != 'true'){ $site_profile_notifi_check = 'false'; }
 
-            if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
+            /** Check if Email Settings are set **/
+            $site_mail_setting = SITEEMAIL;
+            if(!empty($site_mail_setting)){
+              if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
+            }else{
+              $errors[] = 'Site User Activation Error - Email settings must be set to enable.';
+            }
             if(!$AdminPanelModel->updateSetting('site_user_invite_code', $site_user_invite_code)){ $errors[] = 'site_user_invite_code Error'; }
             if(!$AdminPanelModel->updateSetting('max_attempts', $max_attempts)){ $errors[] = 'max_attempts Error'; }
             if(!$AdminPanelModel->updateSetting('security_duration', $security_duration)){ $errors[] = 'security_duration Error'; }

@@ -205,23 +205,27 @@ class SiteStats
     if(!$authModel->getDeviceExists($userId,$os,$device,$browser,$city,$state,$country,$useragent)){
       /** If not exists then add to database **/
       if($authModel->addIntoDB('users_devices',array('userID'=>$userId,'os'=>$os,'device'=>$device,'browser'=>$browser,'city'=>$city,'state'=>$state,'country'=>$country,'useragent'=>$useragent,'ip'=>$ip))){
-        /** User has new device or location information - Send Email **/
-        $email = \Helpers\CurrentUserData::getUserEmail($userId);
-        $username = \Helpers\CurrentUserData::getUserName($userId);
-        $mail = new \Helpers\Mail();
-        $mail->addAddress($email);
-        $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
-        $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
-        $body = \Helpers\PageFunctions::displayEmailHeader();
-        $body .= sprintf(\Core\Language::show('login_new_device_email', 'Auth'), $username);
-        $body .= "<hr><b>".\Core\Language::show('device_device', 'Members')."</b>";
-        $body .= "<br>".$browser." - ".$os;
-        $body .= "<hr><b>".\Core\Language::show('device_location', 'Members')."</b>";
-        $body .= "<br>".$city.", ".$state.", ".$country;
-        $body .= \Core\Language::show('login_device_footer_email', 'Auth');
-        $body .= \Helpers\PageFunctions::displayEmailFooter();
-        $mail->body($body);
-        $mail->send();
+        /** Check if Email Settings are set **/
+        $site_mail_setting = SITEEMAIL;
+        if(!empty($site_mail_setting)){
+          /** User has new device or location information - Send Email **/
+          $email = \Helpers\CurrentUserData::getUserEmail($userId);
+          $username = \Helpers\CurrentUserData::getUserName($userId);
+          $mail = new \Helpers\Mail();
+          $mail->addAddress($email);
+          $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
+          $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
+          $body = \Helpers\PageFunctions::displayEmailHeader();
+          $body .= sprintf(\Core\Language::show('login_new_device_email', 'Auth'), $username);
+          $body .= "<hr><b>".\Core\Language::show('device_device', 'Members')."</b>";
+          $body .= "<br>".$browser." - ".$os;
+          $body .= "<hr><b>".\Core\Language::show('device_location', 'Members')."</b>";
+          $body .= "<br>".$city.", ".$state.", ".$country;
+          $body .= \Core\Language::show('login_device_footer_email', 'Auth');
+          $body .= \Helpers\PageFunctions::displayEmailFooter();
+          $mail->body($body);
+          $mail->send();
+        }
       }
     }
     /** Check if device is enabled and return the status **/
