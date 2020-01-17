@@ -42,9 +42,9 @@ if(isset($data['ownjs'])){
 </script>
 
 <script type='text/javascript'>
-		$(document).ready(function(){
-				$('#alertModal').modal('show');
-		});
+	$(document).ready(function(){
+			$('#alertModal').modal('show');
+	});
 </script>
 
 <?php

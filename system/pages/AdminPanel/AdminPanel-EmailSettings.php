@@ -60,6 +60,11 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
                     if(!$AdminPanelModel->updateSetting('site_email_site', $site_email_site)){ $errors[] = 'Site Email Error'; }
                     if(!$AdminPanelModel->updateSetting('site_email_logo_url', $site_email_logo_url)){ $errors[] = 'Site Email Logo URL Error'; }
 
+                    /** Set User Activation to false if From name is blank **/
+                    if(empty($site_email_username)){
+                      if(!$AdminPanelModel->updateSetting('site_user_activation', 'false')){ $errors[] = 'Site User Activation Error'; }
+                    }
+
                     // Run the update settings script
                     if(!isset($errors) || count($errors) == 0){
                         /** Success */

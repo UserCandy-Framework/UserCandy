@@ -29,7 +29,7 @@ if($data['isLoggedIn'] = $auth->isLogged()){
 (empty($viewVars[0])) ? $page = null : $page = $viewVars[0];
 
 /** Check to see if Admin is using POST */
-if(isset($_POST['submit'])){
+if(isset($_POST['action'])){
   /** Check to make sure the csrf token is good */
   if (Csrf::isTokenValid('dispenser')) {
     //var_dump($_POST);die;
@@ -45,6 +45,19 @@ if(isset($_POST['submit'])){
 
 /** Setup Token for Form */
 $data['csrfToken'] = Csrf::makeToken('dispenser');
+
+/** Setup Button Loading Message **/
+$data['ownjs'][] = "
+<script type='text/javascript'>
+	$('form').submit(function(){
+	    $(this).find('button[type=submit]').prop('disabled', true);
+			$(this).find('button[type=submit]').html(
+				`<span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span> Loading...`
+			);
+      $(':button').prop('disabled', true);
+	});
+</script>
+";
 
 $page_lowercase = strtolower($page);
 
