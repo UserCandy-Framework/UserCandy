@@ -4,16 +4,13 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 /* Define the absolute paths for configured directories */
 define('ROOTDIR', realpath(__DIR__.'/../').'/');
 define('SYSTEMDIR', realpath(__DIR__.'/../system/').'/');
 define('CUSTOMDIR', realpath(__DIR__.'/../custom/').'/');
-
-/** Define Current Version of UC **/
-define('UCVersion', '1.0.0');
 
 /* load UC Autoloader */
 if (file_exists(SYSTEMDIR.'core/autoloader.php')) {

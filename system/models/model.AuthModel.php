@@ -4,7 +4,7 @@
  *
  * UserCandy
  * @author David (DaVaR) Sargent <davar@usercandy.com>
- * @version uc 1.0.3
+ * @version uc 1.0.4
  */
 
 namespace Models;
@@ -133,6 +133,31 @@ class AuthModel extends Models
     public function getUserGroups($userID)
     {
         return $this->db->select("SELECT groupID FROM ".PREFIX."users_groups WHERE userID = :userID",array(':userID' => $userID));
+    }
+
+    /**
+     * Get device status
+     * @return int data
+     */
+    public function getDeviceStatus($userId,$os,$device,$browser,$city,$state,$country,$useragent)
+    {
+      return $this->db->select("SELECT * FROM ".PREFIX."users_devices WHERE userID = :userID AND os = :os AND device = :device AND browser = :browser AND city = :city AND state = :state AND country = :country AND useragent = :useragent",
+                          array('userID'=>$userId,'os'=>$os,'device'=>$device,'browser'=>$browser,'city'=>$city,'state'=>$state,'country'=>$country,'useragent'=>$useragent));
+    }
+
+    /**
+     * Get device status
+     * @return int data
+     */
+    public function getDeviceExists($userId,$os,$device,$browser,$city,$state,$country,$useragent)
+    {
+      $data = $this->db->selectCount("SELECT * FROM ".PREFIX."users_devices WHERE userID = :userID AND os = :os AND device = :device AND browser = :browser AND city = :city AND state = :state AND country = :country AND useragent = :useragent",
+                          array('userID'=>$userId,'os'=>$os,'device'=>$device,'browser'=>$browser,'city'=>$city,'state'=>$state,'country'=>$country,'useragent'=>$useragent));
+      if($data > 0){
+        return true;
+      }else{
+        return false;
+      }
     }
 
 }

@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Models;
@@ -547,72 +547,6 @@ class AdminPanelModel extends Models {
     return $data;
   }
 
-  /**
-  * Get list of all users
-  * @return array dataset
-  */
-  public function getUsersMassEmail(){
-
-    $user_data = $this->db->select("
-        SELECT
-          userID,
-          username,
-          email
-        FROM
-          ".PREFIX."users
-        WHERE
-          privacy_massemail = 'true'
-        AND
-          isactive = '1'
-        ORDER BY
-          userID
-        ");
-    return $user_data;
-  }
-
-  /**
-  * Puts new/reply message data into database
-  * @param $to_userID
-  * @param $from_userID
-  * @param $subject
-  * @param $content
-  * @param $username
-  * @param $email
-  * @return boolean true/false
-  */
-  public function sendMassEmail($to_userID, $from_userID, $subject, $content, $username, $email){
-    // Format the Content for database
-		$content = nl2br($content);
-		// Update messages table
-		$query = $this->db->insert(PREFIX.'messages', array('to_userID' => $to_userID, 'from_userID' => $from_userID, 'subject' => $subject, 'content' => $content, 'from_delete' => 'true'));
-		// Check to make sure something was updated
-		if($query > 0){
-      // Message was updated in database, now we send the to user an email notification.
-      // Get from user's data
-      $data2 = $this->db->select("SELECT username FROM ".PREFIX."users WHERE userID = :userID",
-        array(':userID' => $from_userID));
-      $from_username = $data2[0]->username;
-      //EMAIL MESSAGE USING PHPMAILER
-      $mail = new Helpers\Mail();
-      $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
-      $mail->addAddress($email);
-      $mail_subject = " " . SITE_TITLE . " - $subject";
-      $mail->subject($mail_subject);
-      $body = "Hello {$username}";
-      $body .= "<hr/> {$content}<hr/>";
-      $body .= "This is a Mass Email sent by {$from_username} on " . SITE_TITLE . "<hr/>";
-      $body .= "Go to <a href=\"" . SITE_URL . "\">" . SITE_TITLE . "</a> to change your privacy settings if you wish to not receive these mass emails.";
-      $mail->body($body);
-      $mail->send();
-
-			return true;
-		}else{
-			return false;
-		}
-  }
-
-
-
     /**
     * Checks database for pagefolder and pagefile
     * @param string $pagefolder
@@ -1112,38 +1046,6 @@ class AdminPanelModel extends Models {
   	}
 
     /**
-    * Get Site UC Database Version From Database
-    * @return string data
-    */
-    public function getDatabaseVersion(){
-        $check = $this->db->select("
-          SELECT
-          IF( EXISTS
-              (SELECT * FROM information_schema.COLUMNS
-                  WHERE TABLE_SCHEMA = '".DB_NAME."'
-                  AND TABLE_NAME = '".PREFIX."version'
-                  LIMIT 1),
-          1, 0)
-          AS if_exists
-        ");
-        $ver_db_check = $check[0]->if_exists == 1;
-
-        if($ver_db_check){
-          $data = $this->db->select("
-              SELECT
-                  version
-              FROM
-                  ".PREFIX."version
-              WHERE
-                  id = 1
-          ");
-          return $data[0]->version;
-        }else{
-          return "4.2.1";
-        }
-    }
-
-    /**
     * Get the top referer URLs from site logs
     * @param int $days
     * @return array dataset
@@ -1218,8 +1120,8 @@ class AdminPanelModel extends Models {
     * @param string $url
     * @return int inserted ID
     */
-    public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)', $sitemap = 'true', $template = 'Default'){
-      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'sitemap' => $sitemap, 'template' => $template));
+    public function addPluginPage($pagefolder, $pagefile, $url, $arguments = '(:any)/(:any)/(:any)/(:any)', $sitemap = 'true', $template = 'Default', $headfoot = "1"){
+      $data = $this->db->insert(PREFIX.'pages', array('pagefolder' => $pagefolder, 'pagefile' => $pagefile, 'url' => $url, 'arguments' => $arguments, 'sitemap' => $sitemap, 'template' => $template, 'headfoot' => $headfoot));
       if($data > 0){
         return $data;
       }else{

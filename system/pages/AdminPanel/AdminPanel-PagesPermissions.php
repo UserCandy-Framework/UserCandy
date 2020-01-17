@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Routes;
@@ -61,16 +61,13 @@ if(isset($getRoutes)){
 /** Search Common Directories for new Pages/Files **/
 $custom_pages_dir = ROOTDIR.'custom/pages';
 
-/** Create Pages Folder if not exist **/
-if (!file_exists($custom_pages_dir)) {
-    mkdir($custom_pages_dir, 0777, true);
-}
-
 /** Scan Pages folder for files and folders **/
 $scan_custom_pages_dir = array_diff(scandir($custom_pages_dir), array('..', '.'));
 
 /** Extract the methods from the classes */
 foreach ($scan_custom_pages_dir as $filename) {
+  /** Check to make sure file is .php **/
+  if(strpos($filename, ".php") !== false){
     /** Remove the .php from the files */
     $dir_pagefile = str_replace('.php', '', $filename);
     $dir_pagefolder = 'custompages';
@@ -98,6 +95,7 @@ foreach ($scan_custom_pages_dir as $filename) {
         }
       }
     }
+  }
 }
 
 /** Search for New Plugin Display Page **/

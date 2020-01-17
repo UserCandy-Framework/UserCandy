@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Helpers;
@@ -63,6 +63,13 @@ class Assets {
                     $file = CUSTOMDIR.'themes/'.$extRoutes[0].'/assets/'.$extRoutes[1].'/'.$filename;
                 }else{
                     $file = CUSTOMDIR.'themes/'.$extRoutes[0].'/assets/'.$filename;
+                }
+                $file = preg_replace('{/$}', '', $file);
+            }else if($location == 'custom'){
+              if(isset($extRoutes[3])){
+                  $file = CUSTOMDIR.$extRoutes[0].'/'.$extRoutes[1].'/assets/'.$extRoutes[3].'/'.$filename;
+              }else{
+                  $file = CUSTOMDIR.$extRoutes[0].'/'.$extRoutes[1].'/assets/'.$filename;
                 }
                 $file = preg_replace('{/$}', '', $file);
             }else if(isset($location)){

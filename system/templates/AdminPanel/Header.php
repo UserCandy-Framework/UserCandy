@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
@@ -18,10 +18,27 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 	// Send url to Session
 	PageFunctions::prevpage();
 
-	/** Checks to see if current page is in Dispenser **/
+	/** Get Current Page **/
 	$current_page = $_SERVER['REQUEST_URI'];
-	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers' || $current_page == '/AdminPanel-Dispenser-Framework'){
-		$show = "show";
+
+	/** Checks to see if current page is in Framework Settings **/
+	if($current_page == '/AdminPanel-Settings' || $current_page == '/AdminPanel-AdvancedSettings' || $current_page == '/AdminPanel-EmailSettings'){
+		$show_fs = "show";
+	}
+
+	/** Checks to see if current page is in Dispenser **/
+	if($current_page == '/AdminPanel-Dispenser-Settings' || $current_page == '/AdminPanel-Dispenser/Widgets' || $current_page == '/AdminPanel-Dispenser/Plugins' || $current_page == '/AdminPanel-Dispenser/Themes' || $current_page == '/AdminPanel-Dispenser/Helpers' || $current_page == '/AdminPanel-Dispenser/Templates' || $current_page == '/AdminPanel-Dispenser/Framework'){
+		$show_d = "show";
+	}
+
+	/** Checks to see if current page is in Users or Groups **/
+	if($current_page == '/AdminPanel-Users' || $current_page == '/AdminPanel-User' || $current_page == '/AdminPanel-Groups' || $current_page == '/AdminPanel-Group'){
+		$show_ug = "show";
+	}
+
+	/** Checks to see if current page is in Logs **/
+	if($current_page == '/AdminPanel-AuthLogs' || $current_page == '/AdminPanel-Logs' || $current_page == '/AdminPanel-Logs/Error' || $current_page == '/AdminPanel-Logs/Upgrade'){
+		$show_logs = "show";
 	}
 
 	$meta_output = PageFunctions::getPageMetaData();
@@ -64,18 +81,40 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Settings">
-            <i class="fa fa-fw fa-cog"></i>
-            <span class="nav-link-text">Main Settings</span>
-          </a>
-        </li>
+				<!-- Framework Settings Drop-Down -->
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dispenser">
+					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseFS" data-parent="#exampleAccordion">
+						<i class="fa fa-fw fa-cog"></i>
+						<span class="nav-link-text">Framework Settings</span>
+					</a>
+					<ul class="sidenav-second-level collapse rounded ml-2 mr-2 <?=$show_fs?>" id="collapseFS">
+		        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+		          <a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Settings">
+		            <i class="fa fa-fw fa-cog"></i>
+		            <span class="nav-link-text">Main Settings</span>
+		          </a>
+		        </li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-AdvancedSettings">
+								<i class="fa fa-fw fa-cog"></i>
+								<span class="nav-link-text">Advanced Settings</span>
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-EmailSettings">
+								<i class="fa fa-fw fa-envelope"></i>
+								<span class="nav-link-text">E-Mail Settings</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- Dispenser Drop-Down -->
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dispenser">
 					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseDispenser" data-parent="#exampleAccordion">
 						<i class="fa fa-fw fa-wrench"></i>
 						<span class="nav-link-text">Dispenser</span>
 					</a>
-					<ul class="sidenav-second-level collapse rounded ml-2 mr-2 <?=$show?>" id="collapseDispenser">
+					<ul class="sidenav-second-level collapse rounded ml-2 mr-2 <?=$show_d?>" id="collapseDispenser">
 						<li>
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Settings"><i class="fa fa-fw fa-cog"></i> Settings</a>
 						</li>
@@ -86,39 +125,39 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Plugins"><i class="fa fa-fw fa-plug"></i> Plug-Ins</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Themes"><i class="fas fa-folder-plus"></i> Themes</a>
-						</li>
-						<li>
 							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Helpers"><i class="fas fa-plus-square"></i> Helpers</a>
 						</li>
 						<li>
-							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser-Framework"><i class="fas fa-wrench"></i> Framework</a>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Themes"><i class="fas fa-folder-plus"></i> Themes</a>
+						</li>
+						<li>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Templates"><i class="fas fa-mountain"></i> Templates</a>
+						</li>
+						<li>
+							<a href="<?php echo SITE_URL; ?>AdminPanel-Dispenser/Framework"><i class="fas fa-wrench"></i> Framework</a>
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Users">
+				<!-- User Management Drop-Down -->
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dispenser">
+					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseUG" data-parent="#exampleAccordion">
 						<i class="fa fa-fw fa-users"></i>
-						<span class="nav-link-text">Users</span>
+						<span class="nav-link-text">User Management</span>
 					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Groups">
-						<i class="fa fa-fw fa-users-cog"></i>
-						<span class="nav-link-text">Groups</span>
-					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-AdvancedSettings">
-						<i class="fa fa-fw fa-cog"></i>
-						<span class="nav-link-text">Advanced Settings</span>
-					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-EmailSettings">
-						<i class="fa fa-fw fa-envelope"></i>
-						<span class="nav-link-text">E-Mail Settings</span>
-					</a>
+					<ul class="sidenav-second-level collapse rounded ml-2 mr-2 <?=$show_ug?>" id="collapseUG">
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Users">
+								<i class="fa fa-fw fa-users"></i>
+								<span class="nav-link-text">Users</span>
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Groups">
+								<i class="fa fa-fw fa-users-cog"></i>
+								<span class="nav-link-text">Groups</span>
+							</a>
+						</li>
+					</ul>
 				</li>
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
 					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-SiteLinks">
@@ -133,22 +172,37 @@ use Helpers\{PageFunctions,Url,Assets,ErrorMessages,SuccessMessages};
 					</a>
 				</li>
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-MassEmail">
-						<i class="fas fa-fw fa-mail-bulk"></i>
-						<span class="nav-link-text">Mass Email</span>
-					</a>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
 					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-TermsPrivacy">
 						<i class="fas fa-fw fa-info-circle"></i>
 						<span class="nav-link-text">Terms and Privacy</span>
 					</a>
 				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-					<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-AuthLogs">
+				<!-- Framework Logs Drop-Down -->
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Framework Logs">
+					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLogs" data-parent="#exampleAccordion">
 						<i class="fa fa-fw fa-server"></i>
-						<span class="nav-link-text">Auth Logs</span>
+						<span class="nav-link-text">Logs</span>
 					</a>
+					<ul class="sidenav-second-level collapse rounded ml-2 mr-2 <?=$show_logs?>" id="collapseLogs">
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-AuthLogs">
+								<i class="fa fa-fw fa-server"></i>
+								<span class="nav-link-text">Auth Logs</span>
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Logs/Error">
+								<i class="fa fa-fw fa-server"></i>
+								<span class="nav-link-text">Error Logs</span>
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+							<a class="nav-link" href="<?php echo SITE_URL; ?>AdminPanel-Logs/Upgrade">
+								<i class="fa fa-fw fa-server"></i>
+								<span class="nav-link-text">Upgrade Logs</span>
+							</a>
+						</li>
+					</ul>
 				</li>
 				<?php echo PageFunctions::getLinks('nav_admin', $currentUserData[0]->userID); ?>
 			</ul>

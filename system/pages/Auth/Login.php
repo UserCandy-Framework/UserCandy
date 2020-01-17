@@ -4,11 +4,11 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
-use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
+use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf,SiteStats};
 
 /* Check to see if user is already logged in */
         if ($auth->isLogged())
@@ -30,11 +30,44 @@ use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
             if ($auth->login($username, $password, $rememberMe)) {
                 $userId = $auth->currentSessionInfo()['uid'];
 
+                /** Update the last login timestamp for user to now **/
                 $info = array('LastLogin' => date('Y-m-d G:i:s'));
                 $where = array('userID' => $userId);
                 $auth->updateUser($info,$where);
 
                 $usersModel->update($userId);
+
+                /** Check if user is on new device, if so then add to database **/
+                $device_data = SiteStats::updateUserDeviceInfo($userId);
+
+                /** Check if Device is enabled for user **/
+                if($device_data[0]->allow == "0"){
+                  /** Check if Email Settings are set **/
+                  $site_mail_setting = EMAIL_FROM_NAME;
+                  if(!empty($site_mail_setting)){
+                    /** Send Email letting user know someone that was blocked tried to access their account **/
+                    $email = \Helpers\CurrentUserData::getUserEmail($userId);
+                    $mail = new \Helpers\Mail();
+                    $mail->addAddress($email);
+                    $mail->setFrom(SITEEMAIL, EMAIL_FROM_NAME);
+                    $mail->subject(SITE_TITLE. " - ".\Core\Language::show('login_device_email_sub', 'Auth'));
+                    $body = \Helpers\PageFunctions::displayEmailHeader();
+                    $body .= sprintf(Language::show('login_blocked_device_email', 'Auth'), $username);
+                    $body .= "<hr><b>".Language::show('device_device', 'Members')."</b>";
+                    $body .= "<br>".$device_data[0]->browser." - ".$device_data[0]->os;
+                    $body .= "<hr><b>".Language::show('device_location', 'Members')."</b>";
+                    $body .= "<br>".$device_data[0]->city.", ".$device_data[0]->state.", ".$device_data[0]->country;
+                    $body .= Language::show('login_device_footer_email', 'Auth');
+                    $body .= \Helpers\PageFunctions::displayEmailFooter();
+                    $mail->body($body);
+                    $mail->send();
+                  }
+                  /** Device is disabled.  Kick user out and show error **/
+                  $usersModel->remove($u_id);
+                  $auth->logout();
+                  /* Error Message Display */
+                  ErrorMessages::push(Language::show('login_lockedout', 'Auth'), 'Login');
+                }
 
                 /**
                 * Login Success
@@ -81,11 +114,6 @@ use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
         $data['title'] = Language::show('login_page_title', 'Auth');
         $data['welcomeMessage'] = Language::show('login_page_welcomeMessage', 'Auth');
 
-        /** Setup Breadcrumbs **/
-    		$data['breadcrumbs'] = "
-    			<li class='breadcrumb-item active'>".$data['title']."</li>
-        ";
-
         /** Check to see if user is logged in **/
         if($data['isLoggedIn'] = $auth->isLogged()){
             /** User is logged in - Get their data **/
@@ -96,54 +124,49 @@ use Helpers\{Url,Request,SuccessMessages,ErrorMessages,Csrf};
 
 ?>
 
-<div class="col-lg-12 col-md-12 col-sm-12">
-	<div class="card mb-3">
+<div class="form-signin col-sm-12">
+	<div class="card my-3 text-center">
 		<div class="card-header h4">
 			<?=$data['title'];?>
 		</div>
 		<div class="card-body">
-			<p><?=$data['welcomeMessage'];?></p>
-
-      <form class="form" method="post">
-          <div class="col-xs-12">
-              <div class="form-group">
-								<div class="input-group mb-3">
-									<div class='input-group-prepend'>
-										<span class='input-group-text'>
-											<?=Language::show('login_field_username', 'Auth')?>
-										</span>
-									</div>
-                	<input  class="form-control" type="text" id="username" name="username" placeholder="<?=Language::show('login_field_username', 'Auth')?>">
-								</div>
-              </div>
-							<div class="form-group">
-								<div class="input-group mb-3">
-									<div class='input-group-prepend'>
-										<span class='input-group-text'>
-											<?=Language::show('login_field_password', 'Auth')?>
-										</span>
-									</div>
-									<input class="form-control" type="password" id="password" name="password" placeholder="<?=Language::show('login_field_password', 'Auth')?>">
-								</div>
-							</div>
-              <div class="form-inline">
-                  <label class="control-label"><?=Language::show('login_field_rememberme', 'Auth')?></label>
-                  <input class="form-control" type="checkbox" id="rememberMe" name="rememberMe">
-              </div>
-              <input type="hidden" name="token_login" value="<?=$data['csrfToken'];?>" />
-							<!-- UBP Name Protection -->
-							<input type="text" name="ubp_name" value="" class="hidden" />
-              <button class="btn btn-primary" type="submit" name="submit"><?=Language::show('login_button', 'Auth')?></button>
-          </div>
-
+      <form class="" method="post">
+        <div class="form-group">
+					<div class="input-group mb-3">
+						<div class='input-group-prepend'>
+							<span class='input-group-text'>
+								<i class="fas fa-user"></i>
+							</span>
+						</div>
+          	<input  class="form-control" type="text" id="username" name="username" placeholder="<?=Language::show('login_field_username', 'Auth')?>">
+					</div>
+        </div>
+				<div class="form-group">
+					<div class="input-group mb-3">
+						<div class='input-group-prepend'>
+							<span class='input-group-text'>
+								<i class="fas fa-lock"></i>
+							</span>
+						</div>
+						<input class="form-control" type="password" id="password" name="password" placeholder="<?=Language::show('login_field_password', 'Auth')?>">
+					</div>
+				</div>
+        <label class="control-label">
+          <input type="checkbox" id="rememberMe" name="rememberMe">
+          <?=Language::show('login_field_rememberme', 'Auth')?>
+        </label>
+        <input type="hidden" name="token_login" value="<?=$data['csrfToken'];?>" />
+				<!-- UBP Name Protection -->
+				<input type="text" name="ubp_name" value="" class="hidden" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit"><i class="fas fa-sign-in-alt"></i> <?=Language::show('login_button', 'Auth')?></button>
       </form>
 
 		</div>
 		<div class="card-footer text-muted">
-					<a class="btn btn-primary btn-sm" name="" href="<?=SITE_URL?>Register"><?=Language::show('register_button', 'Auth')?></a>
-          <?php $email_host = SITEEMAIL; if($email_host != ''){ ?>
-					<a class="btn btn-primary btn-sm" name="" href="<?=SITE_URL?>Forgot-Password"><?=Language::show('forgotpass_button', 'Auth')?></a>
-					<a class="btn btn-primary btn-sm" name="" href="<?=SITE_URL?>Resend-Activation-Email"><?=Language::show('resendactivation_button', 'Auth')?></a>
+				<?=Language::show('dont_have_an_account', 'Auth')?> <a class="" name="" href="<?=SITE_URL?>Register"><?=Language::show('register_button', 'Auth')?></a>
+        <?php $email_host = SITEEMAIL; if($email_host != ''){ ?>
+					<br><a class="" name="" href="<?=SITE_URL?>Forgot-Password"><?=Language::show('forgotpass_button', 'Auth')?></a>
+					<br><a class="" name="" href="<?=SITE_URL?>Resend-Activation-Email"><?=Language::show('resendactivation_button', 'Auth')?></a>
         <?php } ?>
     </div>
   </div>

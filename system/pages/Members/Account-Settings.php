@@ -4,11 +4,11 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
-use Helpers\ErrorMessages;
+use Helpers\{SuccessMessages,ErrorMessages};
 
 if (!$auth->isLogged())
   /** User Not logged in - kick them out **/
@@ -49,7 +49,9 @@ Core\Extender::load_ext('Account-Settings', 'top');
 			<hr>
 			<a href='<?=SITE_URL?>Privacy-Settings' rel='nofollow'><?=Language::show('mem_act_privacy_settings', 'Members'); ?></a><br>
 			<?=Language::show('mem_act_privacy_settings_description', 'Members'); ?>
-
+      <hr>
+			<a href='<?=SITE_URL?>Devices' rel='nofollow'><?=Language::show('mem_act_devices', 'Members'); ?></a><br>
+			<?=Language::show('mem_act_devices_description', 'Members'); ?>
     </div>
   </div>
 </div>

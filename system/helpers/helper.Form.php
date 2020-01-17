@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 *
 * @author David Carr - dave@daveismyname.com
  */
@@ -297,5 +297,20 @@ class Form
         $o .= (isset($params['value']))     ? " value='{$params['value']}'"                     : '';
         $o .= " />\n";
         return $o;
+    }
+
+    /**
+    * This method creates a Form that does not take any inputs from the user.
+    * All data for this form is set to create a button that moves user to next step.
+    * Creates hidden inputs and only displays a button
+    */
+    public static function buttonForm($form = array(), $hidden = array(), $button = array()){
+      $o = SELF::open($form);
+      foreach ($hidden as $value) {
+        $o .= SELF::hidden($value);
+      }
+      $o .= SELF::button($button);
+      $o .= SELF::close();
+      return $o;
     }
 }

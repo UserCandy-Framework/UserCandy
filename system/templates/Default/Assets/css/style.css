@@ -154,3 +154,9 @@ a.anchor {
 .photo-gallery .item {
   padding-bottom:30px;
 }
+
+.form-signin {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}

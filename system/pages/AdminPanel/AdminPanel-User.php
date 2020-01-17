@@ -4,9 +4,10 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
+use Core\Language;
 use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form,CurrentUserData};
 use Models\AdminPanelModel;
 
@@ -150,10 +151,25 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
       					/** Success */
                 SuccessMessages::push('You Have Successfully Deactivated User', 'AdminPanel-User/'.$au_id);
       				}else{
-                        /** User Update Fail. Show Error */
-                        ErrorMessages::push('Deactivate User Failed!', 'AdminPanel-User/'.$au_id);
+                /** User Update Fail. Show Error */
+                ErrorMessages::push('Deactivate User Failed!', 'AdminPanel-User/'.$au_id);
       				}
             }
+
+						/** Check to see if Admin is updating a user's device **/
+						if(Request::post('edit_device') == "true"){
+							$action = Request::post('action');
+							$device_id = Request::post('device_id');
+
+							if($action == "Enable"){ $allow = "1"; }
+							if($action == "Disable"){ $allow = "0"; }
+
+							if($membersModel->updateUserDevice($id, $device_id, $allow)){
+								SuccessMessages::push('You Have Successfully Updated a Device', 'AdminPanel-User/'.$id);
+							}else{
+								ErrorMessages::push('Error Updating Device', 'AdminPanel-User/'.$id);
+							}
+						}
           }
         }else{
         	/** Error Message Display */
@@ -164,6 +180,9 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
       // Setup Current User data
   		// Get user data from user's database
   		$user_data = $AdminPanelModel->getUser($id);
+
+			/** Get list of User's devices **/
+			$users_devices = $membersModel->getUsersDevices($id);
 
       // Setup Breadcrumbs
       $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel'><i class='fa fa-fw fa-cog'></i> Admin Panel</a></li><li class='breadcrumb-item'><a href='".SITE_URL."AdminPanel-Users'><i class='fa fa-fw fa-users'></i> Users </a></li><li class='breadcrumb-item active'><i class='fa fa-fw fa-user'></i>User - ".$user_data[0]->username."</li>";
@@ -263,6 +282,45 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
 
     		</div>
     	</div>
+
+			<!-- User's Devices List -->
+			<div class="card mb-3">
+				<div class="card-header h4">
+					<?php echo $user_data[0]->username."'s Devices";  ?>
+          <?php echo PageFunctions::displayPopover("User&#39;s Devices", "This user&#39;s devices can be enabled and disabled to allow or block devices.", false, 'btn btn-sm btn-light'); ?>
+				</div>
+					<table class='table table-striped table-hover responsive'>
+						<tr>
+							<th align='left' class='d-none d-md-table-cell'><?=Language::show('device_browser', 'Members'); ?></th>
+							<th align='left'><?=Language::show('device_os', 'Members'); ?></th>
+							<th align='left'><?=Language::show('device_location', 'Members'); ?></th>
+							<th align='left' class='d-none d-md-table-cell'><?=Language::show('device_device', 'Members'); ?></th>
+							<th align='left'></th>
+						</tr>
+						<?php
+							if(!empty($users_devices)){
+								foreach ($users_devices as $device) {
+									echo "
+										<tr>
+											<td align='left' class='d-none d-md-table-cell'>".$device->browser."</td>
+											<td align='left'>".$device->os."</td>
+											<td align='left'>".$device->city.", ".$device->state.", ".$device->country."</td>
+											<td align='left' class='d-none d-md-table-cell'>".$device->device."</td>
+											<td align='left'>";
+											if($device->allow == "1"){
+												echo Form::buttonForm(null, [['name'=>'edit_device','value'=>'true'],['name'=>'action','value'=>'Disable'],['name'=>'device_id','value'=>$device->id],['name'=>'token_user','value'=>$data['csrfToken']]], ['class'=>'btn btn-danger btn-sm float-right m-2','name'=>'submit','type'=>'submit','value'=>Language::show('device_disable', 'Members')]);
+											}else{
+												echo Form::buttonForm(null, [['name'=>'edit_device','value'=>'true'],['name'=>'action','value'=>'Enable'],['name'=>'device_id','value'=>$device->id],['name'=>'token_user','value'=>$data['csrfToken']]], ['class'=>'btn btn-success btn-sm float-right m-2','name'=>'submit','type'=>'submit','value'=>Language::show('device_enable', 'Members')]);
+											}
+											echo "</td>
+										</tr>
+									";
+								}
+							}
+						?>
+					</table>
+			</div>
+
     </div>
 
     <div class='col-lg-4 col-md-4 col-sm-4'>

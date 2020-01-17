@@ -5,7 +5,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 /*
@@ -31,6 +31,7 @@ class Routes {
         $routes[] = self::add('Templates', 'Home', 'Templates');
         $routes[] = self::add('assets', 'Home', 'assets');
         $routes[] = self::add('themes', 'Home', 'themes');
+        $routes[] = self::add('custom', 'Home', 'custom');
         $routes[] = self::add('About', 'custompages', 'About');
         $routes[] = self::add('Contact', 'custompages', 'Contact');
         /* End default routes */
@@ -52,6 +53,7 @@ class Routes {
         $routes[] = self::add('Edit-Profile-Images','Members', 'Edit-Profile-Images', '(:any)/(:num)');
         $routes[] = self::add('Privacy-Settings','Members', 'Privacy-Settings');
         $routes[] = self::add('Account-Settings','Members', 'Account-Settings');
+        $routes[] = self::add('Devices','Members', 'Devices');
         /* End Members Routing */
 
         /* Live Checks */
@@ -78,14 +80,14 @@ class Routes {
         $routes[] = self::add('AdminPanel-AuthLogs', 'AdminPanel', 'AdminPanel-AuthLogs', '(:any)');
         $routes[] = self::add('AdminPanel-SiteLinks', 'AdminPanel', 'AdminPanel-SiteLinks', '(:any)/(:any)/(:any)');
         $routes[] = self::add('AdminPanel-SiteLink', 'AdminPanel', 'AdminPanel-SiteLink', '(:any)/(:any)/(:any)');
-        $routes[] = self::add('AdminPanel-Upgrade', 'AdminPanel', 'AdminPanel-Upgrade');
         $routes[] = self::add('AdminPanel-PagesPermissions', 'AdminPanel', 'AdminPanel-PagesPermissions', '(:any)');
         $routes[] = self::add('AdminPanel-PagePermissions', 'AdminPanel', 'AdminPanel-PagePermissions', '(:num)');
         $routes[] = self::add('AdminPanel-TermsPrivacy', 'AdminPanel', 'AdminPanel-TermsPrivacy');
         $routes[] = self::add('AdminPanel-Dispenser-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Settings');
-        $routes[] = self::add('AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', '(:any)/(:any)/(:any)/(:any)');
+        $routes[] = self::add('AdminPanel-Dispenser', 'AdminPanel', 'AdminPanel-Dispenser', '(:any)');
         $routes[] = self::add('AdminPanel-Dispenser-Widgets-Settings', 'AdminPanel', 'AdminPanel-Dispenser-Widgets-Settings', '(:num)/(:num)');
-        $routes[] = self::add('AdminPanel-Dispenser-Framework', 'AdminPanel', 'AdminPanel-Dispenser-Framework', '(:any)/(:any)/(:any)');
+        $routes[] = self::add('AdminPanel-FrameworkProcess', 'AdminPanel', 'AdminPanel-FrameworkProcess', NULL, 'false');
+        $routes[] = self::add('AdminPanel-Logs', 'AdminPanel', 'AdminPanel-Logs', '(:any)');
         /* End Admin Panel Routing */
 
         /* Language Code Change */

@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form,CurrentUserData};
@@ -57,8 +57,6 @@ if(isset($_POST['submit'])){
         $headfoot = Request::post('headfoot');
         $template = Request::post('template');
         $enable = Request::post('enable');
-
-        var_dump($headfoot);
 
         /** Updated Sitemap Setting **/
         if($AdminPanelModel->updatePageSiteMap($page_id, $sitemap, $pagefolder, $pagefile, $url, $arguments, $enable, $headfoot, $template)){
@@ -266,6 +264,17 @@ $data['breadcrumbs'] = "<li class='breadcrumb-item'><a href='".SITE_URL."AdminPa
             <select class='form-control' id='template' name='template'>
               <option value='Default' <?php if($data['page_data'][0]->template == 'Default'){echo "SELECTED";}?> >Default</option>
               <option value='AdminPanel' <?php if($data['page_data'][0]->template == 'AdminPanel'){echo "SELECTED";}?> >AdminPanel</option>
+              <?php
+                /** Check for Installed Custom Templates **/
+                $DispenserEnabledTemplates = $DispenserModel->getDispenserByType('template');
+                if(isset($DispenserEnabledTemplates)){
+                  foreach ($DispenserEnabledTemplates as $dtemplate) {
+                    echo "<option value='{$dtemplate->folder_location}' ";
+                    if($data['page_data'][0]->template == $dtemplate->folder_location){echo "SELECTED";}
+                    echo " >{$dtemplate->folder_location}</option>";
+                  }
+                }
+              ?>
             </select>
             <?php echo PageFunctions::displayPopover('Page Template', 'Page Template lets the System Router know which template should be used for this page.', true, 'input-group-text'); ?>
           </div>

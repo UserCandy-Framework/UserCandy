@@ -6,7 +6,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 return [
@@ -128,4 +128,19 @@ return [
 	'members_profile_user_no_posts' => "El usuario aún no ha publicado en el foro.",
 	'user_profile_forum_recent_posts' => "Publicaciones recientes en el foro",
 	'edit_profile_first_name_not_set' => "El primer nombre no se ha establecido.",
+
+	/** New for 1.0.4 **/
+	 'mem_act_devices' => "Dispositifs",
+	 'devices_welcomemessage' => "Voici les appareils avec lesquels vous vous êtes connecté à ce site. Si vous n'êtes pas un, vous pouvez le désactiver et le site bloquera cet appareil.",
+	 'devices_title' => "Dispositifs",
+	 'device_browser' => "Navigateur",
+	 'device_os' => "Système opérateur",
+	 'device_location' => "Emplacement",
+	 'device_device' => "Dispositif",
+	 'mem_act_devices_description' => "Les appareils vous permettent de gérer quels appareils peuvent accéder à votre compte.",
+	 'device_enable' => 'Activer',
+	 'device_disable' => 'Désactiver',
+	 'device_success' => "Dispositivo actualizado con éxito.",
+	 'device_error' => "Error al actualizar el dispositivo.",
+
 ];

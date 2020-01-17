@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form};
@@ -77,7 +77,18 @@ if(isset($_POST['submit'])){
             $site_profile_notifi_check = Request::post('site_profile_notifi_check');
             if($site_profile_notifi_check != 'true'){ $site_profile_notifi_check = 'false'; }
 
-            if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
+            /** Check if Email Settings are set **/
+            $site_mail_setting = EMAIL_USERNAME;
+            if($site_user_activation == "true"){
+              if(!empty($site_mail_setting)){
+                if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
+              }else{
+                if(!$AdminPanelModel->updateSetting('site_user_activation', 'false')){ $errors[] = 'Site User Activation Error'; }
+                $errors[] = 'Site User Activation Error - Email settings must be set to enable.';
+              }
+            }else{
+              if(!$AdminPanelModel->updateSetting('site_user_activation', $site_user_activation)){ $errors[] = 'Site User Activation Error'; }
+            }
             if(!$AdminPanelModel->updateSetting('site_user_invite_code', $site_user_invite_code)){ $errors[] = 'site_user_invite_code Error'; }
             if(!$AdminPanelModel->updateSetting('max_attempts', $max_attempts)){ $errors[] = 'max_attempts Error'; }
             if(!$AdminPanelModel->updateSetting('security_duration', $security_duration)){ $errors[] = 'security_duration Error'; }

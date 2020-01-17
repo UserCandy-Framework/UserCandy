@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
@@ -59,7 +59,7 @@ Core\Extender::load_ext('defaultFooter', 'top');
             'https://code.jquery.com/jquery-3.2.1.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
             'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
-            'https://use.fontawesome.com/releases/v5.9.0/js/all.js',
+            'https://use.fontawesome.com/releases/v5.12.0/js/all.js',
             'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js'
         ])?>
         <?=(isset($js)) ? $js : ""?>

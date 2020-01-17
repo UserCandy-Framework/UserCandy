@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Helpers;
@@ -101,9 +101,9 @@ class PageFunctions {
 						if($link->location == "nav_admin"){
 							$set_class = "nav-link";
 							if($link->drop_down == "1"){
-								$links_output .= "<li class='nav-item dropdown'>";
-								$links_output .= "<a href='#' title='".$link->alt_text."' class='nav-link dropdown-toggle' data-toggle='dropdown' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
-								$links_output .= SELF::getDropDownLinks($link->id, $userID);
+								$links_output .= "<li class='nav-item' data-toggle='tooltip' data-placement='right'>";
+								$links_output .= "<a href='#".$link->id."' title='".$link->alt_text."' class='nav-link nav-link-collapse collapsed' data-toggle='collapse' id='links_".$link->id."'><i class='$link->icon'></i> ".$link->title." </a>";
+								$links_output .= SELF::getDropDownLinks($link->id, $userID, $link->location);
 								$links_output .= "</li>";
 							}else{
 								$links_output .= "<li class='nav-item' data-toggle='tooltip' data-placement='right' title='Tables'><a class='$set_class' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a></li>";
@@ -117,7 +117,7 @@ class PageFunctions {
 	}
 
 	/* Function that gets urls for dropdown menus */
-	public static function getDropDownLinks($drop_down_for, $userID){
+	public static function getDropDownLinks($drop_down_for, $userID, $location = null){
 		self::$db = Database::get();
 		$data = self::$db->select("
 				SELECT
@@ -131,7 +131,12 @@ class PageFunctions {
 			array(':drop_down_for' => $drop_down_for));
 			$links_output = "";
 			if(isset($data)){
-				$links_output .= "<div class='dropdown-menu' aria-labelledby='links_".$drop_down_for."'>";
+				if($location == "nav_admin"){
+					$links_output .=  "<ul class='sidenav-second-level collapse rounded ml-2 mr-2' id='".$drop_down_for."'>";
+					$links_output .=  "<li class='nav-item' data-toggle='tooltip' data-placement='right' title='Tables'>";
+				}else{
+					$links_output .= "<div class='dropdown-menu' aria-labelledby='links_".$drop_down_for."'>";
+				}
 				foreach ($data as $link) {
 					/* Check to see if is a plugin link and if that plugin exists */
 					if(isset($link->require_plugin)){
@@ -162,10 +167,19 @@ class PageFunctions {
 						$link_enable = false;
 					}
 					if($link_enable == true){
+						if($location == "nav_admin"){
+							$links_output .= "<a class='nav-link' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a>";
+						}else{
 							$links_output .= "<a class='dropdown-item' href='".SITE_URL.$link->url."' title='".$link->alt_text."'><i class='$link->icon'></i> ".$link->title." </a>";
+						}
 					}
 				}
-				$links_output .= "</div>";
+				if($location == "nav_admin"){
+					$links_output .= "</li>";
+					$links_output .= "</ul>";
+				}else{
+					$links_output .= "</div>";
+				}
 			}
 			(isset($links_output)) ? $links_output = $links_output : $links_output = "";
 		return $links_output;
@@ -346,14 +360,20 @@ class PageFunctions {
 			$AdminPanelModel = new AdminPanelModel();
 			$user_terms_view = CurrentUserData::getUserTermsUpdate($u_id);
 			$site_terms_date = $AdminPanelModel->getSettingsTimestamp('site_terms_content');
+			$site_terms_data = $AdminPanelModel->getSettings('site_terms_content');
 			$user_privacy_view = CurrentUserData::getUserPrivacyUpdate($u_id);
 			$site_privacy_date = $AdminPanelModel->getSettingsTimestamp('site_privacy_content');
+			$site_privacy_data = $AdminPanelModel->getSettings('site_privacy_content');
 			if($site_terms_date > $user_terms_view){
-				$display_data = self::displayTermsPrivacy('Terms');
+				if(!empty($site_terms_data)){
+					$display_data = self::displayTermsPrivacy('Terms');
+				}
 			}else if($site_privacy_date > $user_privacy_view){
-				$display_data = self::displayTermsPrivacy('Privacy');
+				if(!empty($site_privacy_data)){
+					$display_data = self::displayTermsPrivacy('Privacy');
+				}
 			}
-
+			(isset($display_data)) ? $display_data = $display_data : $display_data = "";
 			return $display_data;
 		}
 	}
@@ -390,5 +410,380 @@ class PageFunctions {
 		self::$db = Database::get();
 		return self::$db->select("SELECT * FROM ".PREFIX."metadata WHERE url = :url LIMIT 1", array(':url' => $url));
 	}
+
+	/**
+	* Display Email Header
+	*/
+	public static function displayEmailHeader($title = ""){
+		$AdminPanelModel = new \Models\AdminPanelModel();
+		$html_data = "
+		<!doctype html>
+		<html>
+		  <head>
+		    <meta name=\"viewport\" content=\"width=device-width\" />
+		    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />
+				<title>".$title."</title>
+		    <style>
+		      img {
+		        border: none;
+		        -ms-interpolation-mode: bicubic;
+		        max-width: 100%;
+		      }
+		      body {
+		        background-color: #f6f6f6;
+		        font-family: sans-serif;
+		        -webkit-font-smoothing: antialiased;
+		        font-size: 14px;
+		        line-height: 1.4;
+		        margin: 0;
+		        padding: 0;
+		        -ms-text-size-adjust: 100%;
+		        -webkit-text-size-adjust: 100%;
+		      }
+
+		      table {
+		        border-collapse: separate;
+		        mso-table-lspace: 0pt;
+		        mso-table-rspace: 0pt;
+		        width: 100%; }
+		        table td {
+		          font-family: sans-serif;
+		          font-size: 14px;
+		          vertical-align: top;
+		      }
+		      .body {
+		        background-color: #f6f6f6;
+		        width: 100%;
+		      }
+		      .container {
+		        display: block;
+		        margin: 0 auto !important;
+		        max-width: 580px;
+		        padding: 10px;
+		        width: 580px;
+		      }
+		      .content {
+		        box-sizing: border-box;
+		        display: block;
+		        margin: 0 auto;
+		        max-width: 580px;
+		        padding: 10px;
+		      }
+		      .main {
+		        background: #ffffff;
+		        border-radius: 3px;
+		        width: 100%;
+						box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		      }
+		      .wrapper {
+		        box-sizing: border-box;
+		        padding: 20px;
+		      }
+					.td_header {
+						padding: 20px;
+						background-color: #212529;
+						text-align: center;
+						margin: 0px;
+						font-size: 35px;
+						font-weight: 300;
+						text-align: center;
+						text-transform: capitalize;
+						color: #FFFFFF;
+					}
+		      .content-block {
+		        padding-bottom: 10px;
+		        padding-top: 10px;
+		      }
+		      .footer {
+		        clear: both;
+		        margin-top: 10px;
+		        text-align: center;
+		        width: 100%;
+		      }
+		        .footer td,
+		        .footer p,
+		        .footer span,
+		        .footer a {
+		          color: #999999;
+		          font-size: 12px;
+		          text-align: center;
+		      }
+		      h1,
+		      h2,
+		      h3,
+		      h4 {
+		        color: #000000;
+		        font-family: sans-serif;
+		        font-weight: 400;
+		        line-height: 1.4;
+		        margin: 0;
+		        margin-bottom: 30px;
+		      }
+
+		      h1 {
+		        font-size: 35px;
+		        font-weight: 300;
+		        text-align: center;
+		        text-transform: capitalize;
+		      }
+
+		      p,
+		      ul,
+		      ol {
+		        font-family: sans-serif;
+		        font-size: 14px;
+		        font-weight: normal;
+		        margin: 0;
+		        margin-bottom: 15px;
+		      }
+		        p li,
+		        ul li,
+		        ol li {
+		          list-style-position: inside;
+		          margin-left: 5px;
+		      }
+
+		      a {
+		        color: #3498db;
+		        text-decoration: underline;
+		      }
+		      .btn {
+		        box-sizing: border-box;
+		        width: 100%; }
+		        .btn > tbody > tr > td {
+		          padding-bottom: 15px; }
+		        .btn table {
+		          width: auto;
+		      }
+		        .btn table td {
+		          background-color: #ffffff;
+		          border-radius: 5px;
+		          text-align: center;
+		      }
+		        .btn {
+		          background-color: #ffffff;
+		          border: solid 1px #3498db;
+		          border-radius: 5px;
+		          box-sizing: border-box;
+		          color: #3498db;
+		          cursor: pointer;
+		          display: inline-block;
+		          font-size: 14px;
+		          font-weight: bold;
+		          margin: 0;
+		          padding: 12px 25px;
+		          text-decoration: none;
+		          text-transform: capitalize;
+							text-align: center;
+		      }
+
+		      .btn-primary table td {
+		        background-color: #3498db;
+		      }
+
+		      .btn-primary {
+		        background-color: #3498db;
+		        border-color: #3498db;
+		        color: #ffffff;
+		      }
+
+		      .last {
+		        margin-bottom: 0;
+		      }
+
+		      .first {
+		        margin-top: 0;
+		      }
+
+		      .align-center {
+		        text-align: center;
+		      }
+
+		      .align-right {
+		        text-align: right;
+		      }
+
+		      .align-left {
+		        text-align: left;
+		      }
+
+		      .clear {
+		        clear: both;
+		      }
+
+		      .mt0 {
+		        margin-top: 0;
+		      }
+
+		      .mb0 {
+		        margin-bottom: 0;
+		      }
+
+		      .preheader {
+		        color: transparent;
+		        display: none;
+		        height: 0;
+		        max-height: 0;
+		        max-width: 0;
+		        opacity: 0;
+		        overflow: hidden;
+		        mso-hide: all;
+		        visibility: hidden;
+		        width: 0;
+		      }
+
+		      .powered-by a {
+		        text-decoration: none;
+		      }
+
+		      hr {
+		        border: 0;
+		        border-bottom: 1px solid #f6f6f6;
+		        margin: 20px 0;
+		      }
+
+		      @media only screen and (max-width: 620px) {
+		        table[class=body] h1 {
+		          font-size: 28px !important;
+		          margin-bottom: 10px !important;
+		        }
+		        table[class=body] p,
+		        table[class=body] ul,
+		        table[class=body] ol,
+		        table[class=body] td,
+		        table[class=body] span,
+		        table[class=body] a {
+		          font-size: 16px !important;
+		        }
+		        table[class=body] .wrapper,
+		        table[class=body] .article {
+		          padding: 10px !important;
+		        }
+		        table[class=body] .content {
+		          padding: 0 !important;
+		        }
+		        table[class=body] .container {
+		          padding: 0 !important;
+		          width: 100% !important;
+		        }
+		        table[class=body] .main {
+		          border-left-width: 0 !important;
+		          border-radius: 0 !important;
+		          border-right-width: 0 !important;
+		        }
+		        table[class=body] .btn table {
+		          width: 100% !important;
+		        }
+		        table[class=body] .btn a {
+		          width: 100% !important;
+		        }
+		        table[class=body] .img-responsive {
+		          height: auto !important;
+		          max-width: 100% !important;
+		          width: auto !important;
+		        }
+		      }
+
+		      @media all {
+		        .ExternalClass {
+		          width: 100%;
+		        }
+		        .ExternalClass,
+		        .ExternalClass p,
+		        .ExternalClass span,
+		        .ExternalClass font,
+		        .ExternalClass td,
+		        .ExternalClass div {
+		          line-height: 100%;
+		        }
+		        .apple-link a {
+		          color: inherit !important;
+		          font-family: inherit !important;
+		          font-size: inherit !important;
+		          font-weight: inherit !important;
+		          line-height: inherit !important;
+		          text-decoration: none !important;
+		        }
+		        #MessageViewBody a {
+		          color: inherit;
+		          text-decoration: none;
+		          font-size: inherit;
+		          font-family: inherit;
+		          font-weight: inherit;
+		          line-height: inherit;
+		        }
+		        .btn-primary table td:hover {
+		          background-color: #34495e !important;
+		        }
+		        .btn-primary a:hover {
+		          background-color: #34495e !important;
+		          border-color: #34495e !important;
+		        }
+		      }
+
+		    </style>
+		  </head>
+		  <body class=\"\">
+					<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"body\">
+						<tr>
+							<td>&nbsp;</td>
+							<td class=\"container\">
+								<div class=\"content\">
+
+									<!-- START CENTERED WHITE CONTAINER -->
+									<table role=\"presentation\" class=\"main\">
+										<tr>
+											<td class=\"td_header\">
+												<img src=\"".$AdminPanelModel->getSettings('site_email_logo_url')."\" alt=\"".SITE_TITLE."\">
+											</td>
+										</tr>
+										<!-- START MAIN CONTENT AREA -->
+										<tr>
+											<td class=\"wrapper\">
+												<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+													<tr>
+														<td>
+		";
+		return $html_data;
+	}
+
+	/**
+	* Display Email Footer
+	*/
+	public static function displayEmailFooter(){
+		/** Check to if Terms and Privacy are enabled **/
+		$usersModel = new \Models\UsersModel();
+		$data['terms_enabled'] = $usersModel->checkSiteSetting('site_terms_content');
+		$data['privacy_enabled'] = $usersModel->checkSiteSetting('site_privacy_content');
+		/** Send HTML data **/
+		$html_data = "
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</td>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+					<center>";
+					$html_data .= "&copy; ".date("Y")." ".SITE_TITLE." ".Language::show('uc_all_rights', 'Welcome').".";
+					if($data['terms_enabled'] == true){
+						$html_data .= " <br> ";
+						$html_data .= "<a href='".SITE_URL."Terms'>".Language::show('terms_title', 'Welcome')."</a>";
+					}
+					if($data['privacy_enabled'] == true){
+						$html_data .= " <br> ";
+						$html_data .= "<a href='".SITE_URL."Privacy'>".Language::show('privacy_title', 'Welcome')."</a>";
+					}
+					$html_data .= "</center>
+					</body>
+			</html>
+		";
+		return $html_data;
+	}
+
 
 }

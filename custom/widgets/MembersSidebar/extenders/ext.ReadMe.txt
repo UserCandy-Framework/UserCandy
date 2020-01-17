@@ -1,0 +1,67 @@
+UserCandy Framework Extenders
+
+Extenders are used to load any code within given parts of the UserCandy Framework.
+
+The file name determains where the file is included within the site.
+
+For example ext.index.top.php
+ext - lets the framework know the file is an extender file.
+index - lets the framework know the file is loaded within the index file.
+top - lets the framework know the file is loaded at the top of the file.
+php - required file extension to be able to be included.
+
+These files can contain any code you desire.  Can be used to display data,
+record data to the database, add security to a given file, and much more.
+
+The following file names are currently supported in the UserCandy Framework:
+
+Note: These are case sensitive.
+Remember: Always make a backup before editing.
+
+-------Main------------------------
+ext.index.bottom.php
+ext.index.top.php
+ext.defaultHeader.top.php
+ext.defaultHeader.navRight.php
+ext.defaultHeader.bottom.php
+ext.defaultFooter.top.php
+ext.defaultFooter.bottom.php
+ext.adminHeader.top.php
+ext.adminHeader.bottom.php
+ext.adminFooter.top.php
+ext.adminFooter.bottom.php
+-------Members----------------------
+ext.Account-Settings.top.php
+ext.Account-Settings.bottom.php
+ext.Change-Email.top.php
+ext.Change-Email.bottom.php
+ext.Change-Email.form.php
+ext.Change-Email.formSubmit.php
+ext.Change-Password.top.php
+ext.Change-Password.bottom.php
+ext.Change-Password.form.php
+ext.Change-Password.formSubmit.php
+ext.Edit-Profile-Images.top.php
+ext.Edit-Profile-Images.bottom.php
+ext.Edit-Profile-Images.form.php
+ext.Edit-Profile-Images.formSubmit.php
+ext.Edit-Profile.top.php
+ext.Edit-Profile.bottom.php
+ext.Edit-Profile.form.php
+ext.Edit-Profile.formSubmit.php
+ext.Members.top.php
+ext.Members.bottom.php
+ext.Online-Members.top.php
+ext.Online-Members.bottom.php
+ext.Privacy-Settings.top.php
+ext.Privacy-Settings.bottom.php
+ext.Privacy-Settings.form.php
+ext.Privacy-Settings.formSubmit.php
+-------User-Profiles-----------------
+ext.Profile.top.php
+ext.Profile.bottom.php
+ext.Profile.sidebar-user-data-table.php - <tr><td>Left</td><td>Right</td></tr>
+ext.Profile.sidebar.php
+ext.Profile.body-top.php
+ext.Profile.body-bottom.php
+-------

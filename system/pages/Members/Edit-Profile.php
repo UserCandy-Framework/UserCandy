@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
@@ -147,8 +147,8 @@ if(sizeof($username) > 0){
                 </div>
 
 								<?php
-									/* Check to see if Private Message Module is installed, if it is show link */
-									if(file_exists(ROOTDIR.'app/Plugins/Forum/Controllers/Forum.php')){
+									/* Check to see if Froum Plugin is installed, if so then show signature box */
+									if($DispenserModel->checkDispenserEnabled('Forum')){
 								?>
 								<div class="input-group mb-3">
 										<div class="input-group-prepend">

@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Helpers\{Assets,Url};
@@ -24,7 +24,7 @@ Core\Extender::load_ext('adminFooter', 'top');
 		Url::templatePath('AdminPanel').'js/sb-admin.min.js',
 		Url::templatePath('AdminPanel').'js/lumino.glyphs.js',
 		Url::templatePath('AdminPanel').'js/chart.min.js',
-		'https://use.fontawesome.com/releases/v5.9.0/js/all.js',
+		'https://use.fontawesome.com/releases/v5.12.0/js/all.js',
 		Url::templatePath().'js/loader.js'
 ]);
 ?>
@@ -42,9 +42,9 @@ if(isset($data['ownjs'])){
 </script>
 
 <script type='text/javascript'>
-		$(document).ready(function(){
-				$('#alertModal').modal('show');
-		});
+	$(document).ready(function(){
+			$('#alertModal').modal('show');
+	});
 </script>
 
 <?php

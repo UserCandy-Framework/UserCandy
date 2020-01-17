@@ -6,7 +6,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 return [
@@ -128,4 +128,19 @@ return [
 	'members_profile_user_no_posts' => "User has not yet posted in the forum.",
 	'user_profile_forum_recent_posts' => "Recent Posts in Forum",
 	'edit_profile_first_name_not_set' => "First Name has not been set.",
+
+	/** New for 1.0.4 **/
+	 'mem_act_devices' => "Devices",
+	 'devices_welcomemessage' => "The following are your devices that you have logged into this site with.  If one is not you, you can disable it, and the site will block that device.",
+	 'devices_title' => "Devices",
+	 'device_browser' => "Browser",
+	 'device_os' => "Operating System",
+	 'device_location' => "Location",
+	 'device_device' => "Device",
+	 'mem_act_devices_description' => "Devices allows you to mange what devices can access your account.",
+	 'device_enable' => 'Enable',
+	 'device_disable' => 'Disable',
+	 'device_success' => "Successfully updated device.",
+	 'device_error' => "Error updating device.",
+
 ];

@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Helpers\{ErrorMessages,SuccessMessages,Paginator,Csrf,Request,Url,PageFunctions,Form};
@@ -49,6 +49,7 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
                     $site_email_port = Request::post('site_email_port');
                     $site_email_smtp = Request::post('site_email_smtp');
                     $site_email_site = Request::post('site_email_site');
+                    $site_email_logo_url = Request::post('site_email_logo_url');
 
                     if(!$AdminPanelModel->updateSetting('site_email_username', $site_email_username)){ $errors[] = 'Site Email Username Error'; }
                     if(!$AdminPanelModel->updateSetting('site_email_password', $site_email_password)){ $errors[] = 'Site Email Password Error'; }
@@ -57,6 +58,12 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
                     if(!$AdminPanelModel->updateSetting('site_email_port', $site_email_port)){ $errors[] = 'Site Email Port Error'; }
                     if(!$AdminPanelModel->updateSetting('site_email_smtp', $site_email_smtp)){ $errors[] = 'Site Email SMTP Auth Error'; }
                     if(!$AdminPanelModel->updateSetting('site_email_site', $site_email_site)){ $errors[] = 'Site Email Error'; }
+                    if(!$AdminPanelModel->updateSetting('site_email_logo_url', $site_email_logo_url)){ $errors[] = 'Site Email Logo URL Error'; }
+
+                    /** Set User Activation to false if From name is blank **/
+                    if(empty($site_email_username)){
+                      if(!$AdminPanelModel->updateSetting('site_user_activation', 'false')){ $errors[] = 'Site User Activation Error'; }
+                    }
 
                     // Run the update settings script
                     if(!isset($errors) || count($errors) == 0){
@@ -97,6 +104,7 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
         $site_email_port = $AdminPanelModel->getSettings('site_email_port');
         $site_email_smtp = $AdminPanelModel->getSettings('site_email_smtp');
         $site_email_site = $AdminPanelModel->getSettings('site_email_site');
+        $site_email_logo_url = $AdminPanelModel->getSettings('site_email_logo_url');
 
         /** Setup Token for Form */
         $data['csrfToken'] = Csrf::makeToken('settings');
@@ -182,6 +190,15 @@ $pages = new Paginator(USERS_PAGEINATOR_LIMIT);  // How many rows per page
             </div>
               <?php echo Form::input(array('type' => 'text', 'name' => 'site_email_site', 'class' => 'form-control', 'value' => $site_email_site, 'placeholder' => 'E-Mail Site Address', 'maxlength' => '100')); ?>
               <?php echo PageFunctions::displayPopover('E-Mail Site Address', 'E-Mail Site Address is the E-Mail address that users can reply to when they are sent emails from this site.', true, 'input-group-text'); ?>
+          </div>
+
+          <!-- E-Mail Site Logo -->
+          <div class='input-group mb-3' style='margin-bottom: 25px'>
+            <div class="input-group-prepend">
+              <span class='input-group-text'><i class='fa fa-fw  fa-globe'></i> E-Mail Site Logo URL</span>
+            </div>
+              <?php echo Form::input(array('type' => 'text', 'name' => 'site_email_logo_url', 'class' => 'form-control', 'value' => $site_email_logo_url, 'placeholder' => 'E-Mail Site Logo URL', 'maxlength' => '100')); ?>
+              <?php echo PageFunctions::displayPopover('E-Mail Site Logo URL', 'E-Mail Site Logo URL is the address where the logo is loaded from for Email Notifications.', true, 'input-group-text'); ?>
           </div>
 
     		</div>

@@ -4,7 +4,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Core;
@@ -90,17 +90,18 @@ class Load {
         if($viewFile == 'HomeError.php'){
           $viewFile = SYSTEMDIR."pages/Home/Error.php";
         }
-        /** Check for sidebar widgets based on page_id **/
-        $viewFileData = explode("/", $viewFile);
-        $viewFileDataSlice = array_slice($viewFileData, -2, 2);
+        /** Get the Root DIR to remove from page check **/
+        $viewRoot = ROOTDIR;
+        $viewRoot = rtrim($viewRoot, '/');
+        $viewRoot = str_replace('\\', '/', $viewRoot)."/";
+        $viewFile = str_replace('\\', '/', $viewFile);
+        $viewFileAfterRoot = str_replace($viewRoot, "", $viewFile);
+        /** Slit up the folders so we know what type of page is being loaded **/
+        $viewFileData = explode("/", $viewFileAfterRoot);
         /** Check for Custom Page **/
-        if($viewFileData[5] == "custom"){
-          $cur_pagefolder = "custompages";
-        }else{
-          $cur_pagefolder = $viewFileDataSlice[0];
-        }
+        $cur_pagefolder = ($viewFileData[0] == "custom") ? "custompages" : $viewFileData[2];
         /** Remove the .php extension from the page file if it exist **/
-        $cur_pagefile = str_replace(".php", "", $viewFileDataSlice[1]);
+        $cur_pagefile = str_replace(".php", "", end($viewFileData));
         /** Get the current page ID from the pages db **/
         $cur_page_id = $DispenserModel->getCurrentPageID($cur_pagefolder, $cur_pagefile);
         /** Check to see if a Widget is enabled for the current page **/
@@ -131,8 +132,20 @@ class Load {
             $templateHeader = "";
             $templateFooter = "";
         }else if($useHeadFoot === true){
+          /** Check to see if is Custom Template **/
+          if($template == "Default" || $template == "AdminPanel"){
             $templateHeader = SYSTEMDIR."templates/".$template."/Header.php";
             $templateFooter = SYSTEMDIR."templates/".$template."/Footer.php";
+          }else{
+            /** Make sure Custom Template is enabled, if not then use default **/
+            if($DispenserModel->checkDispenserEnabled($template)){
+              $templateHeader = CUSTOMDIR."templates/".$template."/Header.php";
+              $templateFooter = CUSTOMDIR."templates/".$template."/Footer.php";
+            }else{
+              $templateHeader = CUSTOMDIR."templates/".DEFAULT_TEMPLATE."/Header.php";
+              $templateFooter = CUSTOMDIR."templates/".DEFAULT_TEMPLATE."/Footer.php";
+            }
+          }
         }else{
             $templateHeader = "";
             $templateFooter = "";

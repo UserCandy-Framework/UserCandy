@@ -4,7 +4,7 @@
  *
  * UserCandy
  * @author David (DaVaR) Sargent <davar@usercandy.com>
- * @version uc 1.0.3
+ * @version uc 1.0.4
  */
 
 namespace Models;
@@ -488,6 +488,33 @@ class MembersModel extends Models
     public function updateUserPrivacy($u_id)
     {
         $data = $this->db->update(PREFIX.'users', array('privacy_view_date' => date('Y-m-d G:i:s')), array('userID' => $u_id));
+        if($data > 0){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    /**
+    * get Users Devices based on userID
+    * @param int $userID
+    * @return array dataset
+    */
+    public function getUsersDevices($userID)
+    {
+        return $this->db->select("SELECT * FROM ".PREFIX."users_devices WHERE userID=:userID",array(":userID"=>$userID));
+    }
+
+    /**
+    * Update user terms timestamp
+    * @param int $u_id
+    * @param int $id
+    * @param int $allow
+    * @return boolean true/false
+    */
+    public function updateUserDevice($u_id, $id, $allow)
+    {
+        $data = $this->db->update(PREFIX.'users_devices', array('allow' => $allow), array('userID' => $u_id, 'id' => $id));
         if($data > 0){
           return true;
         }else{

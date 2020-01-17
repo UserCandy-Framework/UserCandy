@@ -7,13 +7,13 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 namespace Core;
 
 use Helpers\{Assets,Request,AuthHelper,Database};
-use Models\AdminPanelModel;
+use Models\{AdminPanelModel,HomeModel};
 
 class Router {
 
@@ -43,6 +43,9 @@ class Router {
         }else if($route['url'] == "themes"){
           $params = array_slice(SELF::extendedRoutes(), 1);
           Assets::loadFile($params, 'themes');
+        }else if($route['url'] == "custom"){
+          $params = array_slice(SELF::extendedRoutes(), 1);
+          Assets::loadFile($params, 'custom');
         }else if($route['url'] == "LiveCheckEmail"){
           echo self::LiveCheckEmail();
         }else if($route['url'] == "LiveCheckUserName"){
@@ -186,13 +189,15 @@ class Router {
                   "url" => "",
                   "pagefolder" => $page_data[0]->pagefolder,
                   "pagefile" => $page_data[0]->pagefile,
+                  "template" => $page_data[0]->template,
                   "headfoot" => $headfoot,
               );
             }else{
               $route = array(
                   "url" => "",
-                  "pagefolder" => "Home",
+                  "pagefolder" => "custompages",
                   "pagefile" => "Home",
+                  "template" => "Default",
                   "headfoot" => true,
               );
             }

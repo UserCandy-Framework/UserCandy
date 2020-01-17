@@ -4,11 +4,11 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 use Core\Language;
-use Helpers\{ErrorMessages,Csrf,Request,Form};
+use Helpers\{SuccessMessages,ErrorMessages,Csrf,Request,Form};
 
 if (!$auth->isLogged())
   /** User Not logged in - kick them out **/

@@ -6,7 +6,7 @@
 *
 * UserCandy
 * @author David (DaVaR) Sargent <davar@usercandy.com>
-* @version uc 1.0.3
+* @version uc 1.0.4
 */
 
 return [
@@ -202,6 +202,7 @@ return [
 	'new_password_label' => "New Password",
 	'confirm_new_password_label' => "Confirm New Password",
 	'change_my_password_button' => "Change my Password",
+	'dont_have_an_account' => "Don't have an account?",
 
 	/** Terms and Privacy **/
 	'terms_updated' => SITE_TITLE." Terms and Conditions has been updated.  Please review and agree.  <a href='".SITE_URL."Terms'>View Updated Terms and Conditions</a>",
@@ -214,4 +215,17 @@ return [
 	'edit_user_privacy_error' => "Error with Privacy Policy agreement",
 	'agree_terms_policy' => "I Agree and Understand the ".SITE_TITLE." <a href='".SITE_URL."Terms'>Terms and Conditions</a> and <a href='".SITE_URL."Privacy'>Privacy Policy</a>",
 
+	/** New Stuff 1.0.4 **/
+	'login_device_email_sub' => 'Account Devices Notification',
+	'login_blocked_device_email' => '<h1>%s, was this you?</h1><hr>We noticed a recent login to your '.SITE_TITLE.' account from a blocked device or browser.',
+	'login_new_device_email' => '<h1>%s, was this you?</h1><hr>We noticed a recent login to your '.SITE_TITLE.' account from an unknown device or browser.',
+	'login_device_footer_email' => '<hr>If this was you, no further action is required.  If you do not recognize this activity,
+																	<a href="'.SITE_URL.'Forgot-Password">reset your password</a> immediately. <hr> Security is important to us, and we will
+																	continue to inform you of any unusual account activity. <hr> You can manage your devices in your
+																	<a href="'.SITE_URL.'Devices">Account Devices</a>.',
+	'resetpass_email_pw_reset' => 'You recently requested a password reset on',
+	'resetpass_email_pw_follow' => 'To proceed with the password reset, please click the following link:',
+	'resetpass_email_pw_rmp' => 'Reset My Password',
+	'resetpass_email_pw_warn' => 'If you did not request to have your password reset, please login and change your password immediately.  Someone may be
+																	trying to access your account without your permission.  Please contact the site admin if needed.',
 ];
