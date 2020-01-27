@@ -60,7 +60,8 @@ Core\Extender::load_ext('defaultFooter', 'top');
             'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
             'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
             'https://use.fontawesome.com/releases/v5.12.0/js/all.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js'
+            'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js',
+            'https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js'
         ])?>
         <?=(isset($js)) ? $js : ""?>
         <?php if(isset($ownjs)){ foreach ($ownjs as $eachownjs) { echo "$eachownjs"; } } ?>

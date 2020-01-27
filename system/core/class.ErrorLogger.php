@@ -166,12 +166,16 @@ class ErrorLogger
     public static function sendEmail($message)
     {
         if (self::$emailError == true) {
+          /** Check if Email Settings are set **/
+          $site_mail_setting = EMAIL_FROM_NAME;
+          if(!empty($site_mail_setting)){
             $mail = new Helpers\Mail();
             $mail->setFrom(SITEEMAIL);
             $mail->addAddress(SITEEMAIL);
             $mail->subject('New error on '.SITETITLE);
             $mail->body($message);
             $mail->send();
+          }
         }
     }
 }

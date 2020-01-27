@@ -429,9 +429,8 @@ CREATE TABLE IF NOT EXISTS `uc_dispenser` (
 --
 
 INSERT INTO `uc_dispenser` (`id`, `name`, `type`, `folder_location`, `version`, `enable`) VALUES
-(1, 'MembersSidebar', 'widget', 'MembersSidebar', '1.0.0', 'true'),
-(2, 'AccountSidebar', 'widget', 'AccountSidebar', '1.0.0', 'true'),
-(3, 'UserCandyFramework-4.0.4', 'framework', 'UserCandyFramework-4.0.4', '1.0.4', 'true');
+(1, 'MembersSidebar', 'widget', 'MembersSidebar', '1.0.3', 'true'),
+(2, 'AccountSidebar', 'widget', 'AccountSidebar', '1.0.2', 'true');
 
 -- --------------------------------------------------------
 

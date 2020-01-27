@@ -29,7 +29,7 @@ class BBCode
       $bb[] = "#\[hr\]#si";
       $html[] = "<hr>";
       $bb[] = "#\[code\](.*?)\[/code\]#si";
-      $html[] = "<div class='codeblock'><div class='php' width='' align='left'><pre class='prettyprint'><b><i><font size=0.5>Code</font></i></b><pre>\\1</pre></div></div>";
+      $html[] = "<div class='codeblock'><div class='php' width='' align='left'><pre class='prettyprint'><b><i><font size=0.5>Code</font></i></b><pre class='pre-scrollable'><code>\\1</code></pre></div></div>";
       $str = str_replace('https://youtu.be/','',$str);
       $str = preg_replace ($bb, $html, $str);
       $patern = "#\[url=([^\]]*)\]([^\[]*)\[/url\]#i";
