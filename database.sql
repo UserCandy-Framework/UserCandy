@@ -237,7 +237,7 @@ INSERT INTO `uc_settings` (`setting_id`, `setting_title`, `setting_data`) VALUES
 (35, 'site_message', 'Welcome to your UserCandy Install.  Make sure to be the first to Register for this site to be Admin.  You can delete this message in the Admin Panel under Main Settings.  Savor the Sweetness!'),
 (36, 'online_bubble', 'true'),
 (37, 'site_profile_notifi_check', 'true'),
-(38, 'uc_version', '1.0.4');
+(38, 'uc_version', '1.0.5');
 
 -- --------------------------------------------------------
 
