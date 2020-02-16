@@ -841,7 +841,7 @@ class AdminPanelModel extends Models {
     }
 
     public function deleteSiteLinkDispenser($title, $location){
-      $data = $this->db->delete(PREFIX.'links', array('title' => $title, 'url' => $title, 'location' => $location, 'require_plugin' => $title));
+      $data = $this->db->delete(PREFIX.'links', array('title' => $title, 'url' => $title, 'location' => $location));
       if($data > 0){
         return $data;
       }else{

@@ -128,7 +128,7 @@ class Url
      *
      * @return mixed|string
      */
-    public static function generateSafeSlug($slug)
+    public static function generateSafeSlug($slug, $separator = '-')
     {
       $slug = static::ascii($slug);
       $flip = $separator == '-' ? '_' : '-';

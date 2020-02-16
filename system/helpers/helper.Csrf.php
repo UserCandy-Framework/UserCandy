@@ -11,7 +11,7 @@
 /**
  * Instructions:
  * At the top of the controller where the other "use" statements are, place:
- * use Libs\Csrf;
+ * use Helpers\Csrf;
  *
  * Just prior to creating a form, create the CSRF token:
  * $data['csrfToken'] = Csrf::makeToken();
