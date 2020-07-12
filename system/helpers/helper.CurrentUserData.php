@@ -50,7 +50,7 @@ class CurrentUserData
         WHERE
           ug.userID = :userID
         GROUP BY
-          g.groupName
+          g.groupName, ug.groupID
         ",
       array(':userID' => $where_id));
     return $user_groups;

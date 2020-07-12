@@ -2,8 +2,12 @@
 UserCandy Change Log
 https://www.usercandy.com
 ----------------------------------------------------------------------------------------
-UC v1.0.4
+UC v1.0.5
 ----------------------------------------------------------------------------------------
+### UC 1.0.5
+ - Fixed issue with Dispensary downloads
+ - Fixed issue with prefix chang and site version error
+
 ### UC 1.0.4
  - Added major security updates to the Dispenser
  - Added assets folder ability to Dispenser Items

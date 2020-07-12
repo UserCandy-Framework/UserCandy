@@ -58,6 +58,7 @@ if(isset($database_working)){
         $default_prefix = "uc_";
         if($set_prefix != $default_prefix){
           $templine = str_replace($default_prefix, $set_prefix, $templine);
+          $templine = str_replace(PREFIX."version", "uc_version", $templine);
         }
         // Perform the query
         if(!mysqli_query($link,$templine)){

@@ -215,22 +215,25 @@ class PageFunctions {
 
 	/** Get current pages's groups ID numbers **/
   public static function getPagesGroupsID($page_id){
-    self::$db = Database::get();
-    $pages_groups = self::$db->select("
-        SELECT
-          pp.group_id, g.groupID
-        FROM
-          ".PREFIX."pages_permissions pp
-        LEFT JOIN
-          ".PREFIX."groups g
-          ON g.groupID = pp.group_id
-        WHERE
-          pp.page_id = :page_id
-        GROUP BY
-          g.groupName
-        ",
-      array(':page_id' => $page_id));
-    return $pages_groups;
+		/** Check for page_id **/
+		if(isset($page_id)){
+	    self::$db = Database::get();
+	    $pages_groups = self::$db->select("
+	        SELECT
+	          pp.group_id, g.groupID
+	        FROM
+	          ".PREFIX."pages_permissions pp
+	        LEFT JOIN
+	          ".PREFIX."groups g
+	          ON g.groupID = pp.group_id
+	        WHERE
+	          pp.page_id = :page_id
+	        GROUP BY
+	          g.groupName, pp.group_id
+	        ",
+	      array(':page_id' => $page_id));
+	    return $pages_groups;
+		}
   }
 
 	/**
@@ -306,9 +309,11 @@ class PageFunctions {
 		/** Get Page Permissions **/
 		$get_page_groups = self::getPagesGroupsID($get_page_id[0]->id);
 		/** Check to see if page permission is public **/
-		foreach ($get_page_groups as $key => $value) {
-			/** Setup page perms array **/
-			$page_perms[] = $value->group_id;
+		if(isset($get_page_groups)){
+			foreach ($get_page_groups as $key => $value) {
+				/** Setup page perms array **/
+				$page_perms[] = $value->group_id;
+			}
 		}
 		/** Allow page if page Permissions set to Public **/
 		if(isset($page_perms)){
