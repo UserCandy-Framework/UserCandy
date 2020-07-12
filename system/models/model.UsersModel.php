@@ -214,7 +214,7 @@ class UsersModel extends Models
       WHERE
         u.userID = :userID
       GROUP BY
-        u.userID
+        u.userID, g.groupID, ug.groupID
       ORDER BY
         u.userID ASC, g.groupID DESC
     ",

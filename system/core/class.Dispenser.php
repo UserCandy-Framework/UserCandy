@@ -34,12 +34,13 @@ class Dispenser {
         if(isset($token) && isset($file_unique_name) && isset($file_size) && isset($folder)){
           $url = "https://www.usercandy.com/Dispensary/download/".$token."/".$file_unique_name."/";
           $filepath = SYSTEMDIR."temp/".$folder.".zip";
+          set_time_limit(0);
           $fp = fopen($filepath, 'w+');
-          $ch = curl_init($url);
+          $ch = curl_init(str_replace(" ","%20",$url));
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
           curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
           //curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-          curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+          curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
           curl_setopt($ch, CURLOPT_FILE, $fp);
           curl_exec($ch);
           curl_close($ch);

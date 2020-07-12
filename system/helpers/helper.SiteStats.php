@@ -194,9 +194,9 @@ class SiteStats
     $os = $user_devise['os'];
     $device = $user_devise['device'];
     $browser = $user_devise['browser'];
-    $city = $user_location['city'];
-    $state = $user_location['region'];
-    $country = $user_location['country'];
+    $city = empty($user_location['city']) ? "Unknown" : $user_location['city'];
+    $state = empty($user_location['region']) ? "Unknown" : $user_location['region'];
+    $country = empty($user_location['country']) ? "Unknown" : $user_location['country'];
     $useragent = $_SERVER['HTTP_USER_AGENT'];
     $ip = (isset($user_location['ip'])) ? $user_location['ip'] : $_SERVER['REMOTE_ADDR'];
     /** Update device from new in database if new is 1 **/
